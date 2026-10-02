@@ -372,13 +372,177 @@
 
   /* ---------- wide layout for admin (tablet/desktop) ---------- */
   @media (min-width:760px){
-    #screen-admin .content{
+    #screen-admin #admin-view-painel{
       display:grid;
       grid-template-columns:340px 1fr;
       gap:26px;
       align-items:start;
     }
     #screen-admin .admin-left{ position:sticky; top:84px; }
+  }
+
+  /* ---------- admin sub-navigation ---------- */
+  .admin-subnav{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .subnav-tab{
+    border:1.5px solid var(--line);
+    background:#fff;
+    border-radius:999px;
+    padding:9px 16px;
+    font-size:14px;
+    font-weight:700;
+    color:var(--ink-secondary);
+    cursor:pointer;
+  }
+  .subnav-tab.active{ background:var(--brand); border-color:var(--brand); color:#fff; }
+  .admin-view{ }
+  .admin-view.hidden{ display:none !important; }
+
+  /* ---------- employee: unit cards (home) ---------- */
+  .unit-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px;
+    margin-bottom:14px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .unit-card:active{ background:var(--brand-light); }
+  .unit-card .unit-info b{ font-size:19px; display:block; margin-bottom:4px; }
+  .unit-card .unit-info span{ font-size:13.5px; color:var(--ink-secondary); }
+  .unit-card .unit-count{
+    background:var(--brand-tint);
+    color:var(--brand-dark);
+    font-weight:800;
+    font-size:14px;
+    border-radius:999px;
+    padding:6px 12px;
+    white-space:nowrap;
+  }
+  .add-unit-btn{
+    width:100%;
+    background:#fff;
+    border:2px dashed var(--line);
+    color:var(--brand-dark);
+    border-radius:14px;
+    padding:16px;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    margin-top:4px;
+  }
+
+  /* ---------- calendar ---------- */
+  .calendar-nav{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .calendar-nav .cal-title{ font-weight:800; font-size:17px; text-transform:capitalize; }
+  .calendar-nav button{
+    background:var(--brand-light); border:none; color:var(--brand-dark);
+    border-radius:10px; padding:10px 14px; font-weight:700; cursor:pointer; font-size:15px;
+  }
+  .calendar-grid{
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    gap:6px;
+  }
+  .calendar-weekday{ text-align:center; font-size:11.5px; font-weight:700; color:var(--muted); padding-bottom:4px; }
+  .calendar-cell{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    min-height:62px;
+    padding:6px;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+  }
+  .calendar-cell.empty{ background:transparent; border:none; cursor:default; }
+  .calendar-cell.today{ border-color:var(--brand); border-width:2px; }
+  .calendar-cell .cal-daynum{ font-size:12.5px; font-weight:700; color:var(--ink-secondary); }
+  .calendar-cell .cal-unit-tag{
+    font-size:10.5px;
+    font-weight:700;
+    background:var(--brand-tint);
+    color:var(--brand-dark);
+    border-radius:6px;
+    padding:2px 5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .unit-chip-row{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 16px; }
+  .unit-chip{
+    display:flex; align-items:center; gap:8px;
+    background:var(--brand-light); color:var(--brand-dark);
+    border-radius:999px; padding:8px 8px 8px 14px; font-weight:700; font-size:14px;
+  }
+  .unit-chip button{
+    background:none; border:none; color:var(--brand-dark); font-weight:800;
+    cursor:pointer; font-size:16px; line-height:1; padding:2px 4px;
+  }
+
+  /* ---------- unit hub ---------- */
+  .unit-hub-btn{
+    width:100%;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px;
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    cursor:pointer;
+    text-align:left;
+  }
+  .unit-hub-btn:active{ background:var(--brand-light); }
+  .unit-hub-icon{ font-size:26px; }
+  .unit-hub-text{ flex:1; display:flex; flex-direction:column; gap:2px; }
+  .unit-hub-text b{ font-size:17px; }
+  .unit-hub-text span{ font-size:13px; color:var(--ink-secondary); }
+
+  /* ---------- equipment ---------- */
+  .equip-card{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px; margin-bottom:12px; cursor:pointer;
+  }
+  .equip-card .equip-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .equip-card .equip-name{ font-weight:800; font-size:16px; }
+  .equip-card .equip-obs{ font-size:13.5px; color:var(--ink-secondary); margin-top:6px; }
+  .badge-equip-ok{ background:#dcf5e6; color:#1f7a42; }
+  .badge-equip-warn{ background:#fde7d6; color:#b24a15; }
+  .badge-equip-none{ background:var(--page); color:var(--muted); }
+
+  /* ---------- signature pad ---------- */
+  .signature-pad{
+    width:100%; height:160px; background:#fff;
+    border:1px dashed var(--line); border-radius:12px;
+    touch-action:none; display:block; cursor:crosshair;
+  }
+
+  /* ---------- printable report (hidden on screen, shown only when printing) ---------- */
+  #print-area{ display:none; }
+  @media print{
+    body *{ visibility:hidden; }
+    #print-area, #print-area *{ visibility:visible; }
+    #print-area{ display:block; position:absolute; top:0; left:0; width:100%; padding:24px; }
+    .print-title{ font-size:20px; font-weight:800; margin-bottom:4px; }
+    .print-sub{ font-size:14px; color:#555; margin-bottom:18px; }
+    .print-section-title{ font-size:15px; font-weight:800; margin:18px 0 8px; border-bottom:2px solid #2f7d5e; padding-bottom:4px; }
+    .print-table{ width:100%; border-collapse:collapse; font-size:13px; }
+    .print-table th, .print-table td{ border:1px solid #ccc; padding:6px 8px; text-align:left; }
+    .print-sign-row{ display:flex; gap:30px; margin-top:40px; }
+    .print-sign-col{ flex:1; text-align:center; }
+    .print-sign-col img{ max-width:100%; height:80px; object-fit:contain; border-bottom:1px solid #333; }
+    .print-sign-label{ margin-top:6px; font-size:12.5px; }
   }
 
   /* ---------- modal ---------- */
@@ -469,10 +633,98 @@
       <button class="tab" data-tab="done" id="tab-done">Concluídas</button>
     </div>
     <div class="content">
-      <div id="emp-task-list"></div>
+      <div id="emp-pending-view">
+        <div id="emp-units-list"></div>
+        <button class="add-unit-btn" id="btn-add-unit">+ Adicionar unidade</button>
+      </div>
+      <div id="emp-done-view" class="hidden">
+        <div id="emp-task-list"></div>
+      </div>
       <div style="text-align:center;">
         <button class="link-btn" id="btn-open-admin-access">Acesso administrativo</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ============ EMPLOYEE: TASKS FOR ONE UNIT ============ -->
+  <div class="screen hidden" id="screen-emp-unit-tasks">
+    <div class="topbar">
+      <button class="back-btn" id="btn-emp-unit-back">‹ Voltar</button>
+      <div>
+        <h1 id="emp-unit-title">Unidade</h1>
+        <div class="sub">Tarefas de hoje</div>
+      </div>
+    </div>
+    <div class="content">
+      <div id="emp-unit-task-list"></div>
+      <button class="btn-secondary" id="btn-emp-add-task">+ Nova tarefa</button>
+    </div>
+  </div>
+
+  <!-- ============ EMPLOYEE: UNIT HUB (tarefas / equipamentos / finalizar) ============ -->
+  <div class="screen hidden" id="screen-emp-unit-hub">
+    <div class="topbar">
+      <button class="back-btn" id="btn-hub-back">‹ Voltar</button>
+      <div>
+        <h1 id="hub-unit-title">Unidade</h1>
+        <div class="sub">O que você quer fazer agora?</div>
+      </div>
+    </div>
+    <div class="content">
+      <button class="unit-hub-btn" id="btn-hub-tasks">
+        <span class="unit-hub-icon">📋</span>
+        <span class="unit-hub-text"><b>Tarefas</b><span id="hub-tasks-count"></span></span>
+        <span class="chevron">›</span>
+      </button>
+      <button class="unit-hub-btn" id="btn-hub-equipment">
+        <span class="unit-hub-icon">🔧</span>
+        <span class="unit-hub-text"><b>Equipamentos e status</b><span id="hub-equip-count"></span></span>
+        <span class="chevron">›</span>
+      </button>
+      <button class="btn-primary" id="btn-hub-finalize" style="margin-top:22px;">✅ Finalizar o dia</button>
+    </div>
+  </div>
+
+  <!-- ============ EMPLOYEE: EQUIPMENT FOR ONE UNIT ============ -->
+  <div class="screen hidden" id="screen-emp-unit-equipment">
+    <div class="topbar">
+      <button class="back-btn" id="btn-equip-back">‹ Voltar</button>
+      <div>
+        <h1>Equipamentos</h1>
+        <div class="sub" id="equip-unit-title"></div>
+      </div>
+    </div>
+    <div class="content">
+      <div id="equip-list"></div>
+      <button class="add-unit-btn" id="btn-add-equipment">+ Adicionar equipamento</button>
+    </div>
+  </div>
+
+  <!-- ============ EMPLOYEE: FINALIZE DAY (signatures + PDF report) ============ -->
+  <div class="screen hidden" id="screen-emp-unit-finalize">
+    <div class="topbar">
+      <button class="back-btn" id="btn-finalize-back">‹ Voltar</button>
+      <div>
+        <h1>Finalizar o dia</h1>
+        <div class="sub" id="finalize-unit-sub"></div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="detail-card">
+        <h3>Resumo do dia</h3>
+        <div id="finalize-summary"></div>
+      </div>
+      <div class="detail-card">
+        <h3>Assinatura do técnico</h3>
+        <canvas class="signature-pad" id="sig-tech"></canvas>
+        <button class="btn-outline-sm" id="btn-clear-sig-tech" style="margin-top:8px;">Limpar assinatura</button>
+      </div>
+      <div class="detail-card">
+        <h3>Assinatura do responsável da unidade</h3>
+        <canvas class="signature-pad" id="sig-unit"></canvas>
+        <button class="btn-outline-sm" id="btn-clear-sig-unit" style="margin-top:8px;">Limpar assinatura</button>
+      </div>
+      <button class="btn-primary" id="btn-generate-report">📄 Gerar relatório (PDF)</button>
     </div>
   </div>
 
@@ -495,29 +747,78 @@
       <button class="icon-btn" id="btn-admin-exit">Sair</button>
     </div>
     <div class="content">
-      <div class="admin-left">
-        <div class="stat-grid" id="admin-stats"></div>
-
-        <div class="section-title">Unidades com mais manutenção</div>
-        <div class="section-hint">Ranking por número total de tarefas registradas</div>
-        <div class="chart-card" id="admin-chart"></div>
+      <div class="admin-subnav" id="admin-subnav">
+        <button class="subnav-tab active" data-sub="painel">Painel</button>
+        <button class="subnav-tab" data-sub="calendario">Calendário</button>
+        <button class="subnav-tab" data-sub="rotina">Rotina</button>
+        <button class="subnav-tab" data-sub="equipamentos">Equipamentos</button>
+        <button class="subnav-tab" data-sub="solicitacoes">Solicitações</button>
       </div>
 
-      <div class="admin-right">
-        <div class="section-title" style="margin-top:0;">Todas as tarefas</div>
-        <button class="btn-primary" id="btn-new-task" style="margin-bottom:16px;">+ Nova Tarefa</button>
-        <div class="filter-row" id="admin-filters"></div>
-        <div id="admin-task-list"></div>
+      <!-- ---- PAINEL ---- -->
+      <div class="admin-view" id="admin-view-painel">
+        <div class="admin-left">
+          <div class="stat-grid" id="admin-stats"></div>
 
-        <div class="security-card">
-          <h3>🔒 Segurança</h3>
-          <p>O acesso a este painel é protegido por um PIN compartilhado (salvo no banco de dados). Recomendamos trocar o PIN padrão.</p>
-          <button class="btn-outline-sm" id="btn-change-pin">Alterar PIN</button>
+          <div class="section-title">Unidades com mais manutenção</div>
+          <div class="section-hint">Ranking por número total de tarefas registradas</div>
+          <div class="chart-card" id="admin-chart"></div>
         </div>
 
-        <div class="proto-note">
-          ⚠️ Os dados agora ficam salvos na nuvem (Supabase) e sincronizam automaticamente entre o celular do funcionário e o computador do administrador. O PIN de acesso é uma proteção simples do lado do app — ainda não é um login de verdade, então quem tiver as chaves técnicas do projeto poderia acessar os dados diretamente. Podemos reforçar isso depois com autenticação real, se fizer sentido.
+        <div class="admin-right">
+          <div class="section-title" style="margin-top:0;">Todas as tarefas</div>
+          <button class="btn-primary" id="btn-new-task" style="margin-bottom:16px;">+ Nova Tarefa</button>
+          <div class="filter-row" id="admin-filters"></div>
+          <div id="admin-task-list"></div>
+
+          <div class="security-card">
+            <h3>🔒 Segurança</h3>
+            <p>O acesso a este painel é protegido por um PIN compartilhado (salvo no banco de dados). Recomendamos trocar o PIN padrão.</p>
+            <button class="btn-outline-sm" id="btn-change-pin">Alterar PIN</button>
+          </div>
+
+          <div class="proto-note">
+            ⚠️ Os dados agora ficam salvos na nuvem (Supabase) e sincronizam automaticamente entre o celular do funcionário e o computador do administrador. O PIN de acesso é uma proteção simples do lado do app — ainda não é um login de verdade, então quem tiver as chaves técnicas do projeto poderia acessar os dados diretamente. Podemos reforçar isso depois com autenticação real, se fizer sentido.
+          </div>
         </div>
+      </div>
+
+      <!-- ---- CALENDÁRIO ---- -->
+      <div class="admin-view hidden" id="admin-view-calendario">
+        <div class="section-title" style="margin-top:0;">Calendário de unidades</div>
+        <div class="section-hint">Toque num dia para definir qual unidade será visitada</div>
+        <div class="chart-card">
+          <div class="calendar-nav">
+            <button id="cal-prev">‹</button>
+            <div class="cal-title" id="cal-title"></div>
+            <button id="cal-next">›</button>
+          </div>
+          <div class="calendar-grid" id="calendar-grid"></div>
+        </div>
+      </div>
+
+      <!-- ---- ROTINA ---- -->
+      <div class="admin-view hidden" id="admin-view-rotina">
+        <div class="section-title" style="margin-top:0;">Tarefas de rotina por unidade</div>
+        <div class="section-hint">Essas tarefas são criadas automaticamente toda vez que a unidade é visitada</div>
+        <button class="btn-primary" id="btn-new-routine" style="margin-bottom:16px;">+ Nova tarefa de rotina</button>
+        <div id="routine-task-list"></div>
+      </div>
+
+      <!-- ---- EQUIPAMENTOS ---- -->
+      <div class="admin-view hidden" id="admin-view-equipamentos">
+        <div class="section-title" style="margin-top:0;">Equipamentos por unidade</div>
+        <div class="section-hint">Cadastre os equipamentos e registre se tiveram revisão hoje</div>
+        <button class="btn-primary" id="btn-new-equipment" style="margin-bottom:16px;">+ Novo equipamento</button>
+        <div id="admin-equipment-list"></div>
+      </div>
+
+      <!-- ---- SOLICITAÇÕES ---- -->
+      <div class="admin-view hidden" id="admin-view-solicitacoes">
+        <div class="section-title" style="margin-top:0;">Solicitações da unidade</div>
+        <div class="section-hint">Pedidos que vieram diretamente da unidade (telefone, WhatsApp, etc.)</div>
+        <button class="btn-primary" id="btn-new-solicitacao" style="margin-bottom:16px;">+ Nova solicitação</button>
+        <div id="solicitacao-task-list"></div>
       </div>
     </div>
   </div>
@@ -536,7 +837,7 @@
 
 <div class="toast" id="toast"></div>
 <div id="modal-root"></div>
-
+<div id="print-area"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" onerror="this.dataset.failed=1; var s=document.createElement('script'); s.src='https://unpkg.com/@supabase/supabase-js@2'; document.head.appendChild(s);"></script>
 <script>
 (function(){
@@ -588,10 +889,18 @@
   var state = {
     tasks: [],
     units: [],
+    dailyUnits: [],
+    routineTasks: [],
+    equipment: [],
+    equipmentChecks: [],
     adminPin: "1234",
     empTab: "pending",
     adminFilter: "all",
+    adminSubview: "painel",
     currentTaskId: null,
+    currentUnit: null,
+    detailReturnScreen: "screen-emp-list",
+    calendarMonth: (function(){ var d = new Date(); d.setDate(1); return d; })(),
     role: null
   };
 
@@ -672,7 +981,27 @@
       status: row.status,
       report: row.report,
       createdAt: row.created_at,
-      completedAt: row.completed_at
+      completedAt: row.completed_at,
+      source: row.source || "admin",
+      routineTaskId: row.routine_task_id || null
+    };
+  }
+  function mapDailyUnitRow(row){
+    return { id: row.id, date: row.date, unit: row.unit, addedBy: row.added_by };
+  }
+  function mapRoutineTaskRow(row){
+    return {
+      id: row.id, unit: row.unit, title: row.title,
+      description: row.description, priority: row.priority, active: row.active
+    };
+  }
+  function mapEquipmentRow(row){
+    return { id: row.id, unit: row.unit, name: row.name, createdAt: row.created_at };
+  }
+  function mapEquipmentCheckRow(row){
+    return {
+      id: row.id, equipmentId: row.equipment_id, date: row.date, unit: row.unit,
+      reviewed: row.reviewed, observation: row.observation, createdBy: row.created_by
     };
   }
 
@@ -684,14 +1013,29 @@
     if(unitsRes.error){ throw unitsRes.error; }
     var configRes = await sb.from("app_config").select("*");
     if(configRes.error){ throw configRes.error; }
+    var dailyRes = await sb.from("daily_units").select("*").order("date");
+    if(dailyRes.error){ throw dailyRes.error; }
+    var routineRes = await sb.from("routine_tasks").select("*").order("unit");
+    if(routineRes.error){ throw routineRes.error; }
+    var equipRes = await sb.from("equipment").select("*").order("created_at");
+    if(equipRes.error){ throw equipRes.error; }
+    var equipChecksRes = await sb.from("equipment_checks").select("*").order("date");
+    if(equipChecksRes.error){ throw equipChecksRes.error; }
     state.tasks = (tasksRes.data || []).map(mapTaskRow);
     state.units = (unitsRes.data || []).map(function(u){ return u.name; });
+    state.dailyUnits = (dailyRes.data || []).map(mapDailyUnitRow);
+    state.routineTasks = (routineRes.data || []).map(mapRoutineTaskRow);
+    state.equipment = (equipRes.data || []).map(mapEquipmentRow);
+    state.equipmentChecks = (equipChecksRes.data || []).map(mapEquipmentCheckRow);
     var pinRow = (configRes.data || []).filter(function(c){ return c.key === "admin_pin"; })[0];
     state.adminPin = pinRow ? pinRow.value : "1234";
   }
 
   function rerenderVisibleScreens(){
     if(!$("screen-emp-list").classList.contains("hidden")){ renderEmployeeList(); }
+    if(!$("screen-emp-unit-hub").classList.contains("hidden")){ renderUnitHub(); }
+    if(!$("screen-emp-unit-tasks").classList.contains("hidden")){ renderEmpUnitTasks(); }
+    if(!$("screen-emp-unit-equipment").classList.contains("hidden")){ renderEmpUnitEquipment(); }
     if(!$("screen-admin").classList.contains("hidden")){ renderAdmin(); }
   }
 
@@ -701,6 +1045,10 @@
       .on("postgres_changes", { event: "*", schema: "public", table: "tasks" }, onRemoteChange)
       .on("postgres_changes", { event: "*", schema: "public", table: "units" }, onRemoteChange)
       .on("postgres_changes", { event: "*", schema: "public", table: "app_config" }, onRemoteChange)
+      .on("postgres_changes", { event: "*", schema: "public", table: "daily_units" }, onRemoteChange)
+      .on("postgres_changes", { event: "*", schema: "public", table: "routine_tasks" }, onRemoteChange)
+      .on("postgres_changes", { event: "*", schema: "public", table: "equipment" }, onRemoteChange)
+      .on("postgres_changes", { event: "*", schema: "public", table: "equipment_checks" }, onRemoteChange)
       .subscribe();
   }
   function onRemoteChange(){
@@ -711,7 +1059,9 @@
     var row = {
       title: task.title, unit: task.unit, priority: task.priority,
       description: task.description, due_date: task.dueDate,
-      status: "pending", report: ""
+      status: "pending", report: "",
+      source: task.source || "admin",
+      routine_task_id: task.routineTaskId || null
     };
     var res = await sb.from("tasks").insert([row]);
     if(res.error){ console.error(res.error); showToast("Erro ao criar tarefa"); return false; }
@@ -735,6 +1085,205 @@
   async function setAdminPinRemote(pin){
     var res = await sb.from("app_config").upsert({ key: "admin_pin", value: pin });
     return !res.error;
+  }
+
+  // ---------- daily units (schedule) ----------
+  async function addDailyUnitRemote(date, unit, addedBy){
+    await ensureUnitRemote(unit);
+    var res = await sb.from("daily_units").upsert(
+      { date: date, unit: unit, added_by: addedBy || "admin" },
+      { onConflict: "date,unit", ignoreDuplicates: true }
+    );
+    if(res.error){ console.error(res.error); showToast("Erro ao agendar unidade"); return false; }
+    return true;
+  }
+  async function removeDailyUnitRemote(id){
+    var res = await sb.from("daily_units").delete().eq("id", id);
+    if(res.error){ console.error(res.error); showToast("Erro ao remover"); return false; }
+    return true;
+  }
+
+  // ---------- routine tasks (templates) ----------
+  async function createRoutineTaskRemote(rt){
+    var row = { unit: rt.unit, title: rt.title, description: rt.description, priority: rt.priority, active: true };
+    var res = await sb.from("routine_tasks").insert([row]);
+    if(res.error){ console.error(res.error); showToast("Erro ao criar tarefa de rotina"); return false; }
+    return true;
+  }
+  async function updateRoutineTaskRemote(id, patch){
+    var res = await sb.from("routine_tasks").update(patch).eq("id", id);
+    if(res.error){ console.error(res.error); showToast("Erro ao salvar"); return false; }
+    return true;
+  }
+  async function deleteRoutineTaskRemote(id){
+    var res = await sb.from("routine_tasks").delete().eq("id", id);
+    if(res.error){ console.error(res.error); showToast("Erro ao excluir"); return false; }
+    return true;
+  }
+
+  // ---------- unit scheduling helpers ----------
+  function getDailyUnitsForDate(date){
+    return state.dailyUnits.filter(function(d){ return d.date === date; });
+  }
+  function getTodaysUnits(){
+    return getDailyUnitsForDate(todayStr()).map(function(d){ return d.unit; });
+  }
+  function pendingCountForUnit(unit){
+    return state.tasks.filter(function(t){
+      return t.unit === unit && t.status === "pending" && (!t.dueDate || t.dueDate <= todayStr());
+    }).length;
+  }
+
+  // ---------- auto-generate routine tasks for today's scheduled units ----------
+  async function ensureRoutineTasksForToday(){
+    var today = todayStr();
+    var units = getTodaysUnits();
+    if(units.length === 0) return;
+    var toCreate = [];
+    units.forEach(function(unit){
+      var templates = state.routineTasks.filter(function(rt){ return rt.unit === unit && rt.active; });
+      templates.forEach(function(rt){
+        var exists = state.tasks.some(function(t){
+          return t.routineTaskId === rt.id && t.dueDate === today;
+        });
+        if(!exists){ toCreate.push(rt); }
+      });
+    });
+    if(toCreate.length === 0) return;
+    for(var i=0;i<toCreate.length;i++){
+      var rt = toCreate[i];
+      await createTaskRemote({
+        title: rt.title, unit: rt.unit, priority: rt.priority,
+        description: rt.description, dueDate: today,
+        source: "rotina", routineTaskId: rt.id
+      });
+    }
+    await fetchAll();
+  }
+
+  // ---------- equipment (per-unit equipment registry + daily checks) ----------
+  async function createEquipmentRemote(unit, name){
+    var res = await sb.from("equipment").insert([{ unit: unit, name: name }]).select();
+    if(res.error){ console.error(res.error); showToast("Erro ao criar equipamento"); return null; }
+    return (res.data && res.data[0]) ? res.data[0].id : null;
+  }
+  async function deleteEquipmentRemote(id){
+    var res = await sb.from("equipment").delete().eq("id", id);
+    if(res.error){ console.error(res.error); showToast("Erro ao excluir equipamento"); return false; }
+    return true;
+  }
+  async function upsertEquipmentCheckRemote(equipmentId, date, unit, reviewed, observation, createdBy){
+    var res = await sb.from("equipment_checks").upsert(
+      { equipment_id: equipmentId, date: date, unit: unit, reviewed: reviewed, observation: observation, created_by: createdBy || "funcionario" },
+      { onConflict: "equipment_id,date" }
+    );
+    if(res.error){ console.error(res.error); showToast("Erro ao salvar registro do equipamento"); return false; }
+    return true;
+  }
+  function getEquipmentForUnit(unit){
+    return state.equipment.filter(function(e){ return e.unit === unit; });
+  }
+  function getEquipmentCheck(equipmentId, date){
+    return state.equipmentChecks.find(function(c){ return c.equipmentId === equipmentId && c.date === date; }) || null;
+  }
+
+  // ---------- equipment modals (shared by employee + admin) ----------
+  function openAddEquipmentModal(presetUnit){
+    var root = $("modal-root");
+    var lockedUnit = !!presetUnit;
+    var unitsOptions = state.units.map(function(u){ return '<option value="' + esc(u) + '"></option>'; }).join("");
+
+    root.innerHTML =
+      '<div class="modal-overlay"><div class="modal-sheet">' +
+        '<h2>Novo equipamento</h2>' +
+        '<div class="field">' +
+          '<label>Unidade</label>' +
+          (lockedUnit
+            ? '<input type="text" id="eq-unit" value="' + esc(presetUnit) + '" readonly style="background:var(--page);">'
+            : '<input type="text" id="eq-unit" list="eq-units-list" placeholder="Ex: Unidade Centro"><datalist id="eq-units-list">' + unitsOptions + '</datalist>'
+          ) +
+        '</div>' +
+        '<div class="field">' +
+          '<label>Nome do equipamento</label>' +
+          '<input type="text" id="eq-name" placeholder="Ex: Ar-condicionado da cozinha">' +
+        '</div>' +
+        '<div class="field">' +
+          '<label>Teve revisão hoje?</label>' +
+          '<select id="eq-reviewed">' +
+            '<option value="sim">Sim</option>' +
+            '<option value="nao" selected>Não</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label>Observação</label>' +
+          '<textarea id="eq-obs" placeholder="Alguma observação sobre o equipamento..."></textarea>' +
+        '</div>' +
+        '<div class="modal-actions">' +
+          '<button class="btn-secondary" id="eq-cancel">Cancelar</button>' +
+          '<button class="btn-primary" id="eq-save">Adicionar</button>' +
+        '</div>' +
+      '</div></div>';
+
+    $("eq-cancel").onclick = closeModal;
+    $("eq-save").onclick = async function(){
+      var unit = $("eq-unit").value.trim();
+      var name = $("eq-name").value.trim();
+      var reviewed = $("eq-reviewed").value === "sim";
+      var obs = $("eq-obs").value.trim();
+      if(!unit){ showToast("Informe a unidade"); return; }
+      if(!name){ showToast("Informe o nome do equipamento"); return; }
+
+      await ensureUnitRemote(unit);
+      var newId = await createEquipmentRemote(unit, name);
+      if(newId){
+        await upsertEquipmentCheckRemote(newId, todayStr(), unit, reviewed, obs, state.role === "admin" ? "admin" : "funcionario");
+        await fetchAll();
+        closeModal();
+        showToast("Equipamento adicionado");
+        if(state.role === "admin"){ renderAdminEquipamentos(); } else { renderEmpUnitEquipment(); }
+      }
+    };
+  }
+
+  function openEquipmentCheckModal(equipmentId){
+    var eq = state.equipment.find(function(e){ return e.id === equipmentId; });
+    if(!eq) return;
+    var existing = getEquipmentCheck(equipmentId, todayStr());
+    var root = $("modal-root");
+
+    root.innerHTML =
+      '<div class="modal-overlay"><div class="modal-sheet">' +
+        '<h2>' + esc(eq.name) + '</h2>' +
+        '<p style="color:var(--ink-secondary); font-size:14.5px; margin-top:-8px;">📍 ' + esc(eq.unit) + ' — registro de hoje</p>' +
+        '<div class="field">' +
+          '<label>Teve revisão hoje?</label>' +
+          '<select id="eqc-reviewed">' +
+            '<option value="sim"' + (existing && existing.reviewed ? " selected" : "") + '>Sim</option>' +
+            '<option value="nao"' + (!existing || !existing.reviewed ? " selected" : "") + '>Não</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label>Observação</label>' +
+          '<textarea id="eqc-obs" placeholder="Alguma observação...">' + (existing ? esc(existing.observation) : "") + '</textarea>' +
+        '</div>' +
+        '<div class="modal-actions">' +
+          '<button class="btn-secondary" id="eqc-cancel">Cancelar</button>' +
+          '<button class="btn-primary" id="eqc-save">Salvar</button>' +
+        '</div>' +
+      '</div></div>';
+
+    $("eqc-cancel").onclick = closeModal;
+    $("eqc-save").onclick = async function(){
+      var reviewed = $("eqc-reviewed").value === "sim";
+      var obs = $("eqc-obs").value.trim();
+      var ok = await upsertEquipmentCheckRemote(eq.id, todayStr(), eq.unit, reviewed, obs, state.role === "admin" ? "admin" : "funcionario");
+      if(ok){
+        await fetchAll();
+        closeModal();
+        showToast("Registro salvo");
+        if(state.role === "admin"){ renderAdminEquipamentos(); } else { renderEmpUnitEquipment(); }
+      }
+    };
   }
 
   var reportSaveTimer = null;
@@ -840,35 +1389,56 @@
   }
 
   // =========================================================
-  // EMPLOYEE — LIST
+  // EMPLOYEE — LIST (units scheduled for today)
   // =========================================================
   $("tab-pending").onclick = function(){ state.empTab = "pending"; renderEmployeeList(); };
   $("tab-done").onclick = function(){ state.empTab = "done"; renderEmployeeList(); };
+  $("btn-add-unit").onclick = function(){ openAddUnitModal(); };
 
   function renderEmployeeList(){
     $("tab-pending").classList.toggle("active", state.empTab === "pending");
     $("tab-done").classList.toggle("active", state.empTab === "done");
+    $("emp-pending-view").classList.toggle("hidden", state.empTab !== "pending");
+    $("emp-done-view").classList.toggle("hidden", state.empTab !== "done");
 
     var opts = { weekday:"long", day:"numeric", month:"long" };
     $("emp-date-sub").textContent = new Date().toLocaleDateString("pt-BR", opts);
 
-    var list;
     if(state.empTab === "pending"){
-      list = state.tasks.filter(function(t){
-        return t.status === "pending" && (!t.dueDate || t.dueDate <= todayStr());
-      }).sort(function(a,b){
-        return (a.dueDate || "").localeCompare(b.dueDate || "");
-      });
+      renderEmpUnitsList();
     } else {
-      list = state.tasks.filter(function(t){ return t.status === "completed"; })
-        .sort(function(a,b){ return (a.completedAt < b.completedAt) ? 1 : -1; });
+      renderEmpDoneList();
     }
+  }
+
+  function renderEmpUnitsList(){
+    var units = getTodaysUnits();
+    var html = "";
+    if(units.length === 0){
+      html = '<div class="empty-state"><span class="emoji">📍</span>Nenhuma unidade agendada para hoje. Toque abaixo para adicionar uma.</div>';
+    } else {
+      units.forEach(function(unit){
+        var count = pendingCountForUnit(unit);
+        html +=
+          '<div class="unit-card" data-unit="' + esc(unit) + '">' +
+            '<div class="unit-info"><b>📍 ' + esc(unit) + '</b><span>Toque para ver as tarefas</span></div>' +
+            '<div class="unit-count">' + count + '</div>' +
+          '</div>';
+      });
+    }
+    $("emp-units-list").innerHTML = html;
+    document.querySelectorAll("#emp-units-list .unit-card").forEach(function(c){
+      c.onclick = function(){ openUnitHub(c.getAttribute("data-unit")); };
+    });
+  }
+
+  function renderEmpDoneList(){
+    var list = state.tasks.filter(function(t){ return t.status === "completed"; })
+      .sort(function(a,b){ return (a.completedAt < b.completedAt) ? 1 : -1; });
 
     var html = "";
     if(list.length === 0){
-      html = '<div class="empty-state"><span class="emoji">' + (state.empTab === "pending" ? "✅" : "🗒️") + '</span>' +
-        (state.empTab === "pending" ? "Nenhuma tarefa para hoje. Bom trabalho!" : "Ainda não há tarefas concluídas.") +
-        '</div>';
+      html = '<div class="empty-state"><span class="emoji">🗒️</span>Ainda não há tarefas concluídas.</div>';
     } else {
       list.forEach(function(t){
         html +=
@@ -880,18 +1450,351 @@
             '<div class="task-meta" style="margin-bottom:8px;">' +
               '<span class="badge badge-unit">📍 ' + esc(t.unit) + '</span>' +
               '<span class="badge ' + priorityBadgeClass(t.priority) + '">' + priorityLabel(t.priority) + '</span>' +
-              (state.empTab === "pending" ? dueDateBadge(t) : '') +
             '</div>' +
             '<div class="task-desc-snip">' + esc((t.description||"").slice(0,90)) + ((t.description||"").length > 90 ? "…" : "") + '</div>' +
           '</div>';
       });
     }
     $("emp-task-list").innerHTML = html;
-
-    var cards = document.querySelectorAll("#emp-task-list .task-card");
-    cards.forEach(function(c){
-      c.onclick = function(){ openTaskDetail(c.getAttribute("data-id")); };
+    document.querySelectorAll("#emp-task-list .task-card").forEach(function(c){
+      c.onclick = function(){ state.detailReturnScreen = "screen-emp-list"; openTaskDetail(c.getAttribute("data-id")); };
     });
+  }
+
+  function openAddUnitModal(){
+    var root = $("modal-root");
+    var unitsOptions = state.units.map(function(u){ return '<option value="' + esc(u) + '"></option>'; }).join("");
+    root.innerHTML =
+      '<div class="modal-overlay modal-small"><div class="modal-sheet">' +
+        '<h2>Adicionar unidade</h2>' +
+        '<p style="color:var(--ink-secondary); font-size:14.5px; margin-top:-8px;">Use isso se você for a uma unidade que não estava planejada para hoje.</p>' +
+        '<div class="field">' +
+          '<label>Unidade</label>' +
+          '<input type="text" id="add-unit-name" list="add-unit-list" placeholder="Ex: Unidade Centro">' +
+          '<datalist id="add-unit-list">' + unitsOptions + '</datalist>' +
+        '</div>' +
+        '<div class="modal-actions">' +
+          '<button class="btn-secondary" id="add-unit-cancel">Cancelar</button>' +
+          '<button class="btn-primary" id="add-unit-save">Adicionar</button>' +
+        '</div>' +
+      '</div></div>';
+    $("add-unit-cancel").onclick = closeModal;
+    $("add-unit-save").onclick = async function(){
+      var name = $("add-unit-name").value.trim();
+      if(!name){ showToast("Informe o nome da unidade"); return; }
+      var ok = await addDailyUnitRemote(todayStr(), name, "funcionario");
+      if(ok){
+        await fetchAll();
+        await ensureRoutineTasksForToday();
+        closeModal();
+        renderEmployeeList();
+        showToast("Unidade adicionada");
+      }
+    };
+  }
+
+  // =========================================================
+  // EMPLOYEE — UNIT HUB (tarefas / equipamentos / finalizar o dia)
+  // =========================================================
+  $("btn-hub-back").onclick = function(){
+    showScreen("screen-emp-list");
+    renderEmployeeList();
+  };
+  $("btn-hub-tasks").onclick = function(){ renderEmpUnitTasks(); showScreen("screen-emp-unit-tasks"); };
+  $("btn-hub-equipment").onclick = function(){ renderEmpUnitEquipment(); showScreen("screen-emp-unit-equipment"); };
+  $("btn-hub-finalize").onclick = function(){ openFinalizeDay(); };
+
+  function openUnitHub(unit){
+    state.currentUnit = unit;
+    renderUnitHub();
+    showScreen("screen-emp-unit-hub");
+  }
+
+  function renderUnitHub(){
+    $("hub-unit-title").textContent = state.currentUnit || "Unidade";
+    var pendingCount = pendingCountForUnit(state.currentUnit);
+    $("hub-tasks-count").textContent = pendingCount + (pendingCount === 1 ? " pendente" : " pendentes");
+    var equipCount = getEquipmentForUnit(state.currentUnit).length;
+    $("hub-equip-count").textContent = equipCount + (equipCount === 1 ? " cadastrado" : " cadastrados");
+  }
+
+  // =========================================================
+  // EMPLOYEE — TASKS FOR ONE UNIT
+  // =========================================================
+  $("btn-emp-unit-back").onclick = function(){
+    renderUnitHub();
+    showScreen("screen-emp-unit-hub");
+  };
+  $("btn-emp-add-task").onclick = function(){ openAddAdHocTaskModal(); };
+
+  function renderEmpUnitTasks(){
+    var unit = state.currentUnit;
+    $("emp-unit-title").textContent = unit || "Unidade";
+    var list = state.tasks.filter(function(t){
+      return t.unit === unit && t.status === "pending" && (!t.dueDate || t.dueDate <= todayStr());
+    }).sort(function(a,b){ return (a.dueDate || "").localeCompare(b.dueDate || ""); });
+
+    var html = "";
+    if(list.length === 0){
+      html = '<div class="empty-state"><span class="emoji">✅</span>Nenhuma tarefa pendente nesta unidade. Bom trabalho!</div>';
+    } else {
+      list.forEach(function(t){
+        html +=
+          '<div class="task-card" data-id="' + t.id + '">' +
+            '<div class="task-top">' +
+              '<p class="task-title">' + esc(t.title) + '</p>' +
+              '<span class="chevron">›</span>' +
+            '</div>' +
+            '<div class="task-meta" style="margin-bottom:8px;">' +
+              '<span class="badge ' + priorityBadgeClass(t.priority) + '">' + priorityLabel(t.priority) + '</span>' +
+              dueDateBadge(t) +
+            '</div>' +
+            '<div class="task-desc-snip">' + esc((t.description||"").slice(0,90)) + ((t.description||"").length > 90 ? "…" : "") + '</div>' +
+          '</div>';
+      });
+    }
+    $("emp-unit-task-list").innerHTML = html;
+    document.querySelectorAll("#emp-unit-task-list .task-card").forEach(function(c){
+      c.onclick = function(){ state.detailReturnScreen = "screen-emp-unit-tasks"; openTaskDetail(c.getAttribute("data-id")); };
+    });
+  }
+
+  function openAddAdHocTaskModal(){
+    var root = $("modal-root");
+    root.innerHTML =
+      '<div class="modal-overlay"><div class="modal-sheet">' +
+        '<h2>Nova tarefa</h2>' +
+        '<p style="color:var(--ink-secondary); font-size:14.5px; margin-top:-8px;">Para uma tarefa extra que apareceu durante o dia em ' + esc(state.currentUnit) + '.</p>' +
+        '<div class="field">' +
+          '<label>Título da tarefa</label>' +
+          '<input type="text" id="adhoc-title" placeholder="Ex: Trocar lâmpada do salão">' +
+        '</div>' +
+        '<div class="field">' +
+          '<label>Prioridade</label>' +
+          '<select id="adhoc-priority">' +
+            '<option value="baixa">Baixa</option>' +
+            '<option value="media" selected>Média</option>' +
+            '<option value="alta">Alta</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label>Descrição</label>' +
+          '<textarea id="adhoc-desc" placeholder="Descreva o que precisa ser feito..."></textarea>' +
+        '</div>' +
+        '<div class="modal-actions">' +
+          '<button class="btn-secondary" id="adhoc-cancel">Cancelar</button>' +
+          '<button class="btn-primary" id="adhoc-save">Adicionar</button>' +
+        '</div>' +
+      '</div></div>';
+    $("adhoc-cancel").onclick = closeModal;
+    $("adhoc-save").onclick = async function(){
+      var title = $("adhoc-title").value.trim();
+      var priority = $("adhoc-priority").value;
+      var desc = $("adhoc-desc").value.trim();
+      if(!title){ showToast("Escreva um título para a tarefa"); return; }
+      var ok = await createTaskRemote({
+        title: title, unit: state.currentUnit, priority: priority,
+        description: desc, dueDate: todayStr(), source: "funcionario"
+      });
+      if(ok){
+        await fetchAll();
+        closeModal();
+        renderEmpUnitTasks();
+        showToast("Tarefa adicionada");
+      }
+    };
+  }
+
+  // =========================================================
+  // EMPLOYEE — EQUIPMENT FOR ONE UNIT
+  // =========================================================
+  $("btn-equip-back").onclick = function(){
+    renderUnitHub();
+    showScreen("screen-emp-unit-hub");
+  };
+  $("btn-add-equipment").onclick = function(){ openAddEquipmentModal(state.currentUnit); };
+
+  function renderEmpUnitEquipment(){
+    $("equip-unit-title").textContent = state.currentUnit || "";
+    var list = getEquipmentForUnit(state.currentUnit);
+    var html = "";
+    if(list.length === 0){
+      html = '<div class="empty-state"><span class="emoji">🔧</span>Nenhum equipamento cadastrado nesta unidade ainda.</div>';
+    } else {
+      list.forEach(function(eq){
+        var check = getEquipmentCheck(eq.id, todayStr());
+        var badge = !check
+          ? '<span class="badge badge-equip-none">⚪ Não registrado hoje</span>'
+          : (check.reviewed ? '<span class="badge badge-equip-ok">✅ Revisado hoje</span>' : '<span class="badge badge-equip-warn">⚠️ Não revisado hoje</span>');
+        html +=
+          '<div class="equip-card" data-id="' + eq.id + '">' +
+            '<div class="equip-top">' +
+              '<span class="equip-name">' + esc(eq.name) + '</span>' +
+              '<span class="chevron">›</span>' +
+            '</div>' +
+            '<div style="margin-top:8px;">' + badge + '</div>' +
+            (check && check.observation ? '<div class="equip-obs">' + esc(check.observation) + '</div>' : '') +
+          '</div>';
+      });
+    }
+    $("equip-list").innerHTML = html;
+    document.querySelectorAll("#equip-list .equip-card").forEach(function(c){
+      c.onclick = function(){ openEquipmentCheckModal(c.getAttribute("data-id")); };
+    });
+  }
+
+  // =========================================================
+  // EMPLOYEE — FINALIZAR O DIA (resumo + assinaturas + relatório em PDF)
+  // =========================================================
+  var signaturePads = {};
+
+  function setupSignaturePad(canvasId){
+    var canvas = $(canvasId);
+    if(!canvas) return null;
+    var ratio = window.devicePixelRatio || 1;
+    var rect = canvas.getBoundingClientRect();
+    canvas.width = Math.max(1, rect.width * ratio);
+    canvas.height = Math.max(1, rect.height * ratio);
+    var ctx = canvas.getContext("2d");
+    ctx.scale(ratio, ratio);
+    ctx.lineWidth = 2.2;
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "#1a1a1a";
+    var drawing = false;
+    var hasInk = false;
+    var lastX = 0, lastY = 0;
+
+    function pos(evt){
+      var r = canvas.getBoundingClientRect();
+      return { x: evt.clientX - r.left, y: evt.clientY - r.top };
+    }
+    function start(evt){
+      drawing = true;
+      var p = pos(evt);
+      lastX = p.x; lastY = p.y;
+      evt.preventDefault();
+    }
+    function move(evt){
+      if(!drawing) return;
+      var p = pos(evt);
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+      lastX = p.x; lastY = p.y;
+      hasInk = true;
+      evt.preventDefault();
+    }
+    function end(){ drawing = false; }
+
+    canvas.onpointerdown = start;
+    canvas.onpointermove = move;
+    window.addEventListener("pointerup", end);
+
+    var api = {
+      clear: function(){ ctx.clearRect(0, 0, canvas.width, canvas.height); hasInk = false; },
+      isEmpty: function(){ return !hasInk; },
+      toDataURL: function(){ return canvas.toDataURL("image/png"); }
+    };
+    signaturePads[canvasId] = api;
+    return api;
+  }
+
+  $("btn-clear-sig-tech").onclick = function(){ if(signaturePads["sig-tech"]) signaturePads["sig-tech"].clear(); };
+  $("btn-clear-sig-unit").onclick = function(){ if(signaturePads["sig-unit"]) signaturePads["sig-unit"].clear(); };
+  $("btn-finalize-back").onclick = function(){
+    renderUnitHub();
+    showScreen("screen-emp-unit-hub");
+  };
+
+  function openFinalizeDay(){
+    $("finalize-unit-sub").textContent = state.currentUnit || "";
+    renderFinalizeSummary();
+    showScreen("screen-emp-unit-finalize");
+    window.requestAnimationFrame(function(){
+      setupSignaturePad("sig-tech");
+      setupSignaturePad("sig-unit");
+    });
+  }
+
+  function renderFinalizeSummary(){
+    var unit = state.currentUnit;
+    var equipList = getEquipmentForUnit(unit);
+    var tasksToday = state.tasks.filter(function(t){ return t.unit === unit && t.dueDate === todayStr(); });
+
+    var html = '<p style="margin:0 0 10px; font-size:13.5px; color:var(--ink-secondary);">' + fmtDueDate(todayStr()) + '</p>';
+
+    html += '<p style="font-weight:700; margin:12px 0 6px;">Equipamentos</p>';
+    if(equipList.length === 0){
+      html += '<p style="font-size:13.5px; color:var(--muted);">Nenhum equipamento cadastrado.</p>';
+    } else {
+      equipList.forEach(function(eq){
+        var check = getEquipmentCheck(eq.id, todayStr());
+        var statusTxt = !check ? "Não registrado hoje" : (check.reviewed ? "Revisado" : "Não revisado");
+        html += '<div style="font-size:13.5px; margin-bottom:4px;">• ' + esc(eq.name) + ' — ' + statusTxt + (check && check.observation ? " (" + esc(check.observation) + ")" : "") + '</div>';
+      });
+    }
+
+    html += '<p style="font-weight:700; margin:14px 0 6px;">Serviços de hoje</p>';
+    if(tasksToday.length === 0){
+      html += '<p style="font-size:13.5px; color:var(--muted);">Nenhum serviço registrado hoje.</p>';
+    } else {
+      tasksToday.forEach(function(t){
+        html += '<div style="font-size:13.5px; margin-bottom:4px;">• ' + esc(t.title) + ' — ' + (t.status === "completed" ? "Concluída" : "Pendente") + '</div>';
+      });
+    }
+
+    $("finalize-summary").innerHTML = html;
+  }
+
+  $("btn-generate-report").onclick = function(){
+    var sigTech = signaturePads["sig-tech"];
+    var sigUnit = signaturePads["sig-unit"];
+    if(!sigTech || sigTech.isEmpty()){ showToast("Falta a assinatura do técnico"); return; }
+    if(!sigUnit || sigUnit.isEmpty()){ showToast("Falta a assinatura do responsável da unidade"); return; }
+    buildAndPrintReport(sigTech.toDataURL(), sigUnit.toDataURL());
+  };
+
+  function buildAndPrintReport(sigTechUrl, sigUnitUrl){
+    var unit = state.currentUnit;
+    var equipList = getEquipmentForUnit(unit);
+    var tasksToday = state.tasks.filter(function(t){ return t.unit === unit && t.dueDate === todayStr(); });
+    var dateLabel = new Date().toLocaleDateString("pt-BR", { day:"2-digit", month:"2-digit", year:"numeric" });
+
+    var html = "";
+    html += '<div class="print-title">Relatório de Manutenção — ' + esc(unit) + '</div>';
+    html += '<div class="print-sub">Data: ' + dateLabel + ' · Paulu\'s Restaurantes Empresariais</div>';
+
+    html += '<div class="print-section-title">Equipamentos</div>';
+    if(equipList.length === 0){
+      html += '<p>Nenhum equipamento cadastrado nesta unidade.</p>';
+    } else {
+      html += '<table class="print-table"><thead><tr><th>Equipamento</th><th>Teve revisão?</th><th>Observação</th></tr></thead><tbody>';
+      equipList.forEach(function(eq){
+        var check = getEquipmentCheck(eq.id, todayStr());
+        html += '<tr><td>' + esc(eq.name) + '</td><td>' + (!check ? "Não registrado" : (check.reviewed ? "Sim" : "Não")) + '</td><td>' + (check ? esc(check.observation) : "") + '</td></tr>';
+      });
+      html += '</tbody></table>';
+    }
+
+    html += '<div class="print-section-title">Serviços do dia</div>';
+    if(tasksToday.length === 0){
+      html += '<p>Nenhum serviço registrado hoje.</p>';
+    } else {
+      html += '<table class="print-table"><thead><tr><th>Serviço</th><th>Prioridade</th><th>Status</th><th>Relatório</th></tr></thead><tbody>';
+      tasksToday.forEach(function(t){
+        html += '<tr><td>' + esc(t.title) + '</td><td>' + priorityLabel(t.priority) + '</td><td>' + (t.status === "completed" ? "Concluída" : "Pendente") + '</td><td>' + esc(t.report || "") + '</td></tr>';
+      });
+      html += '</tbody></table>';
+    }
+
+    html += '<div class="print-sign-row">' +
+      '<div class="print-sign-col"><img src="' + sigTechUrl + '"><div class="print-sign-label">Assinatura do Técnico</div></div>' +
+      '<div class="print-sign-col"><img src="' + sigUnitUrl + '"><div class="print-sign-label">Assinatura do Responsável da Unidade</div></div>' +
+    '</div>';
+
+    $("print-area").innerHTML = html;
+    setTimeout(function(){ window.print(); }, 100);
   }
 
   // =========================================================
@@ -912,8 +1815,10 @@
 
   $("btn-emp-back").onclick = function(){
     stopListening();
-    showScreen("screen-emp-list");
-    renderEmployeeList();
+    var target = state.detailReturnScreen || "screen-emp-list";
+    showScreen(target);
+    if(target === "screen-emp-unit-tasks"){ renderEmpUnitTasks(); }
+    else { renderEmployeeList(); }
   };
 
   function renderTaskDetail(){
@@ -993,8 +1898,10 @@
             if(ok){
               await fetchAll();
               showToast("Tarefa concluída ✔");
-              showScreen("screen-emp-list");
-              renderEmployeeList();
+              var target = state.detailReturnScreen || "screen-emp-list";
+              showScreen(target);
+              if(target === "screen-emp-unit-tasks"){ renderEmpUnitTasks(); }
+              else { renderEmployeeList(); }
             }
           }
         });
@@ -1063,11 +1970,37 @@
   }
 
   // =========================================================
-  // ADMIN — DASHBOARD
+  // ADMIN — DASHBOARD (sub-navigation: painel / calendario / rotina / solicitacoes)
   // =========================================================
   $("btn-new-task").onclick = function(){ openTaskForm(null); };
+  $("btn-new-routine").onclick = function(){ openRoutineTaskForm(null); };
+  $("btn-new-equipment").onclick = function(){ openAddEquipmentModal(null); };
+  $("btn-new-solicitacao").onclick = function(){ openTaskForm(null, { defaultSource: "solicitacao" }); };
+  $("cal-prev").onclick = function(){ changeCalendarMonth(-1); };
+  $("cal-next").onclick = function(){ changeCalendarMonth(1); };
+
+  document.querySelectorAll("#admin-subnav .subnav-tab").forEach(function(tab){
+    tab.onclick = function(){
+      state.adminSubview = tab.getAttribute("data-sub");
+      renderAdmin();
+    };
+  });
 
   function renderAdmin(){
+    document.querySelectorAll("#admin-subnav .subnav-tab").forEach(function(tab){
+      tab.classList.toggle("active", tab.getAttribute("data-sub") === state.adminSubview);
+    });
+    ["painel","calendario","rotina","equipamentos","solicitacoes"].forEach(function(v){
+      $("admin-view-" + v).classList.toggle("hidden", v !== state.adminSubview);
+    });
+    if(state.adminSubview === "painel"){ renderAdminPainel(); }
+    else if(state.adminSubview === "calendario"){ renderAdminCalendar(); }
+    else if(state.adminSubview === "rotina"){ renderAdminRotina(); }
+    else if(state.adminSubview === "equipamentos"){ renderAdminEquipamentos(); }
+    else if(state.adminSubview === "solicitacoes"){ renderAdminSolicitacoes(); }
+  }
+
+  function renderAdminPainel(){
     renderAdminStats();
     renderAdminChart();
     renderAdminFilters();
@@ -1200,8 +2133,340 @@
     });
   }
 
+  // ---------- CALENDARIO ----------
+  function changeCalendarMonth(delta){
+    var d = new Date(state.calendarMonth);
+    d.setMonth(d.getMonth() + delta);
+    state.calendarMonth = d;
+    renderAdminCalendar();
+  }
+
+  function renderAdminCalendar(){
+    var monthDate = state.calendarMonth;
+    var year = monthDate.getFullYear();
+    var month = monthDate.getMonth();
+    var monthNames = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+    $("cal-title").textContent = monthNames[month] + " " + year;
+
+    var firstDay = new Date(year, month, 1);
+    var startWeekday = firstDay.getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+    var today = todayStr();
+
+    var weekdayLabels = ["D","S","T","Q","Q","S","S"];
+    var html = weekdayLabels.map(function(w){ return '<div class="calendar-weekday">' + w + '</div>'; }).join("");
+
+    for(var i=0;i<startWeekday;i++){
+      html += '<div class="calendar-cell empty"></div>';
+    }
+    for(var day=1; day<=daysInMonth; day++){
+      var dateStr = year + "-" + pad(month+1) + "-" + pad(day);
+      var unitsForDay = getDailyUnitsForDate(dateStr);
+      var isToday = dateStr === today;
+      html +=
+        '<div class="calendar-cell' + (isToday ? " today" : "") + '" data-date="' + dateStr + '">' +
+          '<div class="cal-daynum">' + day + '</div>' +
+          unitsForDay.slice(0,2).map(function(u){ return '<div class="cal-unit-tag">' + esc(u.unit) + '</div>'; }).join("") +
+          (unitsForDay.length > 2 ? '<div class="cal-unit-tag">+' + (unitsForDay.length - 2) + '</div>' : "") +
+        '</div>';
+    }
+    $("calendar-grid").innerHTML = html;
+
+    document.querySelectorAll("#calendar-grid .calendar-cell[data-date]").forEach(function(cell){
+      cell.onclick = function(){ openCalendarDayModal(cell.getAttribute("data-date")); };
+    });
+  }
+
+  function openCalendarDayModal(dateStr){
+    var root = $("modal-root");
+    function renderList(){
+      var unitsForDay = getDailyUnitsForDate(dateStr);
+      var chipsHtml = unitsForDay.length === 0
+        ? '<p style="color:var(--ink-secondary); font-size:14px;">Nenhuma unidade alocada neste dia.</p>'
+        : '<div class="unit-chip-row">' + unitsForDay.map(function(u){
+            return '<span class="unit-chip">📍 ' + esc(u.unit) + ' <button data-id="' + u.id + '">✕</button></span>';
+          }).join("") + '</div>';
+      $("cal-day-units").innerHTML = chipsHtml;
+      document.querySelectorAll("#cal-day-units .unit-chip button").forEach(function(btn){
+        btn.onclick = async function(){
+          var ok = await removeDailyUnitRemote(btn.getAttribute("data-id"));
+          if(ok){ await fetchAll(); renderList(); renderAdminCalendar(); }
+        };
+      });
+    }
+
+    var unitsOptions = state.units.map(function(u){ return '<option value="' + esc(u) + '"></option>'; }).join("");
+    var parts = dateStr.split("-");
+    var niceDate = parts[2] + "/" + parts[1] + "/" + parts[0];
+
+    root.innerHTML =
+      '<div class="modal-overlay"><div class="modal-sheet">' +
+        '<h2>Unidades em ' + niceDate + '</h2>' +
+        '<div id="cal-day-units" style="margin-bottom:12px;"></div>' +
+        '<div class="field">' +
+          '<label>Adicionar unidade para este dia</label>' +
+          '<input type="text" id="cal-day-unit-name" list="cal-day-units-list" placeholder="Ex: Unidade Centro">' +
+          '<datalist id="cal-day-units-list">' + unitsOptions + '</datalist>' +
+        '</div>' +
+        '<div class="modal-actions">' +
+          '<button class="btn-secondary" id="cal-day-close">Fechar</button>' +
+          '<button class="btn-primary" id="cal-day-add">Adicionar</button>' +
+        '</div>' +
+      '</div></div>';
+
+    renderList();
+    $("cal-day-close").onclick = closeModal;
+    $("cal-day-add").onclick = async function(){
+      var name = $("cal-day-unit-name").value.trim();
+      if(!name){ showToast("Informe o nome da unidade"); return; }
+      var ok = await addDailyUnitRemote(dateStr, name, "admin");
+      if(ok){
+        await fetchAll();
+        $("cal-day-unit-name").value = "";
+        renderList();
+        renderAdminCalendar();
+        showToast("Unidade alocada");
+      }
+    };
+  }
+
+  // ---------- ROTINA (routine task templates) ----------
+  function renderAdminRotina(){
+    var list = state.routineTasks.slice().sort(function(a,b){ return a.unit.localeCompare(b.unit); });
+    if(list.length === 0){
+      $("routine-task-list").innerHTML = '<div class="empty-state">Nenhuma tarefa de rotina cadastrada ainda.</div>';
+      return;
+    }
+    var html = "";
+    list.forEach(function(rt){
+      html +=
+        '<div class="admin-task-row">' +
+          '<div class="row-top">' +
+            '<div>' +
+              '<p class="title">' + esc(rt.title) + (rt.active ? "" : " (inativa)") + '</p>' +
+              '<div class="task-meta" style="margin-bottom:6px;">' +
+                '<span class="badge badge-unit">📍 ' + esc(rt.unit) + '</span>' +
+                '<span class="badge ' + priorityBadgeClass(rt.priority) + '">' + priorityLabel(rt.priority) + '</span>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="admin-task-actions">' +
+            '<button data-act="edit" data-id="' + rt.id + '">✏️ Editar</button>' +
+            '<button data-act="del" data-id="' + rt.id + '" style="color:var(--critical);">🗑️ Excluir</button>' +
+          '</div>' +
+        '</div>';
+    });
+    $("routine-task-list").innerHTML = html;
+
+    document.querySelectorAll('#routine-task-list [data-act="edit"]').forEach(function(btn){
+      btn.onclick = function(){ openRoutineTaskForm(btn.getAttribute("data-id")); };
+    });
+    document.querySelectorAll('#routine-task-list [data-act="del"]').forEach(function(btn){
+      btn.onclick = function(){
+        var id = btn.getAttribute("data-id");
+        var rt = state.routineTasks.find(function(x){ return x.id === id; });
+        openConfirm({
+          title: "Excluir tarefa de rotina?",
+          message: 'Isso vai apagar o modelo "' + (rt ? rt.title : "") + '". Tarefas já criadas não serão apagadas.',
+          okLabel: "Excluir",
+          danger: true,
+          onConfirm: async function(){
+            var ok = await deleteRoutineTaskRemote(id);
+            if(ok){
+              await fetchAll();
+              renderAdminRotina();
+              showToast("Tarefa de rotina excluída");
+            }
+          }
+        });
+      };
+    });
+  }
+
+  function openRoutineTaskForm(id){
+    var editing = state.routineTasks.find(function(rt){ return rt.id === id; }) || null;
+    var root = $("modal-root");
+    var unitsOptions = state.units.map(function(u){ return '<option value="' + esc(u) + '"></option>'; }).join("");
+
+    root.innerHTML =
+      '<div class="modal-overlay"><div class="modal-sheet">' +
+        '<h2>' + (editing ? "Editar tarefa de rotina" : "Nova tarefa de rotina") + '</h2>' +
+        '<p style="color:var(--ink-secondary); font-size:14.5px; margin-top:-8px;">Essa tarefa será criada automaticamente toda vez que a unidade for visitada.</p>' +
+        '<div class="field">' +
+          '<label>Unidade</label>' +
+          '<input type="text" id="rt-unit" list="rt-units-list" value="' + (editing ? esc(editing.unit) : "") + '">' +
+          '<datalist id="rt-units-list">' + unitsOptions + '</datalist>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label>Título da tarefa</label>' +
+          '<input type="text" id="rt-title" placeholder="Ex: Checar extintores" value="' + (editing ? esc(editing.title) : "") + '">' +
+        '</div>' +
+        '<div class="field">' +
+          '<label>Prioridade</label>' +
+          '<select id="rt-priority">' +
+            '<option value="baixa"' + (editing && editing.priority==="baixa" ? " selected" : "") + '>Baixa</option>' +
+            '<option value="media"' + (editing && editing.priority==="media" ? " selected" : (!editing ? " selected" : "")) + '>Média</option>' +
+            '<option value="alta"' + (editing && editing.priority==="alta" ? " selected" : "") + '>Alta</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label>Especificação</label>' +
+          '<textarea id="rt-desc" placeholder="Descreva o que precisa ser feito...">' + (editing ? esc(editing.description) : "") + '</textarea>' +
+        '</div>' +
+        '<div class="modal-actions">' +
+          '<button class="btn-secondary" id="rt-cancel">Cancelar</button>' +
+          '<button class="btn-primary" id="rt-save">' + (editing ? "Salvar alterações" : "Criar") + '</button>' +
+        '</div>' +
+      '</div></div>';
+
+    $("rt-cancel").onclick = closeModal;
+    $("rt-save").onclick = async function(){
+      var unit = $("rt-unit").value.trim();
+      var title = $("rt-title").value.trim();
+      var priority = $("rt-priority").value;
+      var desc = $("rt-desc").value.trim();
+      if(!unit){ showToast("Informe a unidade"); return; }
+      if(!title){ showToast("Escreva um título para a tarefa"); return; }
+
+      await ensureUnitRemote(unit);
+      var ok;
+      if(editing){
+        ok = await updateRoutineTaskRemote(editing.id, { unit: unit, title: title, priority: priority, description: desc });
+      } else {
+        ok = await createRoutineTaskRemote({ unit: unit, title: title, priority: priority, description: desc });
+      }
+      if(ok){
+        await fetchAll();
+        closeModal();
+        renderAdminRotina();
+        showToast(editing ? "Tarefa de rotina atualizada" : "Tarefa de rotina criada");
+      }
+    };
+  }
+
+  // ---------- EQUIPAMENTOS ----------
+  function renderAdminEquipamentos(){
+    if(state.equipment.length === 0){
+      $("admin-equipment-list").innerHTML = '<div class="empty-state">Nenhum equipamento cadastrado ainda.</div>';
+      return;
+    }
+    var byUnit = {};
+    state.equipment.forEach(function(eq){
+      byUnit[eq.unit] = byUnit[eq.unit] || [];
+      byUnit[eq.unit].push(eq);
+    });
+    var html = "";
+    Object.keys(byUnit).sort().forEach(function(unit){
+      html += '<div class="section-title" style="font-size:14.5px; margin-top:18px;">📍 ' + esc(unit) + '</div>';
+      byUnit[unit].forEach(function(eq){
+        var check = getEquipmentCheck(eq.id, todayStr());
+        var badge = !check
+          ? '<span class="badge badge-equip-none">⚪ Não registrado hoje</span>'
+          : (check.reviewed ? '<span class="badge badge-equip-ok">✅ Revisado hoje</span>' : '<span class="badge badge-equip-warn">⚠️ Não revisado hoje</span>');
+        html +=
+          '<div class="admin-task-row">' +
+            '<div class="row-top">' +
+              '<div>' +
+                '<p class="title">' + esc(eq.name) + '</p>' +
+                '<div class="task-meta" style="margin-bottom:6px;">' + badge + '</div>' +
+              '</div>' +
+            '</div>' +
+            (check && check.observation ? '<div style="font-size:14px; color:var(--ink-secondary); background:var(--page); border-radius:10px; padding:10px; margin-top:6px;"><b>Observação:</b> ' + esc(check.observation) + '</div>' : "") +
+            '<div class="admin-task-actions">' +
+              '<button data-act="check" data-id="' + eq.id + '">📝 Registrar hoje</button>' +
+              '<button data-act="del" data-id="' + eq.id + '" style="color:var(--critical);">🗑️ Excluir</button>' +
+            '</div>' +
+          '</div>';
+      });
+    });
+    $("admin-equipment-list").innerHTML = html;
+
+    document.querySelectorAll('#admin-equipment-list [data-act="check"]').forEach(function(btn){
+      btn.onclick = function(){ openEquipmentCheckModal(btn.getAttribute("data-id")); };
+    });
+    document.querySelectorAll('#admin-equipment-list [data-act="del"]').forEach(function(btn){
+      btn.onclick = function(){
+        var id = btn.getAttribute("data-id");
+        var eq = state.equipment.find(function(x){ return x.id === id; });
+        openConfirm({
+          title: "Excluir equipamento?",
+          message: 'Isso vai apagar "' + (eq ? eq.name : "") + '" e todo o histórico de revisões dele.',
+          okLabel: "Excluir",
+          danger: true,
+          onConfirm: async function(){
+            var ok = await deleteEquipmentRemote(id);
+            if(ok){
+              await fetchAll();
+              renderAdminEquipamentos();
+              showToast("Equipamento excluído");
+            }
+          }
+        });
+      };
+    });
+  }
+
+  // ---------- SOLICITACOES ----------
+  function renderAdminSolicitacoes(){
+    var list = state.tasks.filter(function(t){ return t.source === "solicitacao"; })
+      .sort(function(a,b){ return (a.createdAt < b.createdAt) ? 1 : -1; });
+
+    if(list.length === 0){
+      $("solicitacao-task-list").innerHTML = '<div class="empty-state">Nenhuma solicitação registrada ainda.</div>';
+      return;
+    }
+
+    var html = "";
+    list.forEach(function(t){
+      html +=
+        '<div class="admin-task-row">' +
+          '<div class="row-top">' +
+            '<div>' +
+              '<p class="title">' + esc(t.title) + '</p>' +
+              '<div class="task-meta" style="margin-bottom:6px;">' +
+                '<span class="badge badge-unit">📍 ' + esc(t.unit) + '</span>' +
+                '<span class="badge ' + priorityBadgeClass(t.priority) + '">' + priorityLabel(t.priority) + '</span>' +
+                '<span class="badge ' + (t.status === "pending" ? "badge-status-pending" : "badge-status-done") + '">' + (t.status === "pending" ? "⏳ Pendente" : "✅ Concluída") + '</span>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          (t.status === "completed" && t.report ? '<div style="font-size:14px; color:var(--ink-secondary); background:var(--page); border-radius:10px; padding:10px; margin-top:6px;"><b>Relatório:</b> ' + esc(t.report) + '</div>' : "") +
+          '<div class="admin-task-actions">' +
+            '<button data-act="edit" data-id="' + t.id + '">✏️ Editar</button>' +
+            '<button data-act="del" data-id="' + t.id + '" style="color:var(--critical);">🗑️ Excluir</button>' +
+          '</div>' +
+        '</div>';
+    });
+    $("solicitacao-task-list").innerHTML = html;
+
+    document.querySelectorAll('#solicitacao-task-list [data-act="edit"]').forEach(function(btn){
+      btn.onclick = function(){ openTaskForm(btn.getAttribute("data-id")); };
+    });
+    document.querySelectorAll('#solicitacao-task-list [data-act="del"]').forEach(function(btn){
+      btn.onclick = function(){
+        var id = btn.getAttribute("data-id");
+        var t = state.tasks.find(function(x){ return x.id === id; });
+        openConfirm({
+          title: "Excluir solicitação?",
+          message: 'Isso vai apagar permanentemente a tarefa "' + (t ? t.title : "") + '".',
+          okLabel: "Excluir",
+          danger: true,
+          onConfirm: async function(){
+            var ok = await deleteTaskRemote(id);
+            if(ok){
+              await fetchAll();
+              renderAdminSolicitacoes();
+              showToast("Solicitação excluída");
+            }
+          }
+        });
+      };
+    });
+  }
+
   // ---------- task create/edit form ----------
-  function openTaskForm(id){
+  function openTaskForm(id, opts){
+    opts = opts || {};
     var editing = state.tasks.find(function(t){ return t.id === id; }) || null;
     var root = $("modal-root");
 
@@ -1264,7 +2529,7 @@
           title: title, unit: unit, priority: priority, due_date: due, description: desc
         });
       } else {
-        ok = await createTaskRemote({ title: title, unit: unit, priority: priority, description: desc, dueDate: due });
+        ok = await createTaskRemote({ title: title, unit: unit, priority: priority, description: desc, dueDate: due, source: opts.defaultSource || "admin" });
       }
 
       if(ok){
@@ -1294,6 +2559,7 @@
     }
     try{
       await fetchAll();
+      await ensureRoutineTasksForToday();
     }catch(e){
       console.error(e);
       showStartupError("connection-failed");
