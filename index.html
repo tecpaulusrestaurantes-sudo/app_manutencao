@@ -388,6 +388,16 @@
     flex-wrap:wrap;
     margin-bottom:18px;
   }
+  .unit-filter-bar{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:10px 14px; margin-bottom:18px;
+  }
+  .unit-filter-bar label{ font-weight:700; font-size:14px; color:var(--brand-dark); }
+  .unit-filter-bar select{
+    flex:1; min-width:180px; padding:10px 12px; border:1px solid var(--line);
+    border-radius:10px; font-size:15px; background:#fff; font-family:inherit;
+  }
   .subnav-tab{
     border:1.5px solid var(--line);
     background:#fff;
@@ -477,6 +487,35 @@
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+  }
+  .cal-title-wrap{ display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .calendar-nav .cal-today-btn{
+    background:none; border:none; color:var(--brand-dark); font-size:12.5px;
+    font-weight:700; text-decoration:underline; padding:0; cursor:pointer;
+  }
+  .calendar-nav button#cal-prev, .calendar-nav button#cal-next{ min-width:48px; min-height:44px; }
+  .cal-dots{ display:none; flex-wrap:wrap; gap:3px; margin-top:2px; }
+  .cal-dot{ width:8px; height:8px; border-radius:50%; background:var(--brand); }
+  .cal-count{ font-size:11px; font-weight:800; color:var(--brand-dark); }
+  .agenda-row{
+    display:flex; gap:12px; align-items:flex-start; background:#fff;
+    border:1px solid var(--line); border-radius:12px; padding:12px 14px;
+    margin-bottom:10px; cursor:pointer;
+  }
+  .agenda-row:active{ background:var(--brand-light); }
+  .agenda-row.today{ border-color:var(--brand); border-width:2px; }
+  .agenda-date{ min-width:54px; text-align:center; }
+  .agenda-date .d{ font-size:22px; font-weight:800; line-height:1; color:var(--brand-dark); }
+  .agenda-date .w{ font-size:12px; color:var(--ink-secondary); text-transform:capitalize; margin-top:2px; }
+  .agenda-units{ display:flex; flex-wrap:wrap; gap:6px; flex:1; }
+  .agenda-units .badge{ font-size:13px; }
+  @media (max-width:600px){
+    .calendar-grid{ gap:4px; }
+    .calendar-cell{ min-height:56px; padding:5px 3px; align-items:center; text-align:center; }
+    .calendar-cell .cal-daynum{ font-size:15px; color:var(--ink); }
+    .calendar-cell .cal-unit-tag{ display:none; }
+    .cal-dots{ display:flex; justify-content:center; }
+    .calendar-weekday{ font-size:12.5px; }
   }
   .unit-chip-row{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 16px; }
   .unit-chip{
@@ -754,6 +793,10 @@
         <button class="subnav-tab" data-sub="equipamentos">Equipamentos</button>
         <button class="subnav-tab" data-sub="solicitacoes">Solicitações</button>
       </div>
+      <div class="unit-filter-bar">
+        <label for="admin-unit-filter">📍 Filtrar por unidade</label>
+        <select id="admin-unit-filter"></select>
+      </div>
 
       <!-- ---- PAINEL ---- -->
       <div class="admin-view" id="admin-view-painel">
@@ -789,12 +832,18 @@
         <div class="section-hint">Toque num dia para definir qual unidade será visitada</div>
         <div class="chart-card">
           <div class="calendar-nav">
-            <button id="cal-prev">‹</button>
-            <div class="cal-title" id="cal-title"></div>
-            <button id="cal-next">›</button>
+            <button id="cal-prev" aria-label="Mês anterior">‹</button>
+            <div class="cal-title-wrap">
+              <div class="cal-title" id="cal-title"></div>
+              <button class="cal-today-btn" id="cal-today">Ir para hoje</button>
+            </div>
+            <button id="cal-next" aria-label="Próximo mês">›</button>
           </div>
           <div class="calendar-grid" id="calendar-grid"></div>
         </div>
+        <div class="section-title">Agenda do mês</div>
+        <div class="section-hint">Os dias com unidade definida, em lista</div>
+        <div id="calendar-agenda"></div>
       </div>
 
       <!-- ---- ROTINA ---- -->
@@ -897,6 +946,7 @@
     empTab: "pending",
     adminFilter: "all",
     adminSubview: "painel",
+    adminUnit: "",
     currentTaskId: null,
     currentUnit: null,
     detailReturnScreen: "screen-emp-list",
@@ -1978,6 +2028,11 @@
   $("btn-new-solicitacao").onclick = function(){ openTaskForm(null, { defaultSource: "solicitacao" }); };
   $("cal-prev").onclick = function(){ changeCalendarMonth(-1); };
   $("cal-next").onclick = function(){ changeCalendarMonth(1); };
+  $("cal-today").onclick = function(){
+    var d = new Date(); d.setDate(1);
+    state.calendarMonth = d;
+    renderAdminCalendar();
+  };
 
   document.querySelectorAll("#admin-subnav .subnav-tab").forEach(function(tab){
     tab.onclick = function(){
@@ -1986,7 +2041,30 @@
     };
   });
 
+  function adminUnitMatch(unit){
+    return !state.adminUnit || unit === state.adminUnit;
+  }
+
+  function renderAdminUnitFilter(){
+    var known = {};
+    state.units.forEach(function(u){ known[u] = true; });
+    state.tasks.forEach(function(t){ if(t.unit) known[t.unit] = true; });
+    state.equipment.forEach(function(e){ if(e.unit) known[e.unit] = true; });
+    state.routineTasks.forEach(function(r){ if(r.unit) known[r.unit] = true; });
+    var names = Object.keys(known).sort(function(a,b){ return a.localeCompare(b); });
+    if(state.adminUnit && !known[state.adminUnit]){ state.adminUnit = ""; }
+    var sel = $("admin-unit-filter");
+    sel.innerHTML = '<option value="">Todas as unidades</option>' + names.map(function(u){
+      return '<option value="' + esc(u) + '"' + (u === state.adminUnit ? " selected" : "") + '>' + esc(u) + '</option>';
+    }).join("");
+    sel.onchange = function(){
+      state.adminUnit = sel.value;
+      renderAdmin();
+    };
+  }
+
   function renderAdmin(){
+    renderAdminUnitFilter();
     document.querySelectorAll("#admin-subnav .subnav-tab").forEach(function(tab){
       tab.classList.toggle("active", tab.getAttribute("data-sub") === state.adminSubview);
     });
@@ -2008,17 +2086,24 @@
   }
 
   function renderAdminStats(){
-    var total = state.tasks.length;
-    var pending = state.tasks.filter(function(t){ return t.status === "pending"; }).length;
+    var scoped = state.tasks.filter(function(t){ return adminUnitMatch(t.unit); });
+    var total = scoped.length;
+    var pending = scoped.filter(function(t){ return t.status === "pending"; }).length;
     var done = total - pending;
-    var unitsCount = countByUnit();
-    var topUnit = Object.keys(unitsCount).sort(function(a,b){ return unitsCount[b]-unitsCount[a]; })[0] || "—";
+    var lastTile;
+    if(state.adminUnit){
+      lastTile = statTile(scoped.filter(isOverdue).length, "Atrasadas");
+    } else {
+      var unitsCount = countByUnit();
+      var topUnit = Object.keys(unitsCount).sort(function(a,b){ return unitsCount[b]-unitsCount[a]; })[0] || "—";
+      lastTile = statTile(topUnit, "Unidade mais crítica", true);
+    }
 
     $("admin-stats").innerHTML =
       statTile(total, "Tarefas no total") +
       statTile(pending, "Pendentes") +
       statTile(done, "Concluídas") +
-      statTile(topUnit, "Unidade mais crítica", true);
+      lastTile;
   }
   function statTile(num, label, isText){
     return '<div class="stat-tile"><div class="num" style="' + (isText ? "font-size:16px;" : "") + '">' + esc(num) + '</div><div class="lbl">' + esc(label) + '</div></div>';
@@ -2075,6 +2160,7 @@
 
   function renderAdminTaskList(){
     var list = state.tasks.filter(function(t){
+      if(!adminUnitMatch(t.unit)) return false;
       if(state.adminFilter === "all") return true;
       return t.status === state.adminFilter;
     }).sort(function(a,b){ return (a.createdAt < b.createdAt) ? 1 : -1; });
@@ -2161,19 +2247,46 @@
     }
     for(var day=1; day<=daysInMonth; day++){
       var dateStr = year + "-" + pad(month+1) + "-" + pad(day);
-      var unitsForDay = getDailyUnitsForDate(dateStr);
+      var unitsForDay = getDailyUnitsForDate(dateStr).filter(function(d){ return adminUnitMatch(d.unit); });
       var isToday = dateStr === today;
       html +=
         '<div class="calendar-cell' + (isToday ? " today" : "") + '" data-date="' + dateStr + '">' +
           '<div class="cal-daynum">' + day + '</div>' +
           unitsForDay.slice(0,2).map(function(u){ return '<div class="cal-unit-tag">' + esc(u.unit) + '</div>'; }).join("") +
           (unitsForDay.length > 2 ? '<div class="cal-unit-tag">+' + (unitsForDay.length - 2) + '</div>' : "") +
+          (unitsForDay.length ? '<div class="cal-dots">' +
+            unitsForDay.slice(0,3).map(function(){ return '<span class="cal-dot"></span>'; }).join("") +
+            (unitsForDay.length > 3 ? '<span class="cal-count">+' + (unitsForDay.length - 3) + '</span>' : "") +
+          '</div>' : "") +
         '</div>';
     }
     $("calendar-grid").innerHTML = html;
+    renderCalendarAgenda(year, month);
 
     document.querySelectorAll("#calendar-grid .calendar-cell[data-date]").forEach(function(cell){
       cell.onclick = function(){ openCalendarDayModal(cell.getAttribute("data-date")); };
+    });
+  }
+
+  function renderCalendarAgenda(year, month){
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+    var weekdays = ["dom","seg","ter","qua","qui","sex","sáb"];
+    var today = todayStr();
+    var html = "";
+    for(var day=1; day<=daysInMonth; day++){
+      var dateStr = year + "-" + pad(month+1) + "-" + pad(day);
+      var units = getDailyUnitsForDate(dateStr).filter(function(d){ return adminUnitMatch(d.unit); });
+      if(!units.length) continue;
+      html +=
+        '<div class="agenda-row' + (dateStr === today ? " today" : "") + '" data-date="' + dateStr + '">' +
+          '<div class="agenda-date"><div class="d">' + day + '</div><div class="w">' + weekdays[new Date(year, month, day).getDay()] + '</div></div>' +
+          '<div class="agenda-units">' + units.map(function(u){ return '<span class="badge badge-unit">📍 ' + esc(u.unit) + '</span>'; }).join("") + '</div>' +
+        '</div>';
+    }
+    if(!html){ html = '<div class="empty-state">Nenhuma unidade definida neste mês.</div>'; }
+    $("calendar-agenda").innerHTML = html;
+    document.querySelectorAll("#calendar-agenda .agenda-row").forEach(function(r){
+      r.onclick = function(){ openCalendarDayModal(r.getAttribute("data-date")); };
     });
   }
 
@@ -2232,7 +2345,7 @@
 
   // ---------- ROTINA (routine task templates) ----------
   function renderAdminRotina(){
-    var list = state.routineTasks.slice().sort(function(a,b){ return a.unit.localeCompare(b.unit); });
+    var list = state.routineTasks.filter(function(r){ return adminUnitMatch(r.unit); }).sort(function(a,b){ return a.unit.localeCompare(b.unit); });
     if(list.length === 0){
       $("routine-task-list").innerHTML = '<div class="empty-state">Nenhuma tarefa de rotina cadastrada ainda.</div>';
       return;
@@ -2346,12 +2459,13 @@
 
   // ---------- EQUIPAMENTOS ----------
   function renderAdminEquipamentos(){
-    if(state.equipment.length === 0){
+    var equipScoped = state.equipment.filter(function(e){ return adminUnitMatch(e.unit); });
+    if(equipScoped.length === 0){
       $("admin-equipment-list").innerHTML = '<div class="empty-state">Nenhum equipamento cadastrado ainda.</div>';
       return;
     }
     var byUnit = {};
-    state.equipment.forEach(function(eq){
+    equipScoped.forEach(function(eq){
       byUnit[eq.unit] = byUnit[eq.unit] || [];
       byUnit[eq.unit].push(eq);
     });
@@ -2408,7 +2522,7 @@
 
   // ---------- SOLICITACOES ----------
   function renderAdminSolicitacoes(){
-    var list = state.tasks.filter(function(t){ return t.source === "solicitacao"; })
+    var list = state.tasks.filter(function(t){ return t.source === "solicitacao" && adminUnitMatch(t.unit); })
       .sort(function(a,b){ return (a.createdAt < b.createdAt) ? 1 : -1; });
 
     if(list.length === 0){
