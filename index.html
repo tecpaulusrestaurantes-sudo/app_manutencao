@@ -1055,7 +1055,15 @@
     };
   }
 
-  async function fetchAll(){
+  // Busca em fila: nunca roda duas ao mesmo tempo, então uma resposta antiga
+  // nunca sobrescreve uma mais nova (ex.: atualização em tempo real x conclusão de tarefa).
+  var fetchChain = Promise.resolve();
+  function fetchAll(){
+    var run = fetchChain.then(fetchAllNow);
+    fetchChain = run.catch(function(){});
+    return run;
+  }
+  async function fetchAllNow(){
     if(!sb) return;
     var tasksRes = await sb.from("tasks").select("*").order("created_at", { ascending: false });
     if(tasksRes.error){ throw tasksRes.error; }
@@ -1178,9 +1186,39 @@
   function getTodaysUnits(){
     return getDailyUnitsForDate(todayStr()).map(function(d){ return d.unit; });
   }
+  // Compara nomes de unidade ignorando maiúsculas/minúsculas e espaços sobrando
+  function normUnit(s){ return String(s == null ? "" : s).trim().replace(/\s+/g, " ").toLowerCase(); }
+  function sameUnit(a, b){ return normUnit(a) === normUnit(b); }
+
+  // Tarefas pendentes que o técnico vê na unidade hoje (de hoje, atrasadas ou sem data)
+  function isPendingForToday(t){
+    return t.status === "pending" && (!t.dueDate || t.dueDate <= todayStr());
+  }
+  function completedToday(t){
+    return t.status === "completed" && t.completedAt && ymd(new Date(t.completedAt)) === todayStr();
+  }
+  // Tudo o que pertence ao relatório do dia de uma unidade:
+  // pendentes que o técnico vê + previstas para hoje + concluídas hoje (mesmo que previstas para outro dia)
+  function getUnitReportTasks(unit){
+    return state.tasks.filter(function(t){
+      if(!sameUnit(t.unit, unit)) return false;
+      return isPendingForToday(t) || t.dueDate === todayStr() || completedToday(t);
+    }).sort(function(a,b){
+      var ra = a.status === "completed" ? 1 : 0, rb = b.status === "completed" ? 1 : 0;
+      if(ra !== rb) return ra - rb;
+      return (a.dueDate || "").localeCompare(b.dueDate || "");
+    });
+  }
+  function sourceLabel(t){
+    return t.source === "rotina" ? "Rotina" : t.source === "funcionario" ? "Adicional (técnico)" : t.source === "solicitacao" ? "Solicitação da unidade" : "Administrador";
+  }
+  function reportStatus(t){
+    if(t.status === "completed"){ return "Concluída" + (t.completedAt ? " em " + fmtDate(t.completedAt) : ""); }
+    return isOverdue(t) ? "Pendente (atrasada desde " + fmtDueDate(t.dueDate) + ")" : "Pendente";
+  }
   function pendingCountForUnit(unit){
     return state.tasks.filter(function(t){
-      return t.unit === unit && t.status === "pending" && (!t.dueDate || t.dueDate <= todayStr());
+      return sameUnit(t.unit, unit) && isPendingForToday(t);
     }).length;
   }
 
@@ -1191,7 +1229,7 @@
     if(units.length === 0) return;
     var toCreate = [];
     units.forEach(function(unit){
-      var templates = state.routineTasks.filter(function(rt){ return rt.unit === unit && rt.active; });
+      var templates = state.routineTasks.filter(function(rt){ return sameUnit(rt.unit, unit) && rt.active; });
       templates.forEach(function(rt){
         var exists = state.tasks.some(function(t){
           return t.routineTaskId === rt.id && t.dueDate === today;
@@ -1231,7 +1269,7 @@
     return true;
   }
   function getEquipmentForUnit(unit){
-    return state.equipment.filter(function(e){ return e.unit === unit; });
+    return state.equipment.filter(function(e){ return sameUnit(e.unit, unit); });
   }
   function getEquipmentCheck(equipmentId, date){
     return state.equipmentChecks.find(function(c){ return c.equipmentId === equipmentId && c.date === date; }) || null;
@@ -1581,7 +1619,7 @@
     var unit = state.currentUnit;
     $("emp-unit-title").textContent = unit || "Unidade";
     var list = state.tasks.filter(function(t){
-      return t.unit === unit && t.status === "pending" && (!t.dueDate || t.dueDate <= todayStr());
+      return sameUnit(t.unit, unit) && isPendingForToday(t);
     }).sort(function(a,b){ return (a.dueDate || "").localeCompare(b.dueDate || ""); });
 
     var html = "";
@@ -1760,6 +1798,7 @@
   function openFinalizeDay(){
     $("finalize-unit-sub").textContent = state.currentUnit || "";
     renderFinalizeSummary();
+    fetchAll().then(renderFinalizeSummary).catch(function(e){ console.error(e); });
     showScreen("screen-emp-unit-finalize");
     window.requestAnimationFrame(function(){
       setupSignaturePad("sig-tech");
@@ -1770,7 +1809,7 @@
   function renderFinalizeSummary(){
     var unit = state.currentUnit;
     var equipList = getEquipmentForUnit(unit);
-    var tasksToday = state.tasks.filter(function(t){ return t.unit === unit && t.dueDate === todayStr(); });
+    var tasksToday = getUnitReportTasks(unit);
 
     var html = '<p style="margin:0 0 10px; font-size:13.5px; color:var(--ink-secondary);">' + fmtDueDate(todayStr()) + '</p>';
 
@@ -1790,25 +1829,27 @@
       html += '<p style="font-size:13.5px; color:var(--muted);">Nenhum serviço registrado hoje.</p>';
     } else {
       tasksToday.forEach(function(t){
-        html += '<div style="font-size:13.5px; margin-bottom:4px;">• ' + esc(t.title) + ' — ' + (t.status === "completed" ? "Concluída" : "Pendente") + '</div>';
+        html += '<div style="font-size:13.5px; margin-bottom:4px;">• ' + esc(t.title) + ' — ' + reportStatus(t) + '</div>';
       });
     }
 
     $("finalize-summary").innerHTML = html;
   }
 
-  $("btn-generate-report").onclick = function(){
+  $("btn-generate-report").onclick = async function(){
     var sigTech = signaturePads["sig-tech"];
     var sigUnit = signaturePads["sig-unit"];
     if(!sigTech || sigTech.isEmpty()){ showToast("Falta a assinatura do técnico"); return; }
     if(!sigUnit || sigUnit.isEmpty()){ showToast("Falta a assinatura do responsável da unidade"); return; }
+    // garante dados atualizados do servidor antes de montar o PDF
+    try { await fetchAll(); } catch(e){ console.error(e); showToast("Sem conexão — usando dados do aparelho"); }
     buildAndPrintReport(sigTech.toDataURL(), sigUnit.toDataURL());
   };
 
   function buildAndPrintReport(sigTechUrl, sigUnitUrl){
     var unit = state.currentUnit;
     var equipList = getEquipmentForUnit(unit);
-    var tasksToday = state.tasks.filter(function(t){ return t.unit === unit && t.dueDate === todayStr(); });
+    var tasksToday = getUnitReportTasks(unit);
     var dateLabel = new Date().toLocaleDateString("pt-BR", { day:"2-digit", month:"2-digit", year:"numeric" });
 
     var html = "";
@@ -1831,9 +1872,9 @@
     if(tasksToday.length === 0){
       html += '<p>Nenhum serviço registrado hoje.</p>';
     } else {
-      html += '<table class="print-table"><thead><tr><th>Serviço</th><th>Prioridade</th><th>Status</th><th>Relatório</th></tr></thead><tbody>';
+      html += '<table class="print-table"><thead><tr><th>Serviço</th><th>Origem</th><th>Prioridade</th><th>Status</th><th>Relatório</th></tr></thead><tbody>';
       tasksToday.forEach(function(t){
-        html += '<tr><td>' + esc(t.title) + '</td><td>' + priorityLabel(t.priority) + '</td><td>' + (t.status === "completed" ? "Concluída" : "Pendente") + '</td><td>' + esc(t.report || "") + '</td></tr>';
+        html += '<tr><td>' + esc(t.title) + '</td><td>' + sourceLabel(t) + '</td><td>' + priorityLabel(t.priority) + '</td><td>' + reportStatus(t) + '</td><td>' + esc(t.report || "") + '</td></tr>';
       });
       html += '</tbody></table>';
     }
@@ -1946,7 +1987,11 @@
               report: textarea.value
             });
             if(ok){
-              await fetchAll();
+              // atualiza na hora na memória (não depende da busca terminar)
+              state.tasks.forEach(function(x){
+                if(x.id === t.id){ x.status = "completed"; x.completedAt = nowISO(); x.report = textarea.value; }
+              });
+              try { await fetchAll(); } catch(e){ console.error(e); }
               showToast("Tarefa concluída ✔");
               var target = state.detailReturnScreen || "screen-emp-list";
               showScreen(target);
