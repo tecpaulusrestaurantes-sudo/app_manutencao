@@ -653,6 +653,83 @@
     white-space:nowrap;
   }
   .toast.show{ opacity:1; }
+
+  /* ---------- consertos: telas da unidade, assinatura e admin ---------- */
+  .req-card{
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:14px; margin-bottom:12px;
+  }
+  .req-code{ font-family:ui-monospace, Menlo, Consolas, monospace; font-weight:800; font-size:17px; color:var(--brand-dark); }
+  .req-card .req-name{ font-weight:700; font-size:16.5px; margin:2px 0 6px; }
+  .req-meta{ font-size:13px; color:var(--muted); margin-bottom:8px; }
+  .req-card .req-actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .req-card .req-actions button, .req-card .req-actions a{
+    flex:1; min-width:120px; text-align:center; text-decoration:none;
+    padding:10px; border-radius:10px; font-weight:700; font-size:14.5px; cursor:pointer;
+    border:1px solid var(--line); background:#fafcfb; color:var(--ink);
+  }
+  .badge-st-nova{ background:var(--warning-bg); color:var(--warning); }
+  .badge-st-em_manutencao{ background:#e3eefb; color:#1f5aa6; }
+  .badge-st-pronto{ background:#e9e3fa; color:#5a3aa6; }
+  .badge-st-finalizada{ background:var(--good-bg); color:var(--good); }
+  .badge-st-cancelada{ background:#eef1ef; color:var(--muted); }
+  .badge-dest{ background:var(--brand-tint); color:var(--brand-dark); }
+  .big-code{
+    font-family:ui-monospace, Menlo, Consolas, monospace; font-weight:800;
+    font-size:34px; letter-spacing:1px; text-align:center; color:var(--brand-dark);
+    background:var(--brand-light); border:2px dashed var(--brand); border-radius:14px;
+    padding:16px 8px; margin:14px 0;
+  }
+  .dup-box{
+    background:#fff8e6; border:1px solid #f0dca3; border-radius:12px;
+    padding:12px 14px; margin:-4px 0 14px; font-size:14.5px;
+  }
+  .dup-box label{ display:flex; gap:10px; align-items:flex-start; margin:8px 0; font-weight:600; color:var(--ink); }
+  .dup-box input[type=radio]{ width:auto; margin-top:4px; flex-shrink:0; }
+  .sign-card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:14px; }
+  .sign-card h3{ margin:0 0 10px; font-size:17px; }
+  .sign-img{ max-width:100%; height:70px; object-fit:contain; border-bottom:1px solid var(--line); display:block; margin:6px 0; background:#fff; }
+  .info-grid{ display:grid; grid-template-columns:110px 1fr; gap:6px 10px; font-size:15px; }
+  .info-grid dt{ color:var(--muted); font-weight:700; }
+  .info-grid dd{ margin:0; white-space:pre-wrap; word-break:break-word; }
+  .check-row{ display:flex; gap:10px; align-items:flex-start; font-weight:600; margin:12px 0; }
+  .check-row input{ width:22px; height:22px; flex-shrink:0; margin-top:2px; }
+  .link-row{ display:flex; gap:8px; align-items:center; margin-bottom:10px; flex-wrap:wrap; }
+  .link-row b{ flex:1 1 100%; font-size:14.5px; }
+  .link-row input{ flex:1; min-width:0; font-size:13px; padding:9px; border:1px solid var(--line); border-radius:8px; }
+  .link-row button{ padding:9px 14px; border-radius:8px; border:1px solid var(--brand); background:#fff; color:var(--brand-dark); font-weight:700; cursor:pointer; }
+  .modal-sheet.wide{ max-width:620px; }
+  .modal-sheet h3.sect{ margin:18px 0 10px; font-size:15px; color:var(--brand-dark); border-bottom:2px solid var(--brand-tint); padding-bottom:4px; }
+
+  /* ---------- comanda impressa (A4 deitada) ---------- */
+  @media print{
+    #print-area.print-comanda{ padding:0; }
+    .cmd{
+      width:100%; height:188mm; border:0.7mm solid #000; display:flex; background:#fff;
+      font-family:Arial, Helvetica, sans-serif; color:#000; overflow:hidden;
+      page-break-inside:avoid;
+    }
+    .cmd-left{ width:36%; display:flex; flex-direction:column; border-right:0.7mm solid #000; }
+    .cmd-right{ width:64%; display:flex; flex-direction:column; }
+    .cmd-box{ padding:5mm 6mm; position:relative; }
+    .cmd-label{ font-size:11pt; font-weight:700; text-transform:uppercase; letter-spacing:.5pt; }
+    .cmd-code-box{ height:38%; border-bottom:0.7mm solid #000; }
+    .cmd-code{ font-family:"Courier New", monospace; font-size:30pt; font-weight:800; margin:6mm 0 4mm; letter-spacing:1pt; }
+    .cmd-small{ font-size:10.5pt; line-height:1.5; }
+    .cmd-qr-box{ flex:1; text-align:center; }
+    .cmd-qr{ width:62mm; height:62mm; margin:4mm auto 2mm; }
+    .cmd-qr svg{ width:100%; height:100%; }
+    .cmd-desc-box{ height:66%; border-bottom:0.7mm solid #000; }
+    .cmd-prio{ position:absolute; top:5mm; right:6mm; font-size:14pt; font-weight:800; }
+    .cmd-equip{ font-size:19pt; font-weight:800; margin:5mm 0 2mm; }
+    .cmd-text{ font-size:12.5pt; line-height:1.5; white-space:pre-wrap; word-break:break-word; margin-top:3mm; }
+    .cmd-bottom{ flex:1; display:flex; }
+    .cmd-parts{ width:50%; border-right:0.7mm solid #000; }
+    .cmd-notes{ width:50%; }
+    .cmd-lines{ margin-top:3mm; }
+    .cmd-lines div{ border-bottom:0.3mm solid #000; height:9mm; }
+    .cmd-foot{ position:absolute; bottom:3mm; left:6mm; right:6mm; font-size:8.5pt; color:#333; }
+  }
 </style>
 </head>
 <body>
@@ -792,6 +869,7 @@
         <button class="subnav-tab" data-sub="rotina">Rotina</button>
         <button class="subnav-tab" data-sub="equipamentos">Equipamentos</button>
         <button class="subnav-tab" data-sub="solicitacoes">Solicitações</button>
+        <button class="subnav-tab" data-sub="consertos">Consertos</button>
       </div>
       <div class="unit-filter-bar">
         <label for="admin-unit-filter">📍 Filtrar por unidade</label>
@@ -869,7 +947,117 @@
         <button class="btn-primary" id="btn-new-solicitacao" style="margin-bottom:16px;">+ Nova solicitação</button>
         <div id="solicitacao-task-list"></div>
       </div>
+
+      <!-- ---- CONSERTOS ---- -->
+      <div class="admin-view hidden" id="admin-view-consertos">
+        <div class="section-title" style="margin-top:0;">Equipamentos para conserto</div>
+        <div class="section-hint">Pedidos enviados pelas unidades. Você decide se vai para o técnico ou para manutenção externa.</div>
+        <div class="proto-note hidden" id="maint-missing" style="margin-top:0; margin-bottom:14px;">
+          O recurso ainda não foi ativado no banco de dados. Rode o arquivo <b>supabase_update_consertos.sql</b> no SQL Editor do Supabase e recarregue a página.
+        </div>
+        <button class="btn-primary" id="btn-maint-links" style="margin-bottom:16px;">🔗 Links das unidades</button>
+        <div class="filter-row" id="maint-filters"></div>
+        <div id="maint-list"></div>
+      </div>
     </div>
+  </div>
+
+  <!-- ============ UNIDADE: SOLICITAÇÃO DE CONSERTO (link por unidade) ============ -->
+  <div class="screen hidden" id="screen-req-home">
+    <div class="topbar">
+      <img class="logo-mini js-logo" alt="Paulu's Restaurantes Empresariais">
+      <div>
+        <h1>Solicitação de conserto</h1>
+        <div class="sub" id="req-unit-sub"></div>
+      </div>
+    </div>
+    <div class="content">
+      <button class="btn-primary" id="btn-req-new">+ Nova solicitação</button>
+      <div class="section-title">Solicitações desta unidade</div>
+      <div class="section-hint">Toque em "Imprimir comanda" para imprimir a folha de identificação do equipamento</div>
+      <div id="req-list"></div>
+    </div>
+  </div>
+
+  <div class="screen hidden" id="screen-req-form">
+    <div class="topbar">
+      <button class="back-btn" id="btn-req-form-back">‹ Voltar</button>
+      <div>
+        <h1>Nova solicitação</h1>
+        <div class="sub" id="req-form-unit-sub"></div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="field">
+        <label for="rq-requester">Seu nome *</label>
+        <input type="text" id="rq-requester" placeholder="Quem está solicitando" autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="rq-equipment">Nome do equipamento *</label>
+        <input type="text" id="rq-equipment" placeholder="Ex: Ralador, Batedeira, Fritadeira" autocomplete="off">
+      </div>
+      <div class="dup-box hidden" id="rq-dup-box"></div>
+      <div class="field-row">
+        <div class="field">
+          <label for="rq-brand">Marca</label>
+          <input type="text" id="rq-brand" placeholder="Se souber">
+        </div>
+        <div class="field">
+          <label for="rq-model">Modelo</label>
+          <input type="text" id="rq-model" placeholder="Se souber">
+        </div>
+      </div>
+      <div class="field">
+        <label for="rq-items">O que está sendo enviado junto?</label>
+        <textarea id="rq-items" placeholder="Ex: cabo de força, tampa, 2 facas, base"></textarea>
+        <div class="field-hint">Cabo, peças, acessórios... Se for só o equipamento, deixe em branco.</div>
+      </div>
+      <div class="field">
+        <label for="rq-problem">Descreva o problema *</label>
+        <textarea id="rq-problem" placeholder="O que está acontecendo com o equipamento?"></textarea>
+      </div>
+      <div class="field">
+        <label for="rq-priority">Prioridade</label>
+        <select id="rq-priority">
+          <option value="baixa">Baixa</option>
+          <option value="media" selected>Média</option>
+          <option value="alta">Alta</option>
+          <option value="urgente">Urgente</option>
+        </select>
+      </div>
+      <button class="btn-primary" id="btn-req-send">Enviar solicitação</button>
+    </div>
+  </div>
+
+  <div class="screen hidden" id="screen-req-done">
+    <div class="topbar">
+      <img class="logo-mini js-logo" alt="Paulu's Restaurantes Empresariais">
+      <div>
+        <h1>Solicitação enviada</h1>
+        <div class="sub" id="req-done-unit-sub"></div>
+      </div>
+    </div>
+    <div class="content" style="text-align:center;">
+      <div style="font-size:44px; margin-top:8px;">✅</div>
+      <p style="font-weight:700; margin:6px 0 0;">Código do equipamento</p>
+      <div class="big-code" id="req-done-code"></div>
+      <p style="color:var(--ink-secondary); font-size:15px;">Imprima a comanda e coloque junto ao equipamento. Quando ele for retirado, a nutricionista e o motorista assinam pelo QR Code da comanda.</p>
+      <button class="btn-primary" id="btn-req-done-print">🖨️ Imprimir comanda</button>
+      <button class="btn-secondary" id="btn-req-done-another">+ Outra solicitação</button>
+      <button class="btn-secondary" id="btn-req-done-home">Ver solicitações da unidade</button>
+    </div>
+  </div>
+
+  <!-- ============ ASSINATURA DA COMANDA (QR Code) ============ -->
+  <div class="screen hidden" id="screen-sign">
+    <div class="topbar">
+      <img class="logo-mini js-logo" alt="Paulu's Restaurantes Empresariais">
+      <div>
+        <h1 id="sign-title">Comanda</h1>
+        <div class="sub" id="sign-sub"></div>
+      </div>
+    </div>
+    <div class="content" id="sign-content"></div>
   </div>
 
   <!-- ============ STARTUP ERROR (config pending, library failed, or connection failed) ============ -->
@@ -888,6 +1076,2298 @@
 <div id="modal-root"></div>
 <div id="print-area"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" onerror="this.dataset.failed=1; var s=document.createElement('script'); s.src='https://unpkg.com/@supabase/supabase-js@2'; document.head.appendChild(s);"></script>
+<script>
+/* qrcode-generator 1.4.4 (MIT) — Kazuhiko Arase */
+//---------------------------------------------------------------------
+//
+// QR Code Generator for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//  http://www.opensource.org/licenses/mit-license.php
+//
+// The word 'QR Code' is registered trademark of
+// DENSO WAVE INCORPORATED
+//  http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+
+var qrcode = function() {
+
+  //---------------------------------------------------------------------
+  // qrcode
+  //---------------------------------------------------------------------
+
+  /**
+   * qrcode
+   * @param typeNumber 1 to 40
+   * @param errorCorrectionLevel 'L','M','Q','H'
+   */
+  var qrcode = function(typeNumber, errorCorrectionLevel) {
+
+    var PAD0 = 0xEC;
+    var PAD1 = 0x11;
+
+    var _typeNumber = typeNumber;
+    var _errorCorrectionLevel = QRErrorCorrectionLevel[errorCorrectionLevel];
+    var _modules = null;
+    var _moduleCount = 0;
+    var _dataCache = null;
+    var _dataList = [];
+
+    var _this = {};
+
+    var makeImpl = function(test, maskPattern) {
+
+      _moduleCount = _typeNumber * 4 + 17;
+      _modules = function(moduleCount) {
+        var modules = new Array(moduleCount);
+        for (var row = 0; row < moduleCount; row += 1) {
+          modules[row] = new Array(moduleCount);
+          for (var col = 0; col < moduleCount; col += 1) {
+            modules[row][col] = null;
+          }
+        }
+        return modules;
+      }(_moduleCount);
+
+      setupPositionProbePattern(0, 0);
+      setupPositionProbePattern(_moduleCount - 7, 0);
+      setupPositionProbePattern(0, _moduleCount - 7);
+      setupPositionAdjustPattern();
+      setupTimingPattern();
+      setupTypeInfo(test, maskPattern);
+
+      if (_typeNumber >= 7) {
+        setupTypeNumber(test);
+      }
+
+      if (_dataCache == null) {
+        _dataCache = createData(_typeNumber, _errorCorrectionLevel, _dataList);
+      }
+
+      mapData(_dataCache, maskPattern);
+    };
+
+    var setupPositionProbePattern = function(row, col) {
+
+      for (var r = -1; r <= 7; r += 1) {
+
+        if (row + r <= -1 || _moduleCount <= row + r) continue;
+
+        for (var c = -1; c <= 7; c += 1) {
+
+          if (col + c <= -1 || _moduleCount <= col + c) continue;
+
+          if ( (0 <= r && r <= 6 && (c == 0 || c == 6) )
+              || (0 <= c && c <= 6 && (r == 0 || r == 6) )
+              || (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+            _modules[row + r][col + c] = true;
+          } else {
+            _modules[row + r][col + c] = false;
+          }
+        }
+      }
+    };
+
+    var getBestMaskPattern = function() {
+
+      var minLostPoint = 0;
+      var pattern = 0;
+
+      for (var i = 0; i < 8; i += 1) {
+
+        makeImpl(true, i);
+
+        var lostPoint = QRUtil.getLostPoint(_this);
+
+        if (i == 0 || minLostPoint > lostPoint) {
+          minLostPoint = lostPoint;
+          pattern = i;
+        }
+      }
+
+      return pattern;
+    };
+
+    var setupTimingPattern = function() {
+
+      for (var r = 8; r < _moduleCount - 8; r += 1) {
+        if (_modules[r][6] != null) {
+          continue;
+        }
+        _modules[r][6] = (r % 2 == 0);
+      }
+
+      for (var c = 8; c < _moduleCount - 8; c += 1) {
+        if (_modules[6][c] != null) {
+          continue;
+        }
+        _modules[6][c] = (c % 2 == 0);
+      }
+    };
+
+    var setupPositionAdjustPattern = function() {
+
+      var pos = QRUtil.getPatternPosition(_typeNumber);
+
+      for (var i = 0; i < pos.length; i += 1) {
+
+        for (var j = 0; j < pos.length; j += 1) {
+
+          var row = pos[i];
+          var col = pos[j];
+
+          if (_modules[row][col] != null) {
+            continue;
+          }
+
+          for (var r = -2; r <= 2; r += 1) {
+
+            for (var c = -2; c <= 2; c += 1) {
+
+              if (r == -2 || r == 2 || c == -2 || c == 2
+                  || (r == 0 && c == 0) ) {
+                _modules[row + r][col + c] = true;
+              } else {
+                _modules[row + r][col + c] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+
+    var setupTypeNumber = function(test) {
+
+      var bits = QRUtil.getBCHTypeNumber(_typeNumber);
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[Math.floor(i / 3)][i % 3 + _moduleCount - 8 - 3] = mod;
+      }
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[i % 3 + _moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
+      }
+    };
+
+    var setupTypeInfo = function(test, maskPattern) {
+
+      var data = (_errorCorrectionLevel << 3) | maskPattern;
+      var bits = QRUtil.getBCHTypeInfo(data);
+
+      // vertical
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 6) {
+          _modules[i][8] = mod;
+        } else if (i < 8) {
+          _modules[i + 1][8] = mod;
+        } else {
+          _modules[_moduleCount - 15 + i][8] = mod;
+        }
+      }
+
+      // horizontal
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 8) {
+          _modules[8][_moduleCount - i - 1] = mod;
+        } else if (i < 9) {
+          _modules[8][15 - i - 1 + 1] = mod;
+        } else {
+          _modules[8][15 - i - 1] = mod;
+        }
+      }
+
+      // fixed module
+      _modules[_moduleCount - 8][8] = (!test);
+    };
+
+    var mapData = function(data, maskPattern) {
+
+      var inc = -1;
+      var row = _moduleCount - 1;
+      var bitIndex = 7;
+      var byteIndex = 0;
+      var maskFunc = QRUtil.getMaskFunction(maskPattern);
+
+      for (var col = _moduleCount - 1; col > 0; col -= 2) {
+
+        if (col == 6) col -= 1;
+
+        while (true) {
+
+          for (var c = 0; c < 2; c += 1) {
+
+            if (_modules[row][col - c] == null) {
+
+              var dark = false;
+
+              if (byteIndex < data.length) {
+                dark = ( ( (data[byteIndex] >>> bitIndex) & 1) == 1);
+              }
+
+              var mask = maskFunc(row, col - c);
+
+              if (mask) {
+                dark = !dark;
+              }
+
+              _modules[row][col - c] = dark;
+              bitIndex -= 1;
+
+              if (bitIndex == -1) {
+                byteIndex += 1;
+                bitIndex = 7;
+              }
+            }
+          }
+
+          row += inc;
+
+          if (row < 0 || _moduleCount <= row) {
+            row -= inc;
+            inc = -inc;
+            break;
+          }
+        }
+      }
+    };
+
+    var createBytes = function(buffer, rsBlocks) {
+
+      var offset = 0;
+
+      var maxDcCount = 0;
+      var maxEcCount = 0;
+
+      var dcdata = new Array(rsBlocks.length);
+      var ecdata = new Array(rsBlocks.length);
+
+      for (var r = 0; r < rsBlocks.length; r += 1) {
+
+        var dcCount = rsBlocks[r].dataCount;
+        var ecCount = rsBlocks[r].totalCount - dcCount;
+
+        maxDcCount = Math.max(maxDcCount, dcCount);
+        maxEcCount = Math.max(maxEcCount, ecCount);
+
+        dcdata[r] = new Array(dcCount);
+
+        for (var i = 0; i < dcdata[r].length; i += 1) {
+          dcdata[r][i] = 0xff & buffer.getBuffer()[i + offset];
+        }
+        offset += dcCount;
+
+        var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+        var rawPoly = qrPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+        var modPoly = rawPoly.mod(rsPoly);
+        ecdata[r] = new Array(rsPoly.getLength() - 1);
+        for (var i = 0; i < ecdata[r].length; i += 1) {
+          var modIndex = i + modPoly.getLength() - ecdata[r].length;
+          ecdata[r][i] = (modIndex >= 0)? modPoly.getAt(modIndex) : 0;
+        }
+      }
+
+      var totalCodeCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalCodeCount += rsBlocks[i].totalCount;
+      }
+
+      var data = new Array(totalCodeCount);
+      var index = 0;
+
+      for (var i = 0; i < maxDcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < dcdata[r].length) {
+            data[index] = dcdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      for (var i = 0; i < maxEcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < ecdata[r].length) {
+            data[index] = ecdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      return data;
+    };
+
+    var createData = function(typeNumber, errorCorrectionLevel, dataList) {
+
+      var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectionLevel);
+
+      var buffer = qrBitBuffer();
+
+      for (var i = 0; i < dataList.length; i += 1) {
+        var data = dataList[i];
+        buffer.put(data.getMode(), 4);
+        buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+        data.write(buffer);
+      }
+
+      // calc num max data.
+      var totalDataCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalDataCount += rsBlocks[i].dataCount;
+      }
+
+      if (buffer.getLengthInBits() > totalDataCount * 8) {
+        throw 'code length overflow. ('
+          + buffer.getLengthInBits()
+          + '>'
+          + totalDataCount * 8
+          + ')';
+      }
+
+      // end code
+      if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+        buffer.put(0, 4);
+      }
+
+      // padding
+      while (buffer.getLengthInBits() % 8 != 0) {
+        buffer.putBit(false);
+      }
+
+      // padding
+      while (true) {
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD0, 8);
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD1, 8);
+      }
+
+      return createBytes(buffer, rsBlocks);
+    };
+
+    _this.addData = function(data, mode) {
+
+      mode = mode || 'Byte';
+
+      var newData = null;
+
+      switch(mode) {
+      case 'Numeric' :
+        newData = qrNumber(data);
+        break;
+      case 'Alphanumeric' :
+        newData = qrAlphaNum(data);
+        break;
+      case 'Byte' :
+        newData = qr8BitByte(data);
+        break;
+      case 'Kanji' :
+        newData = qrKanji(data);
+        break;
+      default :
+        throw 'mode:' + mode;
+      }
+
+      _dataList.push(newData);
+      _dataCache = null;
+    };
+
+    _this.isDark = function(row, col) {
+      if (row < 0 || _moduleCount <= row || col < 0 || _moduleCount <= col) {
+        throw row + ',' + col;
+      }
+      return _modules[row][col];
+    };
+
+    _this.getModuleCount = function() {
+      return _moduleCount;
+    };
+
+    _this.make = function() {
+      if (_typeNumber < 1) {
+        var typeNumber = 1;
+
+        for (; typeNumber < 40; typeNumber++) {
+          var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, _errorCorrectionLevel);
+          var buffer = qrBitBuffer();
+
+          for (var i = 0; i < _dataList.length; i++) {
+            var data = _dataList[i];
+            buffer.put(data.getMode(), 4);
+            buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+            data.write(buffer);
+          }
+
+          var totalDataCount = 0;
+          for (var i = 0; i < rsBlocks.length; i++) {
+            totalDataCount += rsBlocks[i].dataCount;
+          }
+
+          if (buffer.getLengthInBits() <= totalDataCount * 8) {
+            break;
+          }
+        }
+
+        _typeNumber = typeNumber;
+      }
+
+      makeImpl(false, getBestMaskPattern() );
+    };
+
+    _this.createTableTag = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var qrHtml = '';
+
+      qrHtml += '<table style="';
+      qrHtml += ' border-width: 0px; border-style: none;';
+      qrHtml += ' border-collapse: collapse;';
+      qrHtml += ' padding: 0px; margin: ' + margin + 'px;';
+      qrHtml += '">';
+      qrHtml += '<tbody>';
+
+      for (var r = 0; r < _this.getModuleCount(); r += 1) {
+
+        qrHtml += '<tr>';
+
+        for (var c = 0; c < _this.getModuleCount(); c += 1) {
+          qrHtml += '<td style="';
+          qrHtml += ' border-width: 0px; border-style: none;';
+          qrHtml += ' border-collapse: collapse;';
+          qrHtml += ' padding: 0px; margin: 0px;';
+          qrHtml += ' width: ' + cellSize + 'px;';
+          qrHtml += ' height: ' + cellSize + 'px;';
+          qrHtml += ' background-color: ';
+          qrHtml += _this.isDark(r, c)? '#000000' : '#ffffff';
+          qrHtml += ';';
+          qrHtml += '"/>';
+        }
+
+        qrHtml += '</tr>';
+      }
+
+      qrHtml += '</tbody>';
+      qrHtml += '</table>';
+
+      return qrHtml;
+    };
+
+    _this.createSvgTag = function(cellSize, margin, alt, title) {
+
+      var opts = {};
+      if (typeof arguments[0] == 'object') {
+        // Called by options.
+        opts = arguments[0];
+        // overwrite cellSize and margin.
+        cellSize = opts.cellSize;
+        margin = opts.margin;
+        alt = opts.alt;
+        title = opts.title;
+      }
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      // Compose alt property surrogate
+      alt = (typeof alt === 'string') ? {text: alt} : alt || {};
+      alt.text = alt.text || null;
+      alt.id = (alt.text) ? alt.id || 'qrcode-description' : null;
+
+      // Compose title property surrogate
+      title = (typeof title === 'string') ? {text: title} : title || {};
+      title.text = title.text || null;
+      title.id = (title.text) ? title.id || 'qrcode-title' : null;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var c, mc, r, mr, qrSvg='', rect;
+
+      rect = 'l' + cellSize + ',0 0,' + cellSize +
+        ' -' + cellSize + ',0 0,-' + cellSize + 'z ';
+
+      qrSvg += '<svg version="1.1" xmlns="http://www.w3.org/2000/svg"';
+      qrSvg += !opts.scalable ? ' width="' + size + 'px" height="' + size + 'px"' : '';
+      qrSvg += ' viewBox="0 0 ' + size + ' ' + size + '" ';
+      qrSvg += ' preserveAspectRatio="xMinYMin meet"';
+      qrSvg += (title.text || alt.text) ? ' role="img" aria-labelledby="' +
+          escapeXml([title.id, alt.id].join(' ').trim() ) + '"' : '';
+      qrSvg += '>';
+      qrSvg += (title.text) ? '<title id="' + escapeXml(title.id) + '">' +
+          escapeXml(title.text) + '</title>' : '';
+      qrSvg += (alt.text) ? '<description id="' + escapeXml(alt.id) + '">' +
+          escapeXml(alt.text) + '</description>' : '';
+      qrSvg += '<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>';
+      qrSvg += '<path d="';
+
+      for (r = 0; r < _this.getModuleCount(); r += 1) {
+        mr = r * cellSize + margin;
+        for (c = 0; c < _this.getModuleCount(); c += 1) {
+          if (_this.isDark(r, c) ) {
+            mc = c*cellSize+margin;
+            qrSvg += 'M' + mc + ',' + mr + rect;
+          }
+        }
+      }
+
+      qrSvg += '" stroke="transparent" fill="black"/>';
+      qrSvg += '</svg>';
+
+      return qrSvg;
+    };
+
+    _this.createDataURL = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      return createDataURL(size, size, function(x, y) {
+        if (min <= x && x < max && min <= y && y < max) {
+          var c = Math.floor( (x - min) / cellSize);
+          var r = Math.floor( (y - min) / cellSize);
+          return _this.isDark(r, c)? 0 : 1;
+        } else {
+          return 1;
+        }
+      } );
+    };
+
+    _this.createImgTag = function(cellSize, margin, alt) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+
+      var img = '';
+      img += '<img';
+      img += '\u0020src="';
+      img += _this.createDataURL(cellSize, margin);
+      img += '"';
+      img += '\u0020width="';
+      img += size;
+      img += '"';
+      img += '\u0020height="';
+      img += size;
+      img += '"';
+      if (alt) {
+        img += '\u0020alt="';
+        img += escapeXml(alt);
+        img += '"';
+      }
+      img += '/>';
+
+      return img;
+    };
+
+    var escapeXml = function(s) {
+      var escaped = '';
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charAt(i);
+        switch(c) {
+        case '<': escaped += '&lt;'; break;
+        case '>': escaped += '&gt;'; break;
+        case '&': escaped += '&amp;'; break;
+        case '"': escaped += '&quot;'; break;
+        default : escaped += c; break;
+        }
+      }
+      return escaped;
+    };
+
+    var _createHalfASCII = function(margin) {
+      var cellSize = 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r1, r2, p;
+
+      var blocks = {
+        '██': '█',
+        '█ ': '▀',
+        ' █': '▄',
+        '  ': ' '
+      };
+
+      var blocksLastLineNoMargin = {
+        '██': '▀',
+        '█ ': '▀',
+        ' █': ' ',
+        '  ': ' '
+      };
+
+      var ascii = '';
+      for (y = 0; y < size; y += 2) {
+        r1 = Math.floor((y - min) / cellSize);
+        r2 = Math.floor((y + 1 - min) / cellSize);
+        for (x = 0; x < size; x += 1) {
+          p = '█';
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r1, Math.floor((x - min) / cellSize))) {
+            p = ' ';
+          }
+
+          if (min <= x && x < max && min <= y+1 && y+1 < max && _this.isDark(r2, Math.floor((x - min) / cellSize))) {
+            p += ' ';
+          }
+          else {
+            p += '█';
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          ascii += (margin < 1 && y+1 >= max) ? blocksLastLineNoMargin[p] : blocks[p];
+        }
+
+        ascii += '\n';
+      }
+
+      if (size % 2 && margin > 0) {
+        return ascii.substring(0, ascii.length - size - 1) + Array(size+1).join('▀');
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.createASCII = function(cellSize, margin) {
+      cellSize = cellSize || 1;
+
+      if (cellSize < 2) {
+        return _createHalfASCII(margin);
+      }
+
+      cellSize -= 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r, p;
+
+      var white = Array(cellSize+1).join('██');
+      var black = Array(cellSize+1).join('  ');
+
+      var ascii = '';
+      var line = '';
+      for (y = 0; y < size; y += 1) {
+        r = Math.floor( (y - min) / cellSize);
+        line = '';
+        for (x = 0; x < size; x += 1) {
+          p = 1;
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r, Math.floor((x - min) / cellSize))) {
+            p = 0;
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          line += p ? white : black;
+        }
+
+        for (r = 0; r < cellSize; r += 1) {
+          ascii += line + '\n';
+        }
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.renderTo2dContext = function(context, cellSize) {
+      cellSize = cellSize || 2;
+      var length = _this.getModuleCount();
+      for (var row = 0; row < length; row++) {
+        for (var col = 0; col < length; col++) {
+          context.fillStyle = _this.isDark(row, col) ? 'black' : 'white';
+          context.fillRect(row * cellSize, col * cellSize, cellSize, cellSize);
+        }
+      }
+    }
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrcode.stringToBytes
+  //---------------------------------------------------------------------
+
+  qrcode.stringToBytesFuncs = {
+    'default' : function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        bytes.push(c & 0xff);
+      }
+      return bytes;
+    }
+  };
+
+  qrcode.stringToBytes = qrcode.stringToBytesFuncs['default'];
+
+  //---------------------------------------------------------------------
+  // qrcode.createStringToBytes
+  //---------------------------------------------------------------------
+
+  /**
+   * @param unicodeData base64 string of byte array.
+   * [16bit Unicode],[16bit Bytes], ...
+   * @param numChars
+   */
+  qrcode.createStringToBytes = function(unicodeData, numChars) {
+
+    // create conversion map.
+
+    var unicodeMap = function() {
+
+      var bin = base64DecodeInputStream(unicodeData);
+      var read = function() {
+        var b = bin.read();
+        if (b == -1) throw 'eof';
+        return b;
+      };
+
+      var count = 0;
+      var unicodeMap = {};
+      while (true) {
+        var b0 = bin.read();
+        if (b0 == -1) break;
+        var b1 = read();
+        var b2 = read();
+        var b3 = read();
+        var k = String.fromCharCode( (b0 << 8) | b1);
+        var v = (b2 << 8) | b3;
+        unicodeMap[k] = v;
+        count += 1;
+      }
+      if (count != numChars) {
+        throw count + ' != ' + numChars;
+      }
+
+      return unicodeMap;
+    }();
+
+    var unknownChar = '?'.charCodeAt(0);
+
+    return function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        if (c < 128) {
+          bytes.push(c);
+        } else {
+          var b = unicodeMap[s.charAt(i)];
+          if (typeof b == 'number') {
+            if ( (b & 0xff) == b) {
+              // 1byte
+              bytes.push(b);
+            } else {
+              // 2bytes
+              bytes.push(b >>> 8);
+              bytes.push(b & 0xff);
+            }
+          } else {
+            bytes.push(unknownChar);
+          }
+        }
+      }
+      return bytes;
+    };
+  };
+
+  //---------------------------------------------------------------------
+  // QRMode
+  //---------------------------------------------------------------------
+
+  var QRMode = {
+    MODE_NUMBER :    1 << 0,
+    MODE_ALPHA_NUM : 1 << 1,
+    MODE_8BIT_BYTE : 1 << 2,
+    MODE_KANJI :     1 << 3
+  };
+
+  //---------------------------------------------------------------------
+  // QRErrorCorrectionLevel
+  //---------------------------------------------------------------------
+
+  var QRErrorCorrectionLevel = {
+    L : 1,
+    M : 0,
+    Q : 3,
+    H : 2
+  };
+
+  //---------------------------------------------------------------------
+  // QRMaskPattern
+  //---------------------------------------------------------------------
+
+  var QRMaskPattern = {
+    PATTERN000 : 0,
+    PATTERN001 : 1,
+    PATTERN010 : 2,
+    PATTERN011 : 3,
+    PATTERN100 : 4,
+    PATTERN101 : 5,
+    PATTERN110 : 6,
+    PATTERN111 : 7
+  };
+
+  //---------------------------------------------------------------------
+  // QRUtil
+  //---------------------------------------------------------------------
+
+  var QRUtil = function() {
+
+    var PATTERN_POSITION_TABLE = [
+      [],
+      [6, 18],
+      [6, 22],
+      [6, 26],
+      [6, 30],
+      [6, 34],
+      [6, 22, 38],
+      [6, 24, 42],
+      [6, 26, 46],
+      [6, 28, 50],
+      [6, 30, 54],
+      [6, 32, 58],
+      [6, 34, 62],
+      [6, 26, 46, 66],
+      [6, 26, 48, 70],
+      [6, 26, 50, 74],
+      [6, 30, 54, 78],
+      [6, 30, 56, 82],
+      [6, 30, 58, 86],
+      [6, 34, 62, 90],
+      [6, 28, 50, 72, 94],
+      [6, 26, 50, 74, 98],
+      [6, 30, 54, 78, 102],
+      [6, 28, 54, 80, 106],
+      [6, 32, 58, 84, 110],
+      [6, 30, 58, 86, 114],
+      [6, 34, 62, 90, 118],
+      [6, 26, 50, 74, 98, 122],
+      [6, 30, 54, 78, 102, 126],
+      [6, 26, 52, 78, 104, 130],
+      [6, 30, 56, 82, 108, 134],
+      [6, 34, 60, 86, 112, 138],
+      [6, 30, 58, 86, 114, 142],
+      [6, 34, 62, 90, 118, 146],
+      [6, 30, 54, 78, 102, 126, 150],
+      [6, 24, 50, 76, 102, 128, 154],
+      [6, 28, 54, 80, 106, 132, 158],
+      [6, 32, 58, 84, 110, 136, 162],
+      [6, 26, 54, 82, 110, 138, 166],
+      [6, 30, 58, 86, 114, 142, 170]
+    ];
+    var G15 = (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0);
+    var G18 = (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0);
+    var G15_MASK = (1 << 14) | (1 << 12) | (1 << 10) | (1 << 4) | (1 << 1);
+
+    var _this = {};
+
+    var getBCHDigit = function(data) {
+      var digit = 0;
+      while (data != 0) {
+        digit += 1;
+        data >>>= 1;
+      }
+      return digit;
+    };
+
+    _this.getBCHTypeInfo = function(data) {
+      var d = data << 10;
+      while (getBCHDigit(d) - getBCHDigit(G15) >= 0) {
+        d ^= (G15 << (getBCHDigit(d) - getBCHDigit(G15) ) );
+      }
+      return ( (data << 10) | d) ^ G15_MASK;
+    };
+
+    _this.getBCHTypeNumber = function(data) {
+      var d = data << 12;
+      while (getBCHDigit(d) - getBCHDigit(G18) >= 0) {
+        d ^= (G18 << (getBCHDigit(d) - getBCHDigit(G18) ) );
+      }
+      return (data << 12) | d;
+    };
+
+    _this.getPatternPosition = function(typeNumber) {
+      return PATTERN_POSITION_TABLE[typeNumber - 1];
+    };
+
+    _this.getMaskFunction = function(maskPattern) {
+
+      switch (maskPattern) {
+
+      case QRMaskPattern.PATTERN000 :
+        return function(i, j) { return (i + j) % 2 == 0; };
+      case QRMaskPattern.PATTERN001 :
+        return function(i, j) { return i % 2 == 0; };
+      case QRMaskPattern.PATTERN010 :
+        return function(i, j) { return j % 3 == 0; };
+      case QRMaskPattern.PATTERN011 :
+        return function(i, j) { return (i + j) % 3 == 0; };
+      case QRMaskPattern.PATTERN100 :
+        return function(i, j) { return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 == 0; };
+      case QRMaskPattern.PATTERN101 :
+        return function(i, j) { return (i * j) % 2 + (i * j) % 3 == 0; };
+      case QRMaskPattern.PATTERN110 :
+        return function(i, j) { return ( (i * j) % 2 + (i * j) % 3) % 2 == 0; };
+      case QRMaskPattern.PATTERN111 :
+        return function(i, j) { return ( (i * j) % 3 + (i + j) % 2) % 2 == 0; };
+
+      default :
+        throw 'bad maskPattern:' + maskPattern;
+      }
+    };
+
+    _this.getErrorCorrectPolynomial = function(errorCorrectLength) {
+      var a = qrPolynomial([1], 0);
+      for (var i = 0; i < errorCorrectLength; i += 1) {
+        a = a.multiply(qrPolynomial([1, QRMath.gexp(i)], 0) );
+      }
+      return a;
+    };
+
+    _this.getLengthInBits = function(mode, type) {
+
+      if (1 <= type && type < 10) {
+
+        // 1 - 9
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 10;
+        case QRMode.MODE_ALPHA_NUM : return 9;
+        case QRMode.MODE_8BIT_BYTE : return 8;
+        case QRMode.MODE_KANJI     : return 8;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 27) {
+
+        // 10 - 26
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 12;
+        case QRMode.MODE_ALPHA_NUM : return 11;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 10;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 41) {
+
+        // 27 - 40
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 14;
+        case QRMode.MODE_ALPHA_NUM : return 13;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 12;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else {
+        throw 'type:' + type;
+      }
+    };
+
+    _this.getLostPoint = function(qrcode) {
+
+      var moduleCount = qrcode.getModuleCount();
+
+      var lostPoint = 0;
+
+      // LEVEL1
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount; col += 1) {
+
+          var sameCount = 0;
+          var dark = qrcode.isDark(row, col);
+
+          for (var r = -1; r <= 1; r += 1) {
+
+            if (row + r < 0 || moduleCount <= row + r) {
+              continue;
+            }
+
+            for (var c = -1; c <= 1; c += 1) {
+
+              if (col + c < 0 || moduleCount <= col + c) {
+                continue;
+              }
+
+              if (r == 0 && c == 0) {
+                continue;
+              }
+
+              if (dark == qrcode.isDark(row + r, col + c) ) {
+                sameCount += 1;
+              }
+            }
+          }
+
+          if (sameCount > 5) {
+            lostPoint += (3 + sameCount - 5);
+          }
+        }
+      };
+
+      // LEVEL2
+
+      for (var row = 0; row < moduleCount - 1; row += 1) {
+        for (var col = 0; col < moduleCount - 1; col += 1) {
+          var count = 0;
+          if (qrcode.isDark(row, col) ) count += 1;
+          if (qrcode.isDark(row + 1, col) ) count += 1;
+          if (qrcode.isDark(row, col + 1) ) count += 1;
+          if (qrcode.isDark(row + 1, col + 1) ) count += 1;
+          if (count == 0 || count == 4) {
+            lostPoint += 3;
+          }
+        }
+      }
+
+      // LEVEL3
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount - 6; col += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row, col + 1)
+              &&  qrcode.isDark(row, col + 2)
+              &&  qrcode.isDark(row, col + 3)
+              &&  qrcode.isDark(row, col + 4)
+              && !qrcode.isDark(row, col + 5)
+              &&  qrcode.isDark(row, col + 6) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount - 6; row += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row + 1, col)
+              &&  qrcode.isDark(row + 2, col)
+              &&  qrcode.isDark(row + 3, col)
+              &&  qrcode.isDark(row + 4, col)
+              && !qrcode.isDark(row + 5, col)
+              &&  qrcode.isDark(row + 6, col) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      // LEVEL4
+
+      var darkCount = 0;
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount; row += 1) {
+          if (qrcode.isDark(row, col) ) {
+            darkCount += 1;
+          }
+        }
+      }
+
+      var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+      lostPoint += ratio * 10;
+
+      return lostPoint;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // QRMath
+  //---------------------------------------------------------------------
+
+  var QRMath = function() {
+
+    var EXP_TABLE = new Array(256);
+    var LOG_TABLE = new Array(256);
+
+    // initialize tables
+    for (var i = 0; i < 8; i += 1) {
+      EXP_TABLE[i] = 1 << i;
+    }
+    for (var i = 8; i < 256; i += 1) {
+      EXP_TABLE[i] = EXP_TABLE[i - 4]
+        ^ EXP_TABLE[i - 5]
+        ^ EXP_TABLE[i - 6]
+        ^ EXP_TABLE[i - 8];
+    }
+    for (var i = 0; i < 255; i += 1) {
+      LOG_TABLE[EXP_TABLE[i] ] = i;
+    }
+
+    var _this = {};
+
+    _this.glog = function(n) {
+
+      if (n < 1) {
+        throw 'glog(' + n + ')';
+      }
+
+      return LOG_TABLE[n];
+    };
+
+    _this.gexp = function(n) {
+
+      while (n < 0) {
+        n += 255;
+      }
+
+      while (n >= 256) {
+        n -= 255;
+      }
+
+      return EXP_TABLE[n];
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrPolynomial
+  //---------------------------------------------------------------------
+
+  function qrPolynomial(num, shift) {
+
+    if (typeof num.length == 'undefined') {
+      throw num.length + '/' + shift;
+    }
+
+    var _num = function() {
+      var offset = 0;
+      while (offset < num.length && num[offset] == 0) {
+        offset += 1;
+      }
+      var _num = new Array(num.length - offset + shift);
+      for (var i = 0; i < num.length - offset; i += 1) {
+        _num[i] = num[i + offset];
+      }
+      return _num;
+    }();
+
+    var _this = {};
+
+    _this.getAt = function(index) {
+      return _num[index];
+    };
+
+    _this.getLength = function() {
+      return _num.length;
+    };
+
+    _this.multiply = function(e) {
+
+      var num = new Array(_this.getLength() + e.getLength() - 1);
+
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        for (var j = 0; j < e.getLength(); j += 1) {
+          num[i + j] ^= QRMath.gexp(QRMath.glog(_this.getAt(i) ) + QRMath.glog(e.getAt(j) ) );
+        }
+      }
+
+      return qrPolynomial(num, 0);
+    };
+
+    _this.mod = function(e) {
+
+      if (_this.getLength() - e.getLength() < 0) {
+        return _this;
+      }
+
+      var ratio = QRMath.glog(_this.getAt(0) ) - QRMath.glog(e.getAt(0) );
+
+      var num = new Array(_this.getLength() );
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        num[i] = _this.getAt(i);
+      }
+
+      for (var i = 0; i < e.getLength(); i += 1) {
+        num[i] ^= QRMath.gexp(QRMath.glog(e.getAt(i) ) + ratio);
+      }
+
+      // recursive call
+      return qrPolynomial(num, 0).mod(e);
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // QRRSBlock
+  //---------------------------------------------------------------------
+
+  var QRRSBlock = function() {
+
+    var RS_BLOCK_TABLE = [
+
+      // L
+      // M
+      // Q
+      // H
+
+      // 1
+      [1, 26, 19],
+      [1, 26, 16],
+      [1, 26, 13],
+      [1, 26, 9],
+
+      // 2
+      [1, 44, 34],
+      [1, 44, 28],
+      [1, 44, 22],
+      [1, 44, 16],
+
+      // 3
+      [1, 70, 55],
+      [1, 70, 44],
+      [2, 35, 17],
+      [2, 35, 13],
+
+      // 4
+      [1, 100, 80],
+      [2, 50, 32],
+      [2, 50, 24],
+      [4, 25, 9],
+
+      // 5
+      [1, 134, 108],
+      [2, 67, 43],
+      [2, 33, 15, 2, 34, 16],
+      [2, 33, 11, 2, 34, 12],
+
+      // 6
+      [2, 86, 68],
+      [4, 43, 27],
+      [4, 43, 19],
+      [4, 43, 15],
+
+      // 7
+      [2, 98, 78],
+      [4, 49, 31],
+      [2, 32, 14, 4, 33, 15],
+      [4, 39, 13, 1, 40, 14],
+
+      // 8
+      [2, 121, 97],
+      [2, 60, 38, 2, 61, 39],
+      [4, 40, 18, 2, 41, 19],
+      [4, 40, 14, 2, 41, 15],
+
+      // 9
+      [2, 146, 116],
+      [3, 58, 36, 2, 59, 37],
+      [4, 36, 16, 4, 37, 17],
+      [4, 36, 12, 4, 37, 13],
+
+      // 10
+      [2, 86, 68, 2, 87, 69],
+      [4, 69, 43, 1, 70, 44],
+      [6, 43, 19, 2, 44, 20],
+      [6, 43, 15, 2, 44, 16],
+
+      // 11
+      [4, 101, 81],
+      [1, 80, 50, 4, 81, 51],
+      [4, 50, 22, 4, 51, 23],
+      [3, 36, 12, 8, 37, 13],
+
+      // 12
+      [2, 116, 92, 2, 117, 93],
+      [6, 58, 36, 2, 59, 37],
+      [4, 46, 20, 6, 47, 21],
+      [7, 42, 14, 4, 43, 15],
+
+      // 13
+      [4, 133, 107],
+      [8, 59, 37, 1, 60, 38],
+      [8, 44, 20, 4, 45, 21],
+      [12, 33, 11, 4, 34, 12],
+
+      // 14
+      [3, 145, 115, 1, 146, 116],
+      [4, 64, 40, 5, 65, 41],
+      [11, 36, 16, 5, 37, 17],
+      [11, 36, 12, 5, 37, 13],
+
+      // 15
+      [5, 109, 87, 1, 110, 88],
+      [5, 65, 41, 5, 66, 42],
+      [5, 54, 24, 7, 55, 25],
+      [11, 36, 12, 7, 37, 13],
+
+      // 16
+      [5, 122, 98, 1, 123, 99],
+      [7, 73, 45, 3, 74, 46],
+      [15, 43, 19, 2, 44, 20],
+      [3, 45, 15, 13, 46, 16],
+
+      // 17
+      [1, 135, 107, 5, 136, 108],
+      [10, 74, 46, 1, 75, 47],
+      [1, 50, 22, 15, 51, 23],
+      [2, 42, 14, 17, 43, 15],
+
+      // 18
+      [5, 150, 120, 1, 151, 121],
+      [9, 69, 43, 4, 70, 44],
+      [17, 50, 22, 1, 51, 23],
+      [2, 42, 14, 19, 43, 15],
+
+      // 19
+      [3, 141, 113, 4, 142, 114],
+      [3, 70, 44, 11, 71, 45],
+      [17, 47, 21, 4, 48, 22],
+      [9, 39, 13, 16, 40, 14],
+
+      // 20
+      [3, 135, 107, 5, 136, 108],
+      [3, 67, 41, 13, 68, 42],
+      [15, 54, 24, 5, 55, 25],
+      [15, 43, 15, 10, 44, 16],
+
+      // 21
+      [4, 144, 116, 4, 145, 117],
+      [17, 68, 42],
+      [17, 50, 22, 6, 51, 23],
+      [19, 46, 16, 6, 47, 17],
+
+      // 22
+      [2, 139, 111, 7, 140, 112],
+      [17, 74, 46],
+      [7, 54, 24, 16, 55, 25],
+      [34, 37, 13],
+
+      // 23
+      [4, 151, 121, 5, 152, 122],
+      [4, 75, 47, 14, 76, 48],
+      [11, 54, 24, 14, 55, 25],
+      [16, 45, 15, 14, 46, 16],
+
+      // 24
+      [6, 147, 117, 4, 148, 118],
+      [6, 73, 45, 14, 74, 46],
+      [11, 54, 24, 16, 55, 25],
+      [30, 46, 16, 2, 47, 17],
+
+      // 25
+      [8, 132, 106, 4, 133, 107],
+      [8, 75, 47, 13, 76, 48],
+      [7, 54, 24, 22, 55, 25],
+      [22, 45, 15, 13, 46, 16],
+
+      // 26
+      [10, 142, 114, 2, 143, 115],
+      [19, 74, 46, 4, 75, 47],
+      [28, 50, 22, 6, 51, 23],
+      [33, 46, 16, 4, 47, 17],
+
+      // 27
+      [8, 152, 122, 4, 153, 123],
+      [22, 73, 45, 3, 74, 46],
+      [8, 53, 23, 26, 54, 24],
+      [12, 45, 15, 28, 46, 16],
+
+      // 28
+      [3, 147, 117, 10, 148, 118],
+      [3, 73, 45, 23, 74, 46],
+      [4, 54, 24, 31, 55, 25],
+      [11, 45, 15, 31, 46, 16],
+
+      // 29
+      [7, 146, 116, 7, 147, 117],
+      [21, 73, 45, 7, 74, 46],
+      [1, 53, 23, 37, 54, 24],
+      [19, 45, 15, 26, 46, 16],
+
+      // 30
+      [5, 145, 115, 10, 146, 116],
+      [19, 75, 47, 10, 76, 48],
+      [15, 54, 24, 25, 55, 25],
+      [23, 45, 15, 25, 46, 16],
+
+      // 31
+      [13, 145, 115, 3, 146, 116],
+      [2, 74, 46, 29, 75, 47],
+      [42, 54, 24, 1, 55, 25],
+      [23, 45, 15, 28, 46, 16],
+
+      // 32
+      [17, 145, 115],
+      [10, 74, 46, 23, 75, 47],
+      [10, 54, 24, 35, 55, 25],
+      [19, 45, 15, 35, 46, 16],
+
+      // 33
+      [17, 145, 115, 1, 146, 116],
+      [14, 74, 46, 21, 75, 47],
+      [29, 54, 24, 19, 55, 25],
+      [11, 45, 15, 46, 46, 16],
+
+      // 34
+      [13, 145, 115, 6, 146, 116],
+      [14, 74, 46, 23, 75, 47],
+      [44, 54, 24, 7, 55, 25],
+      [59, 46, 16, 1, 47, 17],
+
+      // 35
+      [12, 151, 121, 7, 152, 122],
+      [12, 75, 47, 26, 76, 48],
+      [39, 54, 24, 14, 55, 25],
+      [22, 45, 15, 41, 46, 16],
+
+      // 36
+      [6, 151, 121, 14, 152, 122],
+      [6, 75, 47, 34, 76, 48],
+      [46, 54, 24, 10, 55, 25],
+      [2, 45, 15, 64, 46, 16],
+
+      // 37
+      [17, 152, 122, 4, 153, 123],
+      [29, 74, 46, 14, 75, 47],
+      [49, 54, 24, 10, 55, 25],
+      [24, 45, 15, 46, 46, 16],
+
+      // 38
+      [4, 152, 122, 18, 153, 123],
+      [13, 74, 46, 32, 75, 47],
+      [48, 54, 24, 14, 55, 25],
+      [42, 45, 15, 32, 46, 16],
+
+      // 39
+      [20, 147, 117, 4, 148, 118],
+      [40, 75, 47, 7, 76, 48],
+      [43, 54, 24, 22, 55, 25],
+      [10, 45, 15, 67, 46, 16],
+
+      // 40
+      [19, 148, 118, 6, 149, 119],
+      [18, 75, 47, 31, 76, 48],
+      [34, 54, 24, 34, 55, 25],
+      [20, 45, 15, 61, 46, 16]
+    ];
+
+    var qrRSBlock = function(totalCount, dataCount) {
+      var _this = {};
+      _this.totalCount = totalCount;
+      _this.dataCount = dataCount;
+      return _this;
+    };
+
+    var _this = {};
+
+    var getRsBlockTable = function(typeNumber, errorCorrectionLevel) {
+
+      switch(errorCorrectionLevel) {
+      case QRErrorCorrectionLevel.L :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+      case QRErrorCorrectionLevel.M :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+      case QRErrorCorrectionLevel.Q :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+      case QRErrorCorrectionLevel.H :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+      default :
+        return undefined;
+      }
+    };
+
+    _this.getRSBlocks = function(typeNumber, errorCorrectionLevel) {
+
+      var rsBlock = getRsBlockTable(typeNumber, errorCorrectionLevel);
+
+      if (typeof rsBlock == 'undefined') {
+        throw 'bad rs block @ typeNumber:' + typeNumber +
+            '/errorCorrectionLevel:' + errorCorrectionLevel;
+      }
+
+      var length = rsBlock.length / 3;
+
+      var list = [];
+
+      for (var i = 0; i < length; i += 1) {
+
+        var count = rsBlock[i * 3 + 0];
+        var totalCount = rsBlock[i * 3 + 1];
+        var dataCount = rsBlock[i * 3 + 2];
+
+        for (var j = 0; j < count; j += 1) {
+          list.push(qrRSBlock(totalCount, dataCount) );
+        }
+      }
+
+      return list;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrBitBuffer
+  //---------------------------------------------------------------------
+
+  var qrBitBuffer = function() {
+
+    var _buffer = [];
+    var _length = 0;
+
+    var _this = {};
+
+    _this.getBuffer = function() {
+      return _buffer;
+    };
+
+    _this.getAt = function(index) {
+      var bufIndex = Math.floor(index / 8);
+      return ( (_buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+    };
+
+    _this.put = function(num, length) {
+      for (var i = 0; i < length; i += 1) {
+        _this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+      }
+    };
+
+    _this.getLengthInBits = function() {
+      return _length;
+    };
+
+    _this.putBit = function(bit) {
+
+      var bufIndex = Math.floor(_length / 8);
+      if (_buffer.length <= bufIndex) {
+        _buffer.push(0);
+      }
+
+      if (bit) {
+        _buffer[bufIndex] |= (0x80 >>> (_length % 8) );
+      }
+
+      _length += 1;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrNumber
+  //---------------------------------------------------------------------
+
+  var qrNumber = function(data) {
+
+    var _mode = QRMode.MODE_NUMBER;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _data;
+
+      var i = 0;
+
+      while (i + 2 < data.length) {
+        buffer.put(strToNum(data.substring(i, i + 3) ), 10);
+        i += 3;
+      }
+
+      if (i < data.length) {
+        if (data.length - i == 1) {
+          buffer.put(strToNum(data.substring(i, i + 1) ), 4);
+        } else if (data.length - i == 2) {
+          buffer.put(strToNum(data.substring(i, i + 2) ), 7);
+        }
+      }
+    };
+
+    var strToNum = function(s) {
+      var num = 0;
+      for (var i = 0; i < s.length; i += 1) {
+        num = num * 10 + chatToNum(s.charAt(i) );
+      }
+      return num;
+    };
+
+    var chatToNum = function(c) {
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      }
+      throw 'illegal char :' + c;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrAlphaNum
+  //---------------------------------------------------------------------
+
+  var qrAlphaNum = function(data) {
+
+    var _mode = QRMode.MODE_ALPHA_NUM;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var s = _data;
+
+      var i = 0;
+
+      while (i + 1 < s.length) {
+        buffer.put(
+          getCode(s.charAt(i) ) * 45 +
+          getCode(s.charAt(i + 1) ), 11);
+        i += 2;
+      }
+
+      if (i < s.length) {
+        buffer.put(getCode(s.charAt(i) ), 6);
+      }
+    };
+
+    var getCode = function(c) {
+
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      } else if ('A' <= c && c <= 'Z') {
+        return c.charCodeAt(0) - 'A'.charCodeAt(0) + 10;
+      } else {
+        switch (c) {
+        case ' ' : return 36;
+        case '$' : return 37;
+        case '%' : return 38;
+        case '*' : return 39;
+        case '+' : return 40;
+        case '-' : return 41;
+        case '.' : return 42;
+        case '/' : return 43;
+        case ':' : return 44;
+        default :
+          throw 'illegal char :' + c;
+        }
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qr8BitByte
+  //---------------------------------------------------------------------
+
+  var qr8BitByte = function(data) {
+
+    var _mode = QRMode.MODE_8BIT_BYTE;
+    var _data = data;
+    var _bytes = qrcode.stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _bytes.length;
+    };
+
+    _this.write = function(buffer) {
+      for (var i = 0; i < _bytes.length; i += 1) {
+        buffer.put(_bytes[i], 8);
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrKanji
+  //---------------------------------------------------------------------
+
+  var qrKanji = function(data) {
+
+    var _mode = QRMode.MODE_KANJI;
+    var _data = data;
+
+    var stringToBytes = qrcode.stringToBytesFuncs['SJIS'];
+    if (!stringToBytes) {
+      throw 'sjis not supported.';
+    }
+    !function(c, code) {
+      // self test for sjis support.
+      var test = stringToBytes(c);
+      if (test.length != 2 || ( (test[0] << 8) | test[1]) != code) {
+        throw 'sjis not supported.';
+      }
+    }('\u53cb', 0x9746);
+
+    var _bytes = stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return ~~(_bytes.length / 2);
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _bytes;
+
+      var i = 0;
+
+      while (i + 1 < data.length) {
+
+        var c = ( (0xff & data[i]) << 8) | (0xff & data[i + 1]);
+
+        if (0x8140 <= c && c <= 0x9FFC) {
+          c -= 0x8140;
+        } else if (0xE040 <= c && c <= 0xEBBF) {
+          c -= 0xC140;
+        } else {
+          throw 'illegal char at ' + (i + 1) + '/' + c;
+        }
+
+        c = ( (c >>> 8) & 0xff) * 0xC0 + (c & 0xff);
+
+        buffer.put(c, 13);
+
+        i += 2;
+      }
+
+      if (i < data.length) {
+        throw 'illegal char at ' + (i + 1);
+      }
+    };
+
+    return _this;
+  };
+
+  //=====================================================================
+  // GIF Support etc.
+  //
+
+  //---------------------------------------------------------------------
+  // byteArrayOutputStream
+  //---------------------------------------------------------------------
+
+  var byteArrayOutputStream = function() {
+
+    var _bytes = [];
+
+    var _this = {};
+
+    _this.writeByte = function(b) {
+      _bytes.push(b & 0xff);
+    };
+
+    _this.writeShort = function(i) {
+      _this.writeByte(i);
+      _this.writeByte(i >>> 8);
+    };
+
+    _this.writeBytes = function(b, off, len) {
+      off = off || 0;
+      len = len || b.length;
+      for (var i = 0; i < len; i += 1) {
+        _this.writeByte(b[i + off]);
+      }
+    };
+
+    _this.writeString = function(s) {
+      for (var i = 0; i < s.length; i += 1) {
+        _this.writeByte(s.charCodeAt(i) );
+      }
+    };
+
+    _this.toByteArray = function() {
+      return _bytes;
+    };
+
+    _this.toString = function() {
+      var s = '';
+      s += '[';
+      for (var i = 0; i < _bytes.length; i += 1) {
+        if (i > 0) {
+          s += ',';
+        }
+        s += _bytes[i];
+      }
+      s += ']';
+      return s;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64EncodeOutputStream
+  //---------------------------------------------------------------------
+
+  var base64EncodeOutputStream = function() {
+
+    var _buffer = 0;
+    var _buflen = 0;
+    var _length = 0;
+    var _base64 = '';
+
+    var _this = {};
+
+    var writeEncoded = function(b) {
+      _base64 += String.fromCharCode(encode(b & 0x3f) );
+    };
+
+    var encode = function(n) {
+      if (n < 0) {
+        // error.
+      } else if (n < 26) {
+        return 0x41 + n;
+      } else if (n < 52) {
+        return 0x61 + (n - 26);
+      } else if (n < 62) {
+        return 0x30 + (n - 52);
+      } else if (n == 62) {
+        return 0x2b;
+      } else if (n == 63) {
+        return 0x2f;
+      }
+      throw 'n:' + n;
+    };
+
+    _this.writeByte = function(n) {
+
+      _buffer = (_buffer << 8) | (n & 0xff);
+      _buflen += 8;
+      _length += 1;
+
+      while (_buflen >= 6) {
+        writeEncoded(_buffer >>> (_buflen - 6) );
+        _buflen -= 6;
+      }
+    };
+
+    _this.flush = function() {
+
+      if (_buflen > 0) {
+        writeEncoded(_buffer << (6 - _buflen) );
+        _buffer = 0;
+        _buflen = 0;
+      }
+
+      if (_length % 3 != 0) {
+        // padding
+        var padlen = 3 - _length % 3;
+        for (var i = 0; i < padlen; i += 1) {
+          _base64 += '=';
+        }
+      }
+    };
+
+    _this.toString = function() {
+      return _base64;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64DecodeInputStream
+  //---------------------------------------------------------------------
+
+  var base64DecodeInputStream = function(str) {
+
+    var _str = str;
+    var _pos = 0;
+    var _buffer = 0;
+    var _buflen = 0;
+
+    var _this = {};
+
+    _this.read = function() {
+
+      while (_buflen < 8) {
+
+        if (_pos >= _str.length) {
+          if (_buflen == 0) {
+            return -1;
+          }
+          throw 'unexpected end of file./' + _buflen;
+        }
+
+        var c = _str.charAt(_pos);
+        _pos += 1;
+
+        if (c == '=') {
+          _buflen = 0;
+          return -1;
+        } else if (c.match(/^\s$/) ) {
+          // ignore if whitespace.
+          continue;
+        }
+
+        _buffer = (_buffer << 6) | decode(c.charCodeAt(0) );
+        _buflen += 6;
+      }
+
+      var n = (_buffer >>> (_buflen - 8) ) & 0xff;
+      _buflen -= 8;
+      return n;
+    };
+
+    var decode = function(c) {
+      if (0x41 <= c && c <= 0x5a) {
+        return c - 0x41;
+      } else if (0x61 <= c && c <= 0x7a) {
+        return c - 0x61 + 26;
+      } else if (0x30 <= c && c <= 0x39) {
+        return c - 0x30 + 52;
+      } else if (c == 0x2b) {
+        return 62;
+      } else if (c == 0x2f) {
+        return 63;
+      } else {
+        throw 'c:' + c;
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // gifImage (B/W)
+  //---------------------------------------------------------------------
+
+  var gifImage = function(width, height) {
+
+    var _width = width;
+    var _height = height;
+    var _data = new Array(width * height);
+
+    var _this = {};
+
+    _this.setPixel = function(x, y, pixel) {
+      _data[y * _width + x] = pixel;
+    };
+
+    _this.write = function(out) {
+
+      //---------------------------------
+      // GIF Signature
+
+      out.writeString('GIF87a');
+
+      //---------------------------------
+      // Screen Descriptor
+
+      out.writeShort(_width);
+      out.writeShort(_height);
+
+      out.writeByte(0x80); // 2bit
+      out.writeByte(0);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Global Color Map
+
+      // black
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+
+      // white
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+
+      //---------------------------------
+      // Image Descriptor
+
+      out.writeString(',');
+      out.writeShort(0);
+      out.writeShort(0);
+      out.writeShort(_width);
+      out.writeShort(_height);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Local Color Map
+
+      //---------------------------------
+      // Raster Data
+
+      var lzwMinCodeSize = 2;
+      var raster = getLZWRaster(lzwMinCodeSize);
+
+      out.writeByte(lzwMinCodeSize);
+
+      var offset = 0;
+
+      while (raster.length - offset > 255) {
+        out.writeByte(255);
+        out.writeBytes(raster, offset, 255);
+        offset += 255;
+      }
+
+      out.writeByte(raster.length - offset);
+      out.writeBytes(raster, offset, raster.length - offset);
+      out.writeByte(0x00);
+
+      //---------------------------------
+      // GIF Terminator
+      out.writeString(';');
+    };
+
+    var bitOutputStream = function(out) {
+
+      var _out = out;
+      var _bitLength = 0;
+      var _bitBuffer = 0;
+
+      var _this = {};
+
+      _this.write = function(data, length) {
+
+        if ( (data >>> length) != 0) {
+          throw 'length over';
+        }
+
+        while (_bitLength + length >= 8) {
+          _out.writeByte(0xff & ( (data << _bitLength) | _bitBuffer) );
+          length -= (8 - _bitLength);
+          data >>>= (8 - _bitLength);
+          _bitBuffer = 0;
+          _bitLength = 0;
+        }
+
+        _bitBuffer = (data << _bitLength) | _bitBuffer;
+        _bitLength = _bitLength + length;
+      };
+
+      _this.flush = function() {
+        if (_bitLength > 0) {
+          _out.writeByte(_bitBuffer);
+        }
+      };
+
+      return _this;
+    };
+
+    var getLZWRaster = function(lzwMinCodeSize) {
+
+      var clearCode = 1 << lzwMinCodeSize;
+      var endCode = (1 << lzwMinCodeSize) + 1;
+      var bitLength = lzwMinCodeSize + 1;
+
+      // Setup LZWTable
+      var table = lzwTable();
+
+      for (var i = 0; i < clearCode; i += 1) {
+        table.add(String.fromCharCode(i) );
+      }
+      table.add(String.fromCharCode(clearCode) );
+      table.add(String.fromCharCode(endCode) );
+
+      var byteOut = byteArrayOutputStream();
+      var bitOut = bitOutputStream(byteOut);
+
+      // clear code
+      bitOut.write(clearCode, bitLength);
+
+      var dataIndex = 0;
+
+      var s = String.fromCharCode(_data[dataIndex]);
+      dataIndex += 1;
+
+      while (dataIndex < _data.length) {
+
+        var c = String.fromCharCode(_data[dataIndex]);
+        dataIndex += 1;
+
+        if (table.contains(s + c) ) {
+
+          s = s + c;
+
+        } else {
+
+          bitOut.write(table.indexOf(s), bitLength);
+
+          if (table.size() < 0xfff) {
+
+            if (table.size() == (1 << bitLength) ) {
+              bitLength += 1;
+            }
+
+            table.add(s + c);
+          }
+
+          s = c;
+        }
+      }
+
+      bitOut.write(table.indexOf(s), bitLength);
+
+      // end code
+      bitOut.write(endCode, bitLength);
+
+      bitOut.flush();
+
+      return byteOut.toByteArray();
+    };
+
+    var lzwTable = function() {
+
+      var _map = {};
+      var _size = 0;
+
+      var _this = {};
+
+      _this.add = function(key) {
+        if (_this.contains(key) ) {
+          throw 'dup key:' + key;
+        }
+        _map[key] = _size;
+        _size += 1;
+      };
+
+      _this.size = function() {
+        return _size;
+      };
+
+      _this.indexOf = function(key) {
+        return _map[key];
+      };
+
+      _this.contains = function(key) {
+        return typeof _map[key] != 'undefined';
+      };
+
+      return _this;
+    };
+
+    return _this;
+  };
+
+  var createDataURL = function(width, height, getPixel) {
+    var gif = gifImage(width, height);
+    for (var y = 0; y < height; y += 1) {
+      for (var x = 0; x < width; x += 1) {
+        gif.setPixel(x, y, getPixel(x, y) );
+      }
+    }
+
+    var b = byteArrayOutputStream();
+    gif.write(b);
+
+    var base64 = base64EncodeOutputStream();
+    var bytes = b.toByteArray();
+    for (var i = 0; i < bytes.length; i += 1) {
+      base64.writeByte(bytes[i]);
+    }
+    base64.flush();
+
+    return 'data:image/gif;base64,' + base64;
+  };
+
+  //---------------------------------------------------------------------
+  // returns qrcode function.
+
+  return qrcode;
+}();
+
+// multibyte support
+!function() {
+
+  qrcode.stringToBytesFuncs['UTF-8'] = function(s) {
+    // http://stackoverflow.com/questions/18729405/how-to-convert-utf8-string-to-byte-array
+    function toUTF8Array(str) {
+      var utf8 = [];
+      for (var i=0; i < str.length; i++) {
+        var charcode = str.charCodeAt(i);
+        if (charcode < 0x80) utf8.push(charcode);
+        else if (charcode < 0x800) {
+          utf8.push(0xc0 | (charcode >> 6),
+              0x80 | (charcode & 0x3f));
+        }
+        else if (charcode < 0xd800 || charcode >= 0xe000) {
+          utf8.push(0xe0 | (charcode >> 12),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+        // surrogate pair
+        else {
+          i++;
+          // UTF-16 encodes 0x10000-0x10FFFF by
+          // subtracting 0x10000 and splitting the
+          // 20 bits of 0x0-0xFFFFF into two halves
+          charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+            | (str.charCodeAt(i) & 0x3ff));
+          utf8.push(0xf0 | (charcode >>18),
+              0x80 | ((charcode>>12) & 0x3f),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+      }
+      return utf8;
+    }
+    return toUTF8Array(s);
+  };
+
+}();
+
+
+</script>
 <script>
 (function(){
   "use strict";
@@ -918,6 +3398,18 @@
       icon.textContent = "⚙️";
       title.textContent = "Configuração pendente";
       msg.textContent = "A conexão com o banco de dados ainda não foi configurada.";
+    } else if(kind === "invalid-link"){
+      icon.textContent = "🔗";
+      title.textContent = "Link inválido";
+      msg.textContent = "Este link de solicitação não é válido. Peça um novo link ao administrador.";
+    } else if(kind === "invalid-comanda"){
+      icon.textContent = "🏷️";
+      title.textContent = "Comanda não encontrada";
+      msg.textContent = "Não encontramos esta comanda. Confira o QR Code ou peça uma nova impressão.";
+    } else if(kind === "maint-missing"){
+      icon.textContent = "⚙️";
+      title.textContent = "Recurso ainda não ativado";
+      msg.textContent = "O sistema de solicitações ainda não foi ativado no banco de dados. Avise o administrador.";
     } else if(kind === "lib-failed"){
       icon.textContent = "📡";
       title.textContent = "Não foi possível carregar o app";
@@ -942,6 +3434,9 @@
     routineTasks: [],
     equipment: [],
     equipmentChecks: [],
+    maintRequests: [],
+    maintMissing: false,
+    maintFilter: "ativas",
     adminPin: "1234",
     empTab: "pending",
     adminFilter: "all",
@@ -1079,6 +3574,10 @@
     if(equipRes.error){ throw equipRes.error; }
     var equipChecksRes = await sb.from("equipment_checks").select("*").order("date");
     if(equipChecksRes.error){ throw equipChecksRes.error; }
+    // Consertos: se a tabela ainda não existir, o resto do app continua funcionando
+    var maintRes = await sb.from("maint_requests").select("*").order("created_at", { ascending: false });
+    if(maintRes.error){ state.maintMissing = true; state.maintRequests = []; }
+    else { state.maintMissing = false; state.maintRequests = (maintRes.data || []).map(mapMaintRow); }
     state.tasks = (tasksRes.data || []).map(mapTaskRow);
     state.units = (unitsRes.data || []).map(function(u){ return u.name; });
     state.dailyUnits = (dailyRes.data || []).map(mapDailyUnitRow);
@@ -1884,6 +4383,7 @@
       '<div class="print-sign-col"><img src="' + sigUnitUrl + '"><div class="print-sign-label">Assinatura do Responsável da Unidade</div></div>' +
     '</div>';
 
+    resetPrintArea();
     $("print-area").innerHTML = html;
     setTimeout(function(){ window.print(); }, 100);
   }
@@ -2113,7 +4613,7 @@
     document.querySelectorAll("#admin-subnav .subnav-tab").forEach(function(tab){
       tab.classList.toggle("active", tab.getAttribute("data-sub") === state.adminSubview);
     });
-    ["painel","calendario","rotina","equipamentos","solicitacoes"].forEach(function(v){
+    ["painel","calendario","rotina","equipamentos","solicitacoes","consertos"].forEach(function(v){
       $("admin-view-" + v).classList.toggle("hidden", v !== state.adminSubview);
     });
     if(state.adminSubview === "painel"){ renderAdminPainel(); }
@@ -2121,6 +4621,10 @@
     else if(state.adminSubview === "rotina"){ renderAdminRotina(); }
     else if(state.adminSubview === "equipamentos"){ renderAdminEquipamentos(); }
     else if(state.adminSubview === "solicitacoes"){ renderAdminSolicitacoes(); }
+    else if(state.adminSubview === "consertos"){ renderAdminConsertos(); }
+    var nNovas = state.maintRequests.filter(function(r){ return r.status === "nova"; }).length;
+    var ctab = document.querySelector('#admin-subnav [data-sub="consertos"]');
+    if(ctab){ ctab.textContent = "Consertos" + (nNovas ? " (" + nNovas + ")" : ""); }
   }
 
   function renderAdminPainel(){
@@ -2701,6 +5205,802 @@
   }
 
   // =========================================================
+  // CONSERTOS DE EQUIPAMENTOS
+  // (link por unidade, comanda com QR Code, assinaturas e gestão do admin)
+  // =========================================================
+  var MAINT_PRIORITY_LABEL = { baixa: "Baixa", media: "Média", alta: "Alta", urgente: "Urgente" };
+  var MAINT_STATUS_LABEL = {
+    nova: "Nova · aguardando saída",
+    em_manutencao: "Em manutenção",
+    pronto: "Pronto p/ devolução",
+    finalizada: "Finalizada",
+    cancelada: "Cancelada"
+  };
+  var MAINT_UNIT_STATUS_LABEL = {
+    nova: "Aguardando retirada",
+    em_manutencao: "Em manutenção",
+    pronto: "Pronto · aguardando devolução",
+    finalizada: "Finalizada",
+    cancelada: "Cancelada"
+  };
+  var MAINT_DEST_LABEL = { interno: "Técnico interno", externo: "Manutenção externa" };
+
+  function mapMaintRow(r){
+    return {
+      id: r.id, code: r.code, unit: r.unit,
+      requester: r.requester_name, equipment: r.equipment_name,
+      brand: r.brand || "", model: r.model || "", itemsSent: r.items_sent || "",
+      problem: r.problem, priority: r.priority || "media", status: r.status || "nova",
+      destination: r.destination || "", supplier: r.supplier || "",
+      supplierContact: r.supplier_contact || "", quoteValue: r.quote_value || "",
+      expectedDate: r.expected_date || "", adminNotes: r.admin_notes || "",
+      taskId: r.task_id || "", exitAt: r.exit_at || null, returnedAt: r.returned_at || null,
+      returnNote: r.return_note || "", createdAt: r.created_at
+    };
+  }
+
+  function maintPriorityBadgeClass(p){
+    return (p === "urgente" || p === "alta") ? "badge-priority-alta" : p === "media" ? "badge-priority-media" : "badge-priority-baixa";
+  }
+  function fmtDateTime(iso){
+    if(!iso) return "";
+    var d = new Date(iso);
+    return pad(d.getDate()) + "/" + pad(d.getMonth()+1) + "/" + d.getFullYear() + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+  }
+
+  // ---------- links ----------
+  function appBaseUrl(){ return location.href.split(/[?#]/)[0]; }
+  function unitLink(unit){ return appBaseUrl() + "?unidade=" + encodeURIComponent(unit); }
+  function comandaUrl(id){ return appBaseUrl() + "?comanda=" + encodeURIComponent(id); }
+
+  function copyText(text, input){
+    function fallback(){
+      try{
+        input.focus(); input.select();
+        var ok = document.execCommand && document.execCommand("copy");
+        showToast(ok ? "Link copiado" : "Selecione o link e copie");
+      }catch(e){ showToast("Selecione o link e copie"); }
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ showToast("Link copiado"); }, fallback);
+    } else { fallback(); }
+  }
+
+  // ---------- código do equipamento: 3 letras do produto + 3 da unidade + número ----------
+  function stripAccents(s){ return String(s == null ? "" : s).normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+  function threeLetters(s){
+    var t = stripAccents(s).toUpperCase().replace(/[^A-Z0-9]/g, "");
+    return (t + "XXX").slice(0, 3);
+  }
+  function unitCodePart(unit){
+    return threeLetters(stripAccents(unit).trim().replace(/^(unidade|un\.?)\s+/i, ""));
+  }
+  function codeBase(equipName, unit){ return threeLetters(equipName) + "-" + unitCodePart(unit) + "-"; }
+
+  async function nextMaintCode(equipName, unit){
+    var base = codeBase(equipName, unit);
+    var res = await sb.from("maint_requests").select("code").like("code", base + "%");
+    if(res.error){ throw res.error; }
+    var max = 0;
+    (res.data || []).forEach(function(r){
+      if(String(r.code).indexOf(base) !== 0) return;
+      var n = parseInt(String(r.code).slice(base.length), 10);
+      if(!isNaN(n) && n > max) max = n;
+    });
+    return base + String(max + 1).padStart(3, "0");
+  }
+
+  // ---------- comanda (A4 deitada) ----------
+  function buildComandaHtml(req){
+    var url = comandaUrl(req.id);
+    var qrSvg = "";
+    try{
+      var qr = qrcode(0, "M");
+      qr.addData(url);
+      qr.make();
+      qrSvg = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+    }catch(e){
+      console.error(e);
+      qrSvg = '<div style="font-size:9pt; word-break:break-all;">' + esc(url) + '</div>';
+    }
+    var lines = "";
+    for(var i = 0; i < 5; i++){ lines += "<div></div>"; }
+    var partsLines = req.itemsSent ? '<div class="cmd-lines"><div></div><div></div></div>' : '<div class="cmd-lines"><div></div><div></div><div></div><div></div></div>';
+    return '' +
+      '<div class="cmd">' +
+        '<div class="cmd-left">' +
+          '<div class="cmd-box cmd-code-box">' +
+            '<div class="cmd-label">Código do produto</div>' +
+            '<div class="cmd-code">' + esc(req.code) + '</div>' +
+            '<div class="cmd-small"><b>Unidade:</b> ' + esc(req.unit) + '<br>' +
+              '<b>Solicitante:</b> ' + esc(req.requester) + '<br>' +
+              '<b>Data:</b> ' + fmtDateTime(req.createdAt) + '</div>' +
+          '</div>' +
+          '<div class="cmd-box cmd-qr-box">' +
+            '<div class="cmd-label">QR Code</div>' +
+            '<div class="cmd-qr">' + qrSvg + '</div>' +
+            '<div class="cmd-small">Escaneie para registrar a saída e a devolução<br>(assinatura da nutricionista e do motorista)</div>' +
+            '<div class="cmd-foot">Paulu\'s Restaurantes Empresariais</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="cmd-right">' +
+          '<div class="cmd-box cmd-desc-box">' +
+            '<div class="cmd-label">Descrição</div>' +
+            '<div class="cmd-prio">● Prioridade: ' + esc(MAINT_PRIORITY_LABEL[req.priority] || req.priority) + '</div>' +
+            '<div class="cmd-equip">' + esc(req.equipment) + '</div>' +
+            '<div class="cmd-small"><b>Marca:</b> ' + (esc(req.brand) || "—") + ' &nbsp;·&nbsp; <b>Modelo:</b> ' + (esc(req.model) || "—") + '</div>' +
+            '<div class="cmd-text"><b>Problema:</b> ' + esc(req.problem) + '</div>' +
+          '</div>' +
+          '<div class="cmd-bottom">' +
+            '<div class="cmd-box cmd-parts">' +
+              '<div class="cmd-label">Peças / enviado junto</div>' +
+              (req.itemsSent ? '<div class="cmd-text" style="font-size:11pt;">' + esc(req.itemsSent) + '</div>' : "") +
+              partsLines +
+            '</div>' +
+            '<div class="cmd-box cmd-notes">' +
+              '<div class="cmd-label">Anotações do técnico</div>' +
+              '<div class="cmd-lines">' + lines + '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function resetPrintArea(){
+    var st = $("dyn-page-style");
+    if(st && st.parentNode){ st.parentNode.removeChild(st); }
+    $("print-area").className = "";
+  }
+  function printComanda(req){
+    resetPrintArea();
+    $("print-area").innerHTML = buildComandaHtml(req);
+    $("print-area").className = "print-comanda";
+    var st = document.createElement("style");
+    st.id = "dyn-page-style";
+    st.textContent = "@page{ size:A4 landscape; margin:8mm; }";
+    document.head.appendChild(st);
+    window.addEventListener("afterprint", function onAfter(){
+      window.removeEventListener("afterprint", onAfter);
+      resetPrintArea();
+    });
+    window.print();
+  }
+
+  // =========================================================
+  // TELA DA UNIDADE (link ?unidade=Nome)
+  // =========================================================
+  var unitMode = { unit: "", requests: [], lastCreated: null };
+
+  async function loadUnitRequests(){
+    var res = await sb.from("maint_requests").select("*").eq("unit", unitMode.unit).order("created_at", { ascending: false });
+    if(res.error){ console.error(res.error); return false; }
+    unitMode.requests = (res.data || []).map(mapMaintRow);
+    return true;
+  }
+
+  async function bootUnitMode(unitParam){
+    var ur = await sb.from("units").select("name");
+    if(ur.error){ throw ur.error; }
+    var match = (ur.data || []).map(function(u){ return u.name; }).filter(function(n){ return sameUnit(n, unitParam); })[0];
+    if(!match){ showStartupError("invalid-link"); return; }
+    unitMode.unit = match;
+    var ok = await loadUnitRequests();
+    if(!ok){ showStartupError("maint-missing"); return; }
+    renderReqHome();
+    showScreen("screen-req-home");
+  }
+
+  function renderReqHome(){
+    $("req-unit-sub").textContent = unitMode.unit;
+    var list = unitMode.requests.filter(function(r){ return r.status !== "cancelada"; }).slice(0, 50);
+    if(list.length === 0){
+      $("req-list").innerHTML = '<div class="empty-state">Nenhuma solicitação ainda. Toque em "Nova solicitação" para começar.</div>';
+      return;
+    }
+    $("req-list").innerHTML = list.map(function(r){
+      return '' +
+        '<div class="req-card">' +
+          '<div class="req-code">' + esc(r.code) + '</div>' +
+          '<div class="req-name">' + esc(r.equipment) + '</div>' +
+          '<div class="task-meta" style="margin-bottom:6px;">' +
+            '<span class="badge badge-st-' + r.status + '">' + esc(MAINT_UNIT_STATUS_LABEL[r.status] || r.status) + '</span>' +
+            '<span class="badge ' + maintPriorityBadgeClass(r.priority) + '">' + esc(MAINT_PRIORITY_LABEL[r.priority] || "") + '</span>' +
+          '</div>' +
+          '<div class="req-meta">Solicitado em ' + fmtDateTime(r.createdAt) + ' por ' + esc(r.requester) + '</div>' +
+          '<div class="req-actions">' +
+            '<button data-act="print" data-id="' + esc(r.id) + '">🖨️ Imprimir comanda</button>' +
+            '<a href="' + esc(comandaUrl(r.id)) + '">✍️ Assinaturas</a>' +
+          '</div>' +
+        '</div>';
+    }).join("");
+    document.querySelectorAll('#req-list [data-act="print"]').forEach(function(btn){
+      btn.onclick = function(){
+        var r = unitMode.requests.filter(function(x){ return x.id === btn.getAttribute("data-id"); })[0];
+        if(r){ printComanda(r); }
+      };
+    });
+  }
+
+  function knownEquipmentFor(name){
+    if(String(name || "").trim().length < 2) return [];
+    var base = codeBase(name, unitMode.unit);
+    var seen = {}, out = [];
+    unitMode.requests.forEach(function(r){
+      if(String(r.code).indexOf(base) === 0 && !seen[r.code]){ seen[r.code] = true; out.push(r); }
+    });
+    return out;
+  }
+
+  function updateDupBox(){
+    var box = $("rq-dup-box");
+    var prev = document.querySelector('input[name="rq-code-choice"]:checked');
+    var prevVal = prev ? prev.value : "";
+    var known = knownEquipmentFor($("rq-equipment").value);
+    if(known.length === 0){ box.classList.add("hidden"); box.innerHTML = ""; return; }
+    var html = '<b>Este equipamento já foi cadastrado nesta unidade.</b><br>É o mesmo equipamento ou outro?';
+    known.forEach(function(r){
+      var desc = esc(r.equipment) + (r.brand ? " · " + esc(r.brand) : "") + (r.model ? " · " + esc(r.model) : "");
+      html += '<label><input type="radio" name="rq-code-choice" value="' + esc(r.code) + '"' + (prevVal === r.code ? " checked" : "") + '><span>Usar o código <b>' + esc(r.code) + '</b><br><span style="font-weight:400;">' + desc + '</span></span></label>';
+    });
+    html += '<label><input type="radio" name="rq-code-choice" value="__new__"' + (prevVal === "__new__" ? " checked" : "") + '><span>É outro equipamento<br><span style="font-weight:400;">Gerar um novo código</span></span></label>';
+    box.innerHTML = html;
+    box.classList.remove("hidden");
+    document.querySelectorAll('input[name="rq-code-choice"]').forEach(function(rd){
+      rd.onchange = function(){
+        if(rd.value === "__new__") return;
+        var r = known.filter(function(x){ return x.code === rd.value; })[0];
+        if(r){
+          if(!$("rq-brand").value.trim()) $("rq-brand").value = r.brand;
+          if(!$("rq-model").value.trim()) $("rq-model").value = r.model;
+        }
+      };
+    });
+  }
+
+  function openReqForm(){
+    var saved = "";
+    try{ saved = localStorage.getItem("paulus_req_name") || ""; }catch(e){}
+    $("req-form-unit-sub").textContent = unitMode.unit;
+    $("rq-requester").value = saved;
+    $("rq-equipment").value = "";
+    $("rq-brand").value = "";
+    $("rq-model").value = "";
+    $("rq-items").value = "";
+    $("rq-problem").value = "";
+    $("rq-priority").value = "media";
+    updateDupBox();
+    showScreen("screen-req-form");
+  }
+
+  async function sendRequest(){
+    var btn = $("btn-req-send");
+    var requester = $("rq-requester").value.trim();
+    var equipment = $("rq-equipment").value.trim();
+    var problem = $("rq-problem").value.trim();
+    if(!requester){ showToast("Escreva o seu nome"); return; }
+    if(!equipment){ showToast("Escreva o nome do equipamento"); return; }
+    if(!problem){ showToast("Descreva o problema"); return; }
+    var known = knownEquipmentFor(equipment);
+    var checked = document.querySelector('input[name="rq-code-choice"]:checked');
+    if(known.length > 0 && !checked){ showToast("Escolha: mesmo equipamento ou outro"); return; }
+
+    btn.disabled = true;
+    btn.textContent = "Enviando...";
+    try{
+      var code = (checked && checked.value !== "__new__") ? checked.value : await nextMaintCode(equipment, unitMode.unit);
+      var row = {
+        code: code, unit: unitMode.unit, requester_name: requester, equipment_name: equipment,
+        brand: $("rq-brand").value.trim(), model: $("rq-model").value.trim(),
+        items_sent: $("rq-items").value.trim(), problem: problem,
+        priority: $("rq-priority").value, status: "nova"
+      };
+      var res = await sb.from("maint_requests").insert([row]).select();
+      if(res.error){ throw res.error; }
+      var created = mapMaintRow(res.data[0]);
+      unitMode.requests.unshift(created);
+      unitMode.lastCreated = created;
+      try{ localStorage.setItem("paulus_req_name", requester); }catch(e){}
+      $("req-done-unit-sub").textContent = unitMode.unit;
+      $("req-done-code").textContent = created.code;
+      showScreen("screen-req-done");
+    }catch(e){
+      console.error(e);
+      showToast("Não foi possível enviar. Tente de novo.");
+    }finally{
+      btn.disabled = false;
+      btn.textContent = "Enviar solicitação";
+    }
+  }
+
+  $("btn-req-new").onclick = openReqForm;
+  $("btn-req-form-back").onclick = function(){ renderReqHome(); showScreen("screen-req-home"); };
+  $("rq-equipment").oninput = updateDupBox;
+  $("btn-req-send").onclick = sendRequest;
+  $("btn-req-done-print").onclick = function(){ if(unitMode.lastCreated){ printComanda(unitMode.lastCreated); } };
+  $("btn-req-done-another").onclick = openReqForm;
+  $("btn-req-done-home").onclick = function(){ renderReqHome(); showScreen("screen-req-home"); };
+
+  // =========================================================
+  // ASSINATURA DA COMANDA (link do QR Code ?comanda=ID)
+  // =========================================================
+  var signMode = { req: null, sigs: [], showReturn: false };
+
+  async function loadSignData(id){
+    var r = await sb.from("maint_requests").select("*").eq("id", id);
+    if(r.error){
+      if(r.error.code === "22P02"){ return false; }
+      throw r.error;
+    }
+    if(!r.data || r.data.length === 0){ return false; }
+    signMode.req = mapMaintRow(r.data[0]);
+    var s = await sb.from("maint_signatures").select("*").eq("request_id", id).order("signed_at", { ascending: true });
+    if(s.error){ throw s.error; }
+    signMode.sigs = s.data || [];
+    return true;
+  }
+
+  async function bootSignMode(id){
+    var ok = await loadSignData(id);
+    if(!ok){ showStartupError("invalid-comanda"); return; }
+    signMode.showReturn = false;
+    renderSign();
+    showScreen("screen-sign");
+  }
+
+  function latestSigs(phase){
+    var out = {};
+    signMode.sigs.forEach(function(s){ if(s.phase === phase){ out[s.role] = s; } });
+    return out;
+  }
+
+  function signedBlockHtml(phase, title, whenIso, note){
+    var sg = latestSigs(phase);
+    if(!sg.nutricionista && !sg.motorista) return "";
+    function one(role, label){
+      var s = sg[role];
+      if(!s) return "";
+      return '<div style="margin-bottom:8px;"><div style="font-size:13px; color:var(--muted); font-weight:700;">' + label + '</div>' +
+        '<div style="font-weight:700;">' + esc(s.signer_name) + '</div>' +
+        '<img class="sign-img" src="' + esc(s.image) + '" alt="Assinatura"></div>';
+    }
+    return '<div class="sign-card"><h3>' + title + '</h3>' +
+      '<div style="font-size:13.5px; color:var(--ink-secondary); margin-bottom:10px;">Registrado em ' + fmtDateTime(whenIso) + '</div>' +
+      one("nutricionista", "Nutricionista") + one("motorista", "Motorista") +
+      (note ? '<div style="font-size:14.5px; margin-top:6px;"><b>Observações:</b> ' + esc(note) + '</div>' : "") +
+      '</div>';
+  }
+
+  function signFormHtml(phase){
+    var isExit = phase === "saida";
+    return '<div class="sign-card">' +
+      '<h3>' + (isExit ? "✍️ Confirmar SAÍDA do equipamento" : "✍️ Confirmar DEVOLUÇÃO do equipamento") + '</h3>' +
+      (isExit ? "" : '<div class="field"><label for="sg-note">Observações da devolução (opcional)</label><textarea id="sg-note" placeholder="Ex: trocou o motor, testado e funcionando"></textarea></div>') +
+      '<div class="field"><label for="sg-nutri-name">Nome da nutricionista *</label><input type="text" id="sg-nutri-name" autocomplete="off"></div>' +
+      '<label style="display:block; font-size:14px; font-weight:700; color:var(--ink-secondary); margin-bottom:6px;">Assinatura da nutricionista *</label>' +
+      '<canvas class="signature-pad" id="sig-nutri"></canvas>' +
+      '<div style="text-align:right; margin-bottom:14px;"><button class="link-btn" id="btn-clear-sig-nutri">Limpar</button></div>' +
+      '<div class="field"><label for="sg-driver-name">Nome do motorista *</label><input type="text" id="sg-driver-name" autocomplete="off"></div>' +
+      '<label style="display:block; font-size:14px; font-weight:700; color:var(--ink-secondary); margin-bottom:6px;">Assinatura do motorista *</label>' +
+      '<canvas class="signature-pad" id="sig-driver"></canvas>' +
+      '<div style="text-align:right; margin-bottom:10px;"><button class="link-btn" id="btn-clear-sig-driver">Limpar</button></div>' +
+      '<label class="check-row"><input type="checkbox" id="sg-ok"><span>' +
+        (isExit ? "Confirmo que os dados desta comanda e os itens enviados com o equipamento estão corretos."
+                : "Confirmo que o equipamento foi devolvido e que os itens enviados conferem.") +
+      '</span></label>' +
+      '<button class="btn-primary" id="btn-sign-submit">' + (isExit ? "Confirmar saída" : "Confirmar devolução") + '</button>' +
+    '</div>';
+  }
+
+  function renderSign(){
+    var req = signMode.req;
+    $("sign-title").textContent = "Comanda " + req.code;
+    $("sign-sub").textContent = req.unit;
+
+    var html = '<div class="sign-card"><div style="display:flex; justify-content:space-between; gap:8px; align-items:flex-start; margin-bottom:10px;">' +
+        '<div class="req-code" style="font-size:20px;">' + esc(req.code) + '</div>' +
+        '<span class="badge badge-st-' + req.status + '">' + esc(MAINT_STATUS_LABEL[req.status] || req.status) + '</span></div>' +
+      '<dl class="info-grid">' +
+        '<dt>Equipamento</dt><dd><b>' + esc(req.equipment) + '</b></dd>' +
+        '<dt>Marca / modelo</dt><dd>' + (esc(req.brand) || "—") + ' / ' + (esc(req.model) || "—") + '</dd>' +
+        '<dt>Enviado junto</dt><dd>' + (esc(req.itemsSent) || "—") + '</dd>' +
+        '<dt>Problema</dt><dd>' + esc(req.problem) + '</dd>' +
+        '<dt>Prioridade</dt><dd>' + esc(MAINT_PRIORITY_LABEL[req.priority] || "") + '</dd>' +
+        '<dt>Solicitante</dt><dd>' + esc(req.requester) + ' · ' + fmtDateTime(req.createdAt) + '</dd>' +
+      '</dl></div>';
+
+    var formPhase = "";
+    if(req.status === "nova"){
+      formPhase = "saida";
+      html += signFormHtml("saida");
+    } else if(req.status === "em_manutencao" || req.status === "pronto"){
+      html += signedBlockHtml("saida", "Saída registrada", req.exitAt);
+      if(signMode.showReturn){
+        formPhase = "devolucao";
+        html += signFormHtml("devolucao");
+      } else {
+        html += '<div class="sign-card" style="text-align:center;"><p style="margin:0 0 12px;">O equipamento está em manutenção. Quando ele voltar, registre a devolução.</p>' +
+          '<button class="btn-primary" id="btn-show-return">📦 Registrar devolução</button></div>';
+      }
+    } else if(req.status === "finalizada"){
+      html += signedBlockHtml("saida", "Saída registrada", req.exitAt);
+      html += signedBlockHtml("devolucao", "Devolução registrada", req.returnedAt, req.returnNote);
+      html += '<div class="sign-card" style="text-align:center; color:var(--good); font-weight:700;">✅ Demanda finalizada</div>';
+    } else {
+      html += '<div class="sign-card" style="text-align:center;">Esta solicitação foi cancelada.</div>';
+    }
+
+    $("sign-content").innerHTML = html;
+
+    var showBtn = $("btn-show-return");
+    if(showBtn){
+      showBtn.onclick = function(){ signMode.showReturn = true; renderSign(); window.scrollTo(0, document.body.scrollHeight); };
+    }
+    if(formPhase){
+      window.requestAnimationFrame(function(){
+        setupSignaturePad("sig-nutri");
+        setupSignaturePad("sig-driver");
+      });
+      $("btn-clear-sig-nutri").onclick = function(){ if(signaturePads["sig-nutri"]) signaturePads["sig-nutri"].clear(); };
+      $("btn-clear-sig-driver").onclick = function(){ if(signaturePads["sig-driver"]) signaturePads["sig-driver"].clear(); };
+      $("btn-sign-submit").onclick = function(){ submitSignatures(formPhase); };
+    }
+  }
+
+  async function submitSignatures(phase){
+    var req = signMode.req;
+    var nutriName = $("sg-nutri-name").value.trim();
+    var driverName = $("sg-driver-name").value.trim();
+    var padN = signaturePads["sig-nutri"], padD = signaturePads["sig-driver"];
+    if(!nutriName){ showToast("Escreva o nome da nutricionista"); return; }
+    if(!padN || padN.isEmpty()){ showToast("Falta a assinatura da nutricionista"); return; }
+    if(!driverName){ showToast("Escreva o nome do motorista"); return; }
+    if(!padD || padD.isEmpty()){ showToast("Falta a assinatura do motorista"); return; }
+    if(!$("sg-ok").checked){ showToast("Marque a confirmação"); return; }
+    var noteEl = $("sg-note");
+    var note = noteEl ? noteEl.value.trim() : "";
+
+    var btn = $("btn-sign-submit");
+    btn.disabled = true;
+    btn.textContent = "Salvando...";
+    try{
+      var cur = await sb.from("maint_requests").select("status").eq("id", req.id);
+      if(cur.error){ throw cur.error; }
+      var curStatus = cur.data && cur.data[0] ? cur.data[0].status : null;
+      var allowed = phase === "saida" ? curStatus === "nova" : (curStatus === "em_manutencao" || curStatus === "pronto");
+      if(!allowed){
+        showToast("Esta comanda já foi atualizada por outra pessoa");
+        await loadSignData(req.id);
+        signMode.showReturn = false;
+        renderSign();
+        return;
+      }
+      var rows = [
+        { request_id: req.id, phase: phase, role: "nutricionista", signer_name: nutriName, image: padN.toDataURL() },
+        { request_id: req.id, phase: phase, role: "motorista", signer_name: driverName, image: padD.toDataURL() }
+      ];
+      var ins = await sb.from("maint_signatures").insert(rows);
+      if(ins.error){ throw ins.error; }
+      var patch = phase === "saida"
+        ? { status: "em_manutencao", exit_at: nowISO() }
+        : { status: "finalizada", returned_at: nowISO(), return_note: note };
+      var up = await sb.from("maint_requests").update(patch).eq("id", req.id);
+      if(up.error){ throw up.error; }
+      await loadSignData(req.id);
+      signMode.showReturn = false;
+      renderSign();
+      window.scrollTo(0, 0);
+      showToast(phase === "saida" ? "Saída registrada ✔" : "Demanda finalizada ✔");
+    }catch(e){
+      console.error(e);
+      showToast("Não foi possível salvar. Tente de novo.");
+      var b2 = $("btn-sign-submit");
+      if(b2){ b2.disabled = false; b2.textContent = phase === "saida" ? "Confirmar saída" : "Confirmar devolução"; }
+    }
+  }
+
+  // =========================================================
+  // ADMIN: ABA CONSERTOS
+  // =========================================================
+  var MAINT_FILTERS = [
+    { key: "ativas", label: "Ativas", test: function(s){ return s !== "finalizada" && s !== "cancelada"; } },
+    { key: "nova", label: "Novas", test: function(s){ return s === "nova"; } },
+    { key: "em_manutencao", label: "Em manutenção", test: function(s){ return s === "em_manutencao"; } },
+    { key: "pronto", label: "Prontas", test: function(s){ return s === "pronto"; } },
+    { key: "finalizada", label: "Finalizadas", test: function(s){ return s === "finalizada"; } },
+    { key: "todas", label: "Todas", test: function(){ return true; } }
+  ];
+
+  function maintTaskInfo(r){
+    if(!r.taskId) return null;
+    return state.tasks.filter(function(t){ return String(t.id) === String(r.taskId); })[0] || null;
+  }
+
+  function renderAdminConsertos(){
+    $("maint-missing").classList.toggle("hidden", !state.maintMissing);
+    var scoped = state.maintRequests.filter(function(r){ return adminUnitMatch(r.unit); });
+    $("maint-filters").innerHTML = MAINT_FILTERS.map(function(f){
+      var n = scoped.filter(function(r){ return f.test(r.status); }).length;
+      return '<button class="filter-chip ' + (state.maintFilter === f.key ? "active" : "") + '" data-key="' + f.key + '">' + f.label + ' (' + n + ')</button>';
+    }).join("");
+    document.querySelectorAll("#maint-filters .filter-chip").forEach(function(chip){
+      chip.onclick = function(){ state.maintFilter = chip.getAttribute("data-key"); renderAdminConsertos(); };
+    });
+
+    var filter = MAINT_FILTERS.filter(function(f){ return f.key === state.maintFilter; })[0] || MAINT_FILTERS[0];
+    var order = { nova: 0, em_manutencao: 1, pronto: 2 };
+    var list = scoped.filter(function(r){ return filter.test(r.status); }).sort(function(a, b){
+      var oa = order[a.status] != null ? order[a.status] : 3, ob = order[b.status] != null ? order[b.status] : 3;
+      if(oa !== ob) return oa - ob;
+      return a.createdAt < b.createdAt ? 1 : -1;
+    });
+
+    if(list.length === 0){
+      $("maint-list").innerHTML = '<div class="empty-state">Nenhuma solicitação nesta lista.</div>';
+      return;
+    }
+    $("maint-list").innerHTML = list.map(function(r){
+      var task = maintTaskInfo(r);
+      var taskBadge = "";
+      if(r.destination === "interno" && r.taskId){
+        taskBadge = task
+          ? (task.status === "completed" ? '<span class="badge badge-status-done">🔧 Técnico concluiu</span>' : '<span class="badge badge-status-pending">🔧 Com o técnico (pendente)</span>')
+          : '<span class="badge badge-duedate">🔧 Tarefa do técnico</span>';
+      }
+      return '' +
+        '<div class="admin-task-row">' +
+          '<div class="row-top">' +
+            '<div><div class="req-code">' + esc(r.code) + '</div><p class="title">' + esc(r.equipment) + '</p></div>' +
+            '<span class="badge badge-st-' + r.status + '">' + esc(MAINT_STATUS_LABEL[r.status] || r.status) + '</span>' +
+          '</div>' +
+          '<div class="task-meta" style="margin:6px 0;">' +
+            '<span class="badge badge-unit">📍 ' + esc(r.unit) + '</span>' +
+            '<span class="badge ' + maintPriorityBadgeClass(r.priority) + '">' + esc(MAINT_PRIORITY_LABEL[r.priority] || "") + '</span>' +
+            (r.destination ? '<span class="badge badge-dest">' + esc(MAINT_DEST_LABEL[r.destination]) + (r.destination === "externo" && r.supplier ? " · " + esc(r.supplier) : "") + '</span>' : '<span class="badge badge-equip-none">Destino não definido</span>') +
+            taskBadge +
+          '</div>' +
+          '<div style="font-size:14.5px; color:var(--ink-secondary);"><b>Problema:</b> ' + esc(r.problem) + '</div>' +
+          '<div class="req-meta" style="margin:6px 0 0;">Solicitado por ' + esc(r.requester) + ' em ' + fmtDateTime(r.createdAt) + '</div>' +
+          '<div class="admin-task-actions" style="flex-wrap:wrap;">' +
+            '<button data-act="manage" data-id="' + esc(r.id) + '">✏️ Gerenciar</button>' +
+            '<button data-act="print" data-id="' + esc(r.id) + '">🖨️ Comanda</button>' +
+            (r.status === "em_manutencao" ? '<button data-act="ready" data-id="' + esc(r.id) + '">✅ Marcar pronto</button>' : "") +
+          '</div>' +
+        '</div>';
+    }).join("");
+
+    document.querySelectorAll("#maint-list [data-act]").forEach(function(btn){
+      btn.onclick = function(){
+        var r = state.maintRequests.filter(function(x){ return x.id === btn.getAttribute("data-id"); })[0];
+        if(!r) return;
+        var act = btn.getAttribute("data-act");
+        if(act === "manage"){ openMaintAdminModal(r); }
+        else if(act === "print"){ printComanda(r); }
+        else if(act === "ready"){
+          sb.from("maint_requests").update({ status: "pronto" }).eq("id", r.id).then(async function(res){
+            if(res.error){ console.error(res.error); showToast("Erro ao salvar"); return; }
+            await fetchAll();
+            renderAdminConsertos();
+            showToast("Marcado como pronto para devolução");
+          });
+        }
+      };
+    });
+  }
+
+  function openMaintLinksModal(){
+    var names = {};
+    state.units.forEach(function(u){ names[u] = true; });
+    var list = Object.keys(names).sort(function(a, b){ return a.localeCompare(b); });
+    var html = '<div class="modal-overlay"><div class="modal-sheet wide">' +
+      '<h2>Links das unidades</h2>' +
+      '<p style="font-size:14px; color:var(--ink-secondary); margin-top:-8px;">Envie para cada unidade o link dela. Quem abrir o link consegue fazer solicitações de conserto só daquela unidade.</p>';
+    if(list.length === 0){ html += '<div class="empty-state">Nenhuma unidade cadastrada ainda.</div>'; }
+    list.forEach(function(u, i){
+      html += '<div class="link-row"><b>' + esc(u) + '</b>' +
+        '<input type="text" readonly id="lk-' + i + '" value="' + esc(unitLink(u)) + '">' +
+        '<button data-i="' + i + '">Copiar</button></div>';
+    });
+    html += '<div class="modal-actions"><button class="btn-secondary" id="lk-close">Fechar</button></div></div></div>';
+    $("modal-root").innerHTML = html;
+    $("lk-close").onclick = closeModal;
+    document.querySelectorAll(".link-row button").forEach(function(b){
+      b.onclick = function(){
+        var inp = $("lk-" + b.getAttribute("data-i"));
+        copyText(inp.value, inp);
+      };
+    });
+  }
+
+  function openMaintAdminModal(r){
+    var unitsOpts = state.units.map(function(u){ return '<option value="' + esc(u) + '"></option>'; }).join("");
+    var workshop = state.units.filter(function(u){ return /oficina/i.test(u); })[0] || r.unit;
+    var taskUnitOpts = state.units.map(function(u){ return '<option value="' + esc(u) + '"' + (u === workshop ? " selected" : "") + '>' + esc(u) + '</option>'; }).join("");
+    function opt(val, label, cur){ return '<option value="' + val + '"' + (cur === val ? " selected" : "") + '>' + label + '</option>'; }
+
+    var html = '<div class="modal-overlay"><div class="modal-sheet wide">' +
+      '<h2>Gerenciar ' + esc(r.code) + '</h2>' +
+
+      '<h3 class="sect">Dados do equipamento</h3>' +
+      '<div class="field-row">' +
+        '<div class="field"><label>Código</label><input type="text" id="mr-code" value="' + esc(r.code) + '"></div>' +
+        '<div class="field"><label>Unidade</label><input type="text" id="mr-unit" list="mr-units-list" value="' + esc(r.unit) + '"><datalist id="mr-units-list">' + unitsOpts + '</datalist></div>' +
+      '</div>' +
+      '<div class="field-row">' +
+        '<div class="field"><label>Equipamento</label><input type="text" id="mr-equip" value="' + esc(r.equipment) + '"></div>' +
+        '<div class="field"><label>Solicitante</label><input type="text" id="mr-requester" value="' + esc(r.requester) + '"></div>' +
+      '</div>' +
+      '<div class="field-row">' +
+        '<div class="field"><label>Marca</label><input type="text" id="mr-brand" value="' + esc(r.brand) + '"></div>' +
+        '<div class="field"><label>Modelo</label><input type="text" id="mr-model" value="' + esc(r.model) + '"></div>' +
+      '</div>' +
+      '<div class="field"><label>Enviado junto (peças, cabo...)</label><textarea id="mr-items" style="min-height:60px;">' + esc(r.itemsSent) + '</textarea></div>' +
+      '<div class="field"><label>Problema</label><textarea id="mr-problem">' + esc(r.problem) + '</textarea></div>' +
+      '<div class="field"><label>Prioridade</label><select id="mr-priority">' +
+        opt("baixa", "Baixa", r.priority) + opt("media", "Média", r.priority) + opt("alta", "Alta", r.priority) + opt("urgente", "Urgente", r.priority) +
+      '</select></div>' +
+
+      '<h3 class="sect">Andamento</h3>' +
+      '<div class="field-row">' +
+        '<div class="field"><label>Situação</label><select id="mr-status">' +
+          opt("nova", "Nova · aguardando saída", r.status) + opt("em_manutencao", "Em manutenção", r.status) +
+          opt("pronto", "Pronto p/ devolução", r.status) + opt("finalizada", "Finalizada", r.status) + opt("cancelada", "Cancelada", r.status) +
+        '</select></div>' +
+        '<div class="field"><label>Destino</label><select id="mr-dest">' +
+          opt("", "— Ainda não definido —", r.destination) + opt("interno", "Nosso técnico", r.destination) + opt("externo", "Manutenção externa", r.destination) +
+        '</select></div>' +
+      '</div>' +
+
+      '<div id="mr-box-interno" class="hidden">' +
+        (r.taskId
+          ? '<div class="proto-note" style="margin:0 0 14px; background:var(--brand-light); border-color:var(--brand-tint); color:var(--brand-dark);">✔ Já existe uma tarefa para o técnico ligada a esta solicitação.</div>'
+          : '<div class="field-row">' +
+              '<div class="field"><label>Local do conserto</label><select id="mr-task-unit">' + taskUnitOpts + '</select></div>' +
+              '<div class="field"><label>Data para o técnico</label><input type="date" id="mr-task-date" value="' + todayStr() + '"></div>' +
+            '</div>' +
+            '<label class="check-row" style="margin-top:0;"><input type="checkbox" id="mr-make-task" checked><span>Criar a tarefa para o técnico ao salvar (ela aparece na tela dele nesse dia)</span></label>') +
+      '</div>' +
+
+      '<div id="mr-box-externo" class="hidden">' +
+        '<div class="field-row">' +
+          '<div class="field"><label>Fornecedor</label><input type="text" id="mr-supplier" value="' + esc(r.supplier) + '"></div>' +
+          '<div class="field"><label>Contato</label><input type="text" id="mr-supcontact" value="' + esc(r.supplierContact) + '"></div>' +
+        '</div>' +
+        '<div class="field-row">' +
+          '<div class="field"><label>Orçamento (R$)</label><input type="text" id="mr-quote" value="' + esc(r.quoteValue) + '"></div>' +
+          '<div class="field"><label>Previsão de retorno</label><input type="date" id="mr-expected" value="' + esc(r.expectedDate) + '"></div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="field"><label>Observações do administrador</label><textarea id="mr-notes" style="min-height:60px;">' + esc(r.adminNotes) + '</textarea></div>' +
+
+      '<h3 class="sect">Assinaturas e comanda</h3>' +
+      '<div id="mr-sigs"><button class="btn-secondary" id="mr-load-sigs" style="margin-top:0;">Ver assinaturas registradas</button></div>' +
+      '<div class="link-row" style="margin-top:12px;"><b>Link do QR Code desta comanda</b><input type="text" readonly id="mr-qrlink" value="' + esc(comandaUrl(r.id)) + '"><button id="mr-copy-qr">Copiar</button></div>' +
+
+      '<div class="modal-actions" style="margin-top:18px;">' +
+        '<button class="btn-secondary" id="mr-cancel" style="margin-top:0;">Fechar</button>' +
+        '<button class="btn-primary" id="mr-save">Salvar</button>' +
+      '</div>' +
+      '<div style="text-align:center; margin-top:8px;"><button class="link-btn" id="mr-delete" style="color:var(--critical);">Excluir esta solicitação</button></div>' +
+    '</div></div>';
+    $("modal-root").innerHTML = html;
+
+    function syncBoxes(){
+      var d = $("mr-dest").value;
+      $("mr-box-interno").classList.toggle("hidden", d !== "interno");
+      $("mr-box-externo").classList.toggle("hidden", d !== "externo");
+    }
+    $("mr-dest").onchange = syncBoxes;
+    syncBoxes();
+
+    $("mr-cancel").onclick = closeModal;
+    $("mr-copy-qr").onclick = function(){ copyText($("mr-qrlink").value, $("mr-qrlink")); };
+    $("mr-load-sigs").onclick = async function(){
+      var holder = $("mr-sigs");
+      holder.innerHTML = '<div style="color:var(--muted);">Carregando...</div>';
+      var s = await sb.from("maint_signatures").select("*").eq("request_id", r.id).order("signed_at", { ascending: true });
+      if(s.error || !s.data || s.data.length === 0){
+        holder.innerHTML = '<div class="empty-state" style="padding:14px;">Nenhuma assinatura registrada ainda.</div>';
+        return;
+      }
+      holder.innerHTML = s.data.map(function(x){
+        return '<div style="margin-bottom:10px;"><b>' + (x.phase === "saida" ? "Saída" : "Devolução") + ' · ' + (x.role === "nutricionista" ? "Nutricionista" : "Motorista") + '</b> — ' + esc(x.signer_name) + ' <span style="color:var(--muted); font-size:13px;">(' + fmtDateTime(x.signed_at) + ')</span>' +
+          '<img class="sign-img" src="' + esc(x.image) + '" alt="Assinatura"></div>';
+      }).join("");
+    };
+
+    $("mr-delete").onclick = function(){
+      openConfirm({
+        title: "Excluir solicitação?",
+        message: 'Isso apaga "' + r.code + ' · ' + r.equipment + '" e as assinaturas dela. A tarefa do técnico (se existir) continua na lista dele.',
+        okLabel: "Excluir",
+        danger: true,
+        onConfirm: async function(){
+          var res = await sb.from("maint_requests").delete().eq("id", r.id);
+          if(res.error){ console.error(res.error); showToast("Erro ao excluir"); return; }
+          await fetchAll();
+          renderAdmin();
+          showToast("Solicitação excluída");
+        }
+      });
+    };
+
+    $("mr-save").onclick = async function(){
+      var code = $("mr-code").value.trim().toUpperCase();
+      var unit = $("mr-unit").value.trim();
+      var equip = $("mr-equip").value.trim();
+      var requester = $("mr-requester").value.trim();
+      var problem = $("mr-problem").value.trim();
+      if(!code){ showToast("Informe o código"); return; }
+      if(!unit){ showToast("Informe a unidade"); return; }
+      if(!equip){ showToast("Informe o nome do equipamento"); return; }
+      if(!requester){ showToast("Informe o solicitante"); return; }
+      if(!problem){ showToast("Descreva o problema"); return; }
+      var dest = $("mr-dest").value;
+      var btn = $("mr-save");
+      btn.disabled = true; btn.textContent = "Salvando...";
+      try{
+        await ensureUnitRemote(unit);
+        var patch = {
+          code: code, unit: unit, equipment_name: equip, requester_name: requester,
+          brand: $("mr-brand").value.trim(), model: $("mr-model").value.trim(),
+          items_sent: $("mr-items").value.trim(), problem: problem,
+          priority: $("mr-priority").value, status: $("mr-status").value,
+          destination: dest || null,
+          supplier: dest === "externo" ? $("mr-supplier").value.trim() : r.supplier,
+          supplier_contact: dest === "externo" ? $("mr-supcontact").value.trim() : r.supplierContact,
+          quote_value: dest === "externo" ? $("mr-quote").value.trim() : r.quoteValue,
+          expected_date: dest === "externo" ? ($("mr-expected").value || null) : (r.expectedDate || null),
+          admin_notes: $("mr-notes").value.trim()
+        };
+
+        var makeTask = dest === "interno" && !r.taskId && $("mr-make-task") && $("mr-make-task").checked;
+        var newTaskId = null;
+        if(makeTask){
+          var taskUnit = $("mr-task-unit").value;
+          var taskDate = $("mr-task-date").value;
+          if(!taskDate){ showToast("Escolha a data para o técnico"); btn.disabled = false; btn.textContent = "Salvar"; return; }
+          var desc = "Equipamento enviado pela unidade " + unit + " (código " + code + ").\n" +
+            "Problema: " + problem + "\n" +
+            "Marca/modelo: " + ($("mr-brand").value.trim() || "—") + " / " + ($("mr-model").value.trim() || "—") + "\n" +
+            "Enviado junto: " + ($("mr-items").value.trim() || "—") + "\n" +
+            "Solicitado por: " + requester;
+          var tres = await sb.from("tasks").insert([{
+            title: "Conserto: " + equip + " (" + code + ")",
+            unit: taskUnit, priority: patch.priority === "urgente" ? "alta" : patch.priority,
+            description: desc, due_date: taskDate, status: "pending", report: "",
+            source: "solicitacao", routine_task_id: null
+          }]).select();
+          if(tres.error || !tres.data || !tres.data[0]){ console.error(tres.error); showToast("Erro ao criar a tarefa do técnico"); btn.disabled = false; btn.textContent = "Salvar"; return; }
+          newTaskId = String(tres.data[0].id);
+          patch.task_id = newTaskId;
+          await addDailyUnitRemote(taskDate, taskUnit, "admin");
+        }
+
+        var up = await sb.from("maint_requests").update(patch).eq("id", r.id);
+        if(up.error){ throw up.error; }
+        await fetchAll();
+        closeModal();
+        renderAdmin();
+        showToast(makeTask ? "Salvo e enviado ao técnico" : "Solicitação atualizada");
+      }catch(e){
+        console.error(e);
+        showToast("Erro ao salvar");
+        btn.disabled = false; btn.textContent = "Salvar";
+      }
+    };
+  }
+
+  $("btn-maint-links").onclick = openMaintLinksModal;
+
+  function subscribeMaintRealtime(){
+    if(!sb) return;
+    sb.channel("paulus-maint")
+      .on("postgres_changes", { event: "*", schema: "public", table: "maint_requests" }, onRemoteChange)
+      .subscribe();
+  }
+
+  // =========================================================
   // BOOT
   // =========================================================
   async function boot(){
@@ -2716,6 +6016,25 @@
     if(!sb){
       sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     }
+    // Links públicos: ?unidade=Nome (solicitação) e ?comanda=ID (QR Code da comanda).
+    // Não passam pela tela do técnico nem do administrador.
+    var qp = new URLSearchParams(location.search);
+    var comandaParam = qp.get("comanda");
+    var unitParam = qp.get("unidade");
+    if(comandaParam || unitParam){
+      document.querySelectorAll(".js-logo").forEach(function(img){
+        var src = document.querySelector("#screen-admin .logo-mini");
+        if(src){ img.src = src.src; }
+      });
+      try{
+        if(comandaParam){ await bootSignMode(comandaParam); }
+        else { await bootUnitMode(unitParam); }
+      }catch(e){
+        console.error(e);
+        showStartupError("connection-failed");
+      }
+      return;
+    }
     try{
       await fetchAll();
       await ensureRoutineTasksForToday();
@@ -2725,6 +6044,7 @@
       return;
     }
     subscribeRealtime();
+    subscribeMaintRealtime();
     showScreen("screen-emp-list");
     renderEmployeeList();
   }
