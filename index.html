@@ -997,6 +997,11 @@
         <label for="rq-equipment">Nome do equipamento *</label>
         <input type="text" id="rq-equipment" placeholder="Ex: Ralador, Batedeira, Fritadeira" autocomplete="off">
       </div>
+      <div class="field">
+        <label for="rq-code">Código do produto (se já tiver)</label>
+        <input type="text" id="rq-code" placeholder="Ex: RAL-COC-001" autocapitalize="characters" autocomplete="off">
+        <div class="field-hint">Se o equipamento já tem etiqueta com código, digite aqui. Se não tiver, deixe em branco que o sistema cria um.</div>
+      </div>
       <div class="dup-box hidden" id="rq-dup-box"></div>
       <div class="field-row">
         <div class="field">
@@ -4430,7 +4435,8 @@ var qrcode = function() {
       '<div class="detail-card">' +
         '<h3>Especificação da tarefa</h3>' +
         '<div class="body-text">' + esc(t.description) + '</div>' +
-      '</div>';
+      '</div>' +
+      '<div id="tech-maint-panel"></div>';
 
     if(isPending){
       html +=
@@ -4458,6 +4464,7 @@ var qrcode = function() {
     }
 
     $("emp-detail-content").innerHTML = html;
+    if(isPending){ renderTechMaintPanel(t); }
 
     if(isPending){
       var textarea = $("report-input");
@@ -4476,9 +4483,12 @@ var qrcode = function() {
 
       $("btn-complete").onclick = function(){
         stopListening();
+        var linkedReq = maintRequestForTask(t.id);
         openConfirm({
           title: "Concluir tarefa?",
-          message: "Depois de concluída, a tarefa vai para a aba \"Concluídas\" e o administrador poderá ver o relatório.",
+          message: linkedReq
+            ? "O equipamento " + linkedReq.code + " será marcado como RECEBIDO e pronto para voltar para a unidade. O administrador poderá ver o relatório."
+            : "Depois de concluída, a tarefa vai para a aba \"Concluídas\" e o administrador poderá ver o relatório.",
           okLabel: "Sim, concluir",
           onConfirm: async function(){
             clearTimeout(reportSaveTimer);
@@ -4487,6 +4497,12 @@ var qrcode = function() {
               completed_at: nowISO(),
               report: textarea.value
             });
+            if(ok && linkedReq){
+              var mpatch = { received_at: nowISO() };
+              if(linkedReq.status === "em_manutencao"){ mpatch.status = "pronto"; }
+              var mok = await updateMaintRemote(linkedReq.id, mpatch);
+              if(!mok){ showToast("Tarefa concluída, mas não foi possível avisar a unidade"); }
+            }
             if(ok){
               // atualiza na hora na memória (não depende da busca terminar)
               state.tasks.forEach(function(x){
@@ -4503,6 +4519,65 @@ var qrcode = function() {
         });
       };
     }
+  }
+
+  // ---------- técnico: acompanhamento do equipamento em conserto ----------
+  function maintRequestForTask(taskId){
+    return state.maintRequests.filter(function(r){ return String(r.taskId) === String(taskId); })[0] || null;
+  }
+  async function updateMaintRemote(id, patch){
+    var res = await sb.from("maint_requests").update(patch).eq("id", id);
+    if(res.error){ console.error(res.error); showToast("Erro ao salvar"); return false; }
+    return true;
+  }
+  function renderTechMaintPanel(t){
+    var box = $("tech-maint-panel");
+    if(!box) return;
+    var r = maintRequestForTask(t.id);
+    if(!r){ box.innerHTML = ""; return; }
+    var html = '<div class="detail-card" style="border:2px solid var(--brand);">' +
+      '<h3>🔧 Equipamento em conserto</h3>' +
+      '<div style="font-size:15px; margin-bottom:12px;"><b class="req-code">' + esc(r.code) + '</b> · ' + esc(r.equipment) +
+        '<br><span style="color:var(--muted); font-size:13.5px;">Veio da unidade ' + esc(r.unit) + '</span></div>';
+    if(r.destination === "externo" && r.externalSentAt){
+      html += '<div class="proto-note" style="margin:0 0 12px; background:var(--good-bg); border-color:#bfe5bf; color:#1f6a1f;">✅ <b>Já enviado</b> em ' + fmtDateTime(r.externalSentAt) +
+        '<br>Local: <b>' + esc(r.supplier || "—") + '</b>' + (r.supplierContact ? ' · ' + esc(r.supplierContact) : "") + '</div>' +
+        '<p style="margin:0 0 12px; font-size:14.5px; color:var(--ink-secondary);">Quando o equipamento chegar da manutenção, é só tocar em <b>Concluir Tarefa</b> aqui embaixo. Isso avisa a unidade que ele já foi recebido.</p>' +
+        '<button class="btn-secondary" id="tm-unsend" style="margin-top:0;">Desfazer "já enviado"</button>';
+    } else if(r.destination === "externo"){
+      html += '<div class="proto-note" style="margin:0 0 12px;">⏳ <b>Ainda não enviado</b> para a manutenção externa.</div>' +
+        '<div class="field"><label for="tm-place">Onde vai ser consertado? (empresa / local) *</label><input type="text" id="tm-place" value="' + esc(r.supplier) + '" placeholder="Ex: Assistência Silva"></div>' +
+        '<div class="field"><label for="tm-contact">Telefone ou contato (opcional)</label><input type="text" id="tm-contact" value="' + esc(r.supplierContact) + '"></div>' +
+        '<button class="btn-primary" id="tm-sent" style="margin-bottom:10px;">📤 Marcar como ENVIADO</button>' +
+        '<button class="btn-secondary" id="tm-save" style="margin-top:0;">Só salvar o local</button>' +
+        '<div style="text-align:center;"><button class="link-btn" id="tm-self">Eu mesmo vou consertar</button></div>';
+    } else {
+      html += '<p style="margin:0 0 12px; font-size:14.5px; color:var(--ink-secondary);">O conserto está com você. Se precisar mandar para uma manutenção externa, toque abaixo.</p>' +
+        '<button class="btn-secondary" id="tm-go-ext" style="margin-top:0;">📦 Mandar para manutenção externa</button>';
+    }
+    html += '</div>';
+    box.innerHTML = html;
+
+    async function apply(patch, msg){
+      var ok = await updateMaintRemote(r.id, patch);
+      if(!ok) return;
+      try { await fetchAll(); } catch(e){ console.error(e); }
+      renderTechMaintPanel(t);
+      if(msg) showToast(msg);
+    }
+    function place(){ return { supplier: $("tm-place").value.trim(), supplier_contact: $("tm-contact").value.trim() }; }
+    if($("tm-go-ext")){ $("tm-go-ext").onclick = function(){ apply({ destination: "externo" }); }; }
+    if($("tm-self")){ $("tm-self").onclick = function(){ apply({ destination: "interno", external_sent_at: null }); }; }
+    if($("tm-save")){ $("tm-save").onclick = function(){ apply(place(), "Local salvo"); }; }
+    if($("tm-sent")){
+      $("tm-sent").onclick = function(){
+        var p = place();
+        if(!p.supplier){ showToast("Escreva onde vai ser consertado"); return; }
+        p.external_sent_at = nowISO();
+        apply(p, "Marcado como enviado ✔");
+      };
+    }
+    if($("tm-unsend")){ $("tm-unsend").onclick = function(){ apply({ external_sent_at: null }); }; }
   }
 
   function startListening(textarea){
@@ -5237,7 +5312,8 @@ var qrcode = function() {
       supplierContact: r.supplier_contact || "", quoteValue: r.quote_value || "",
       expectedDate: r.expected_date || "", adminNotes: r.admin_notes || "",
       taskId: r.task_id || "", exitAt: r.exit_at || null, returnedAt: r.returned_at || null,
-      returnNote: r.return_note || "", createdAt: r.created_at
+      returnNote: r.return_note || "", createdAt: r.created_at,
+      externalSentAt: r.external_sent_at || null, receivedAt: r.received_at || null
     };
   }
 
@@ -5410,6 +5486,7 @@ var qrcode = function() {
             '<span class="badge ' + maintPriorityBadgeClass(r.priority) + '">' + esc(MAINT_PRIORITY_LABEL[r.priority] || "") + '</span>' +
           '</div>' +
           '<div class="req-meta">Solicitado em ' + fmtDateTime(r.createdAt) + ' por ' + esc(r.requester) + '</div>' +
+          (r.receivedAt && r.status === "pronto" ? '<div class="req-meta" style="color:var(--good); font-weight:700;">📥 Recebido da manutenção em ' + fmtDateTime(r.receivedAt) + ' — já pode voltar para a unidade</div>' : "") +
           '<div class="req-actions">' +
             '<button data-act="print" data-id="' + esc(r.id) + '">🖨️ Imprimir comanda</button>' +
             '<a href="' + esc(comandaUrl(r.id)) + '">✍️ Assinaturas</a>' +
@@ -5436,6 +5513,7 @@ var qrcode = function() {
 
   function updateDupBox(){
     var box = $("rq-dup-box");
+    if($("rq-code").value.trim()){ box.classList.add("hidden"); box.innerHTML = ""; return; }
     var prev = document.querySelector('input[name="rq-code-choice"]:checked');
     var prevVal = prev ? prev.value : "";
     var known = knownEquipmentFor($("rq-equipment").value);
@@ -5466,6 +5544,7 @@ var qrcode = function() {
     $("req-form-unit-sub").textContent = unitMode.unit;
     $("rq-requester").value = saved;
     $("rq-equipment").value = "";
+    $("rq-code").value = "";
     $("rq-brand").value = "";
     $("rq-model").value = "";
     $("rq-items").value = "";
@@ -5483,14 +5562,16 @@ var qrcode = function() {
     if(!requester){ showToast("Escreva o seu nome"); return; }
     if(!equipment){ showToast("Escreva o nome do equipamento"); return; }
     if(!problem){ showToast("Descreva o problema"); return; }
-    var known = knownEquipmentFor(equipment);
-    var checked = document.querySelector('input[name="rq-code-choice"]:checked');
+    var typedCode = $("rq-code").value.trim().replace(/\s+/g, "").toUpperCase();
+    if(typedCode.length > 40){ showToast("O código está muito longo"); return; }
+    var known = typedCode ? [] : knownEquipmentFor(equipment);
+    var checked = typedCode ? null : document.querySelector('input[name="rq-code-choice"]:checked');
     if(known.length > 0 && !checked){ showToast("Escolha: mesmo equipamento ou outro"); return; }
 
     btn.disabled = true;
     btn.textContent = "Enviando...";
     try{
-      var code = (checked && checked.value !== "__new__") ? checked.value : await nextMaintCode(equipment, unitMode.unit);
+      var code = typedCode || ((checked && checked.value !== "__new__") ? checked.value : await nextMaintCode(equipment, unitMode.unit));
       var row = {
         code: code, unit: unitMode.unit, requester_name: requester, equipment_name: equipment,
         brand: $("rq-brand").value.trim(), model: $("rq-model").value.trim(),
@@ -5518,6 +5599,16 @@ var qrcode = function() {
   $("btn-req-new").onclick = openReqForm;
   $("btn-req-form-back").onclick = function(){ renderReqHome(); showScreen("screen-req-home"); };
   $("rq-equipment").oninput = updateDupBox;
+  $("rq-code").oninput = function(){
+    updateDupBox();
+    var c = $("rq-code").value.trim().replace(/\s+/g, "").toUpperCase();
+    var r = c ? unitMode.requests.filter(function(x){ return x.code === c; })[0] : null;
+    if(r){
+      if(!$("rq-equipment").value.trim()) $("rq-equipment").value = r.equipment;
+      if(!$("rq-brand").value.trim()) $("rq-brand").value = r.brand;
+      if(!$("rq-model").value.trim()) $("rq-model").value = r.model;
+    }
+  };
   $("btn-req-send").onclick = sendRequest;
   $("btn-req-done-print").onclick = function(){ if(unitMode.lastCreated){ printComanda(unitMode.lastCreated); } };
   $("btn-req-done-another").onclick = openReqForm;
@@ -5617,6 +5708,9 @@ var qrcode = function() {
       html += signFormHtml("saida");
     } else if(req.status === "em_manutencao" || req.status === "pronto"){
       html += signedBlockHtml("saida", "Saída registrada", req.exitAt);
+      if(req.status === "pronto" && req.receivedAt){
+        html += '<div class="sign-card" style="color:var(--good); font-weight:700;">📥 Equipamento recebido da manutenção em ' + fmtDateTime(req.receivedAt) + '. Registre a devolução quando ele chegar na unidade.</div>';
+      }
       if(signMode.showReturn){
         formPhase = "devolucao";
         html += signFormHtml("devolucao");
@@ -5759,6 +5853,9 @@ var qrcode = function() {
             '<span class="badge badge-unit">📍 ' + esc(r.unit) + '</span>' +
             '<span class="badge ' + maintPriorityBadgeClass(r.priority) + '">' + esc(MAINT_PRIORITY_LABEL[r.priority] || "") + '</span>' +
             (r.destination ? '<span class="badge badge-dest">' + esc(MAINT_DEST_LABEL[r.destination]) + (r.destination === "externo" && r.supplier ? " · " + esc(r.supplier) : "") + '</span>' : '<span class="badge badge-equip-none">Destino não definido</span>') +
+            (r.destination === "externo" && r.externalSentAt ? '<span class="badge badge-st-em_manutencao">📤 Enviado em ' + fmtDate(r.externalSentAt) + '</span>' : "") +
+            (r.destination === "externo" && !r.externalSentAt && (r.status === "nova" || r.status === "em_manutencao") ? '<span class="badge badge-st-nova">⏳ Ainda não enviado</span>' : "") +
+            (r.receivedAt ? '<span class="badge badge-status-done">📥 Recebido em ' + fmtDate(r.receivedAt) + '</span>' : "") +
             taskBadge +
           '</div>' +
           '<div style="font-size:14.5px; color:var(--ink-secondary);"><b>Problema:</b> ' + esc(r.problem) + '</div>' +
@@ -5868,6 +5965,10 @@ var qrcode = function() {
           '<div class="field"><label>Fornecedor</label><input type="text" id="mr-supplier" value="' + esc(r.supplier) + '"></div>' +
           '<div class="field"><label>Contato</label><input type="text" id="mr-supcontact" value="' + esc(r.supplierContact) + '"></div>' +
         '</div>' +
+        '<div class="field"><label>Envio ao fornecedor</label><select id="mr-sent">' +
+          opt("nao", "Ainda não enviado", r.externalSentAt ? "sim" : "nao") + opt("sim", "Já enviado" + (r.externalSentAt ? " em " + fmtDate(r.externalSentAt) : ""), r.externalSentAt ? "sim" : "nao") +
+        '</select></div>' +
+        (r.receivedAt ? '<div class="proto-note" style="margin:0 0 14px; background:var(--brand-light); border-color:var(--brand-tint); color:var(--brand-dark);">📥 Recebido da manutenção em ' + fmtDateTime(r.receivedAt) + '</div>' : "") +
         '<div class="field-row">' +
           '<div class="field"><label>Orçamento (R$)</label><input type="text" id="mr-quote" value="' + esc(r.quoteValue) + '"></div>' +
           '<div class="field"><label>Previsão de retorno</label><input type="date" id="mr-expected" value="' + esc(r.expectedDate) + '"></div>' +
@@ -5956,6 +6057,11 @@ var qrcode = function() {
           expected_date: dest === "externo" ? ($("mr-expected").value || null) : (r.expectedDate || null),
           admin_notes: $("mr-notes").value.trim()
         };
+        if(dest === "externo"){
+          var sentSel = $("mr-sent").value;
+          if(sentSel === "sim"){ patch.external_sent_at = r.externalSentAt || nowISO(); }
+          else { patch.external_sent_at = null; }
+        }
 
         var makeTask = dest === "interno" && !r.taskId && $("mr-make-task") && $("mr-make-task").checked;
         var newTaskId = null;
