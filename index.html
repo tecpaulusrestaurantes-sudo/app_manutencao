@@ -871,6 +871,7 @@
         <button class="subnav-tab" data-sub="equipamentos">Equipamentos</button>
         <button class="subnav-tab" data-sub="solicitacoes">Solicitações</button>
         <button class="subnav-tab" data-sub="consertos">Consertos</button>
+        <button class="subnav-tab" data-sub="unidades">Unidades</button>
       </div>
       <div class="unit-filter-bar">
         <label for="admin-unit-filter">📍 Filtrar por unidade</label>
@@ -947,6 +948,18 @@
         <div class="section-hint">Pedidos que vieram diretamente da unidade (telefone, WhatsApp, etc.)</div>
         <button class="btn-primary" id="btn-new-solicitacao" style="margin-bottom:16px;">+ Nova solicitação</button>
         <div id="solicitacao-task-list"></div>
+      </div>
+
+      <!-- ---- UNIDADES ---- -->
+      <div class="admin-view hidden" id="admin-view-unidades">
+        <div class="section-title" style="margin-top:0;">Cadastro de unidades <span id="un-count" style="font-weight:400; color:var(--muted); font-size:14px;"></span></div>
+        <div class="section-hint">Corrija nomes errados ou exclua unidades criadas por engano. Ao renomear, tudo que está ligado à unidade vai junto.</div>
+        <div class="field-row" style="align-items:flex-end; margin-bottom:10px;">
+          <div class="field" style="margin-bottom:0;"><label for="un-add-name">Nova unidade</label><input type="text" id="un-add-name" placeholder="Nome da unidade" autocomplete="off"></div>
+          <button class="btn-primary" id="un-add" style="flex:0 0 auto; width:auto; padding:13px 18px; font-size:16px;">+ Adicionar</button>
+        </div>
+        <div class="field"><input type="text" id="un-search" placeholder="🔎 Buscar unidade..." autocomplete="off"></div>
+        <div id="un-list"></div>
       </div>
 
       <!-- ---- CONSERTOS ---- -->
@@ -3614,8 +3627,14 @@ var qrcode = function() {
       .on("postgres_changes", { event: "*", schema: "public", table: "equipment_checks" }, onRemoteChange)
       .subscribe();
   }
+  // Vários avisos seguidos (ex.: mudar o nome de uma unidade com muitas tarefas) viram uma só atualização
+  var remoteRefreshTimer = null;
   function onRemoteChange(){
-    fetchAll().then(rerenderVisibleScreens).catch(function(e){ console.error("Erro ao atualizar dados em tempo real:", e); });
+    if(remoteRefreshTimer) return;
+    remoteRefreshTimer = setTimeout(function(){
+      remoteRefreshTimer = null;
+      fetchAll().then(rerenderVisibleScreens).catch(function(e){ console.error("Erro ao atualizar dados em tempo real:", e); });
+    }, 500);
   }
 
   async function createTaskRemote(task){
@@ -4689,7 +4708,7 @@ var qrcode = function() {
     document.querySelectorAll("#admin-subnav .subnav-tab").forEach(function(tab){
       tab.classList.toggle("active", tab.getAttribute("data-sub") === state.adminSubview);
     });
-    ["painel","calendario","rotina","equipamentos","solicitacoes","consertos"].forEach(function(v){
+    ["painel","calendario","rotina","equipamentos","solicitacoes","consertos","unidades"].forEach(function(v){
       $("admin-view-" + v).classList.toggle("hidden", v !== state.adminSubview);
     });
     if(state.adminSubview === "painel"){ renderAdminPainel(); }
@@ -4698,6 +4717,9 @@ var qrcode = function() {
     else if(state.adminSubview === "equipamentos"){ renderAdminEquipamentos(); }
     else if(state.adminSubview === "solicitacoes"){ renderAdminSolicitacoes(); }
     else if(state.adminSubview === "consertos"){ renderAdminConsertos(); }
+    else if(state.adminSubview === "unidades"){ renderAdminUnidades(); }
+    var fbar = document.querySelector(".unit-filter-bar");
+    if(fbar){ fbar.classList.toggle("hidden", state.adminSubview === "unidades"); }
     var nNovas = state.maintRequests.filter(function(r){ return r.status === "nova"; }).length;
     var ctab = document.querySelector('#admin-subnav [data-sub="consertos"]');
     if(ctab){ ctab.textContent = "Consertos" + (nNovas ? " (" + nNovas + ")" : ""); }
@@ -6108,6 +6130,249 @@ var qrcode = function() {
       .on("postgres_changes", { event: "*", schema: "public", table: "maint_requests" }, onRemoteChange)
       .subscribe();
   }
+
+  // =========================================================
+  // ADMIN: ABA UNIDADES (renomear, juntar, excluir)
+  // =========================================================
+  function unitUsage(name){
+    var u = {
+      tasks: state.tasks.filter(function(x){ return x.unit === name; }).length,
+      agenda: state.dailyUnits.filter(function(x){ return x.unit === name; }).length,
+      routines: state.routineTasks.filter(function(x){ return x.unit === name; }).length,
+      equipment: state.equipment.filter(function(x){ return x.unit === name; }).length,
+      checks: state.equipmentChecks.filter(function(x){ return x.unit === name; }).length,
+      maint: state.maintRequests.filter(function(x){ return x.unit === name; }).length
+    };
+    u.total = u.tasks + u.agenda + u.routines + u.equipment + u.checks + u.maint;
+    return u;
+  }
+  function usageText(u){
+    var parts = [];
+    if(u.tasks) parts.push(u.tasks + (u.tasks === 1 ? " tarefa" : " tarefas"));
+    if(u.agenda) parts.push(u.agenda + (u.agenda === 1 ? " dia na agenda" : " dias na agenda"));
+    if(u.routines) parts.push(u.routines + (u.routines === 1 ? " rotina" : " rotinas"));
+    if(u.equipment) parts.push(u.equipment + (u.equipment === 1 ? " equipamento" : " equipamentos"));
+    if(u.checks) parts.push(u.checks + (u.checks === 1 ? " registro de revisão" : " registros de revisão"));
+    if(u.maint) parts.push(u.maint + (u.maint === 1 ? " solicitação de conserto" : " solicitações de conserto"));
+    return parts.join(" · ");
+  }
+  function cleanUnitName(s){ return String(s == null ? "" : s).trim().replace(/\s+/g, " "); }
+
+  // todas as unidades que aparecem em qualquer lugar (cadastradas ou só dentro de tarefas, agenda etc.)
+  function allUnitNames(){
+    var reg = {}, seen = {};
+    state.units.forEach(function(n){ reg[n] = true; seen[n] = true; });
+    state.tasks.forEach(function(x){ if(x.unit) seen[x.unit] = true; });
+    state.dailyUnits.forEach(function(x){ if(x.unit) seen[x.unit] = true; });
+    state.routineTasks.forEach(function(x){ if(x.unit) seen[x.unit] = true; });
+    state.equipment.forEach(function(x){ if(x.unit) seen[x.unit] = true; });
+    state.equipmentChecks.forEach(function(x){ if(x.unit) seen[x.unit] = true; });
+    state.maintRequests.forEach(function(x){ if(x.unit) seen[x.unit] = true; });
+    return Object.keys(seen).sort(function(a, b){ return a.localeCompare(b); }).map(function(n){ return { name: n, registered: !!reg[n] }; });
+  }
+
+  function renderAdminUnidades(){
+    var q = normUnit($("un-search").value);
+    var all = allUnitNames();
+    $("un-count").textContent = all.length + (all.length === 1 ? " unidade" : " unidades");
+    var list = all.filter(function(x){ return !q || normUnit(x.name).indexOf(q) >= 0; });
+    if(list.length === 0){
+      $("un-list").innerHTML = '<div class="empty-state">Nenhuma unidade encontrada.</div>';
+      return;
+    }
+    $("un-list").innerHTML = list.map(function(x, i){
+      var u = unitUsage(x.name);
+      var flags = "";
+      if(!x.registered){ flags += '<span class="badge badge-st-nova" style="white-space:normal;">⚠️ Só aparece dentro de tarefas/agenda (não cadastrada)</span>'; }
+      if(x.name.length > 32 || x.name.split(" ").length > 5){ flags += '<span class="badge badge-st-nova">⚠️ Nome muito longo — confira</span>'; }
+      return '' +
+        '<div class="admin-task-row">' +
+          '<div class="row-top"><div><p class="title" style="word-break:break-word;">📍 ' + esc(x.name) + '</p></div></div>' +
+          '<div style="font-size:14px; color:var(--ink-secondary); margin:2px 0 6px;">' +
+            (u.total ? esc(usageText(u)) : '<span style="color:var(--good); font-weight:700;">Sem nada vinculado</span>') +
+          '</div>' +
+          (flags ? '<div class="task-meta" style="margin-bottom:6px;">' + flags + '</div>' : "") +
+          '<div class="admin-task-actions">' +
+            '<button data-act="rename" data-i="' + i + '">✏️ Renomear</button>' +
+            '<button data-act="delete" data-i="' + i + '" style="color:var(--critical);">🗑️ Excluir</button>' +
+          '</div>' +
+        '</div>';
+    }).join("");
+    document.querySelectorAll("#un-list [data-act]").forEach(function(btn){
+      btn.onclick = function(){
+        var x = list[parseInt(btn.getAttribute("data-i"), 10)];
+        if(!x) return;
+        if(btn.getAttribute("data-act") === "rename"){ openRenameUnitModal(x.name); }
+        else { openDeleteUnitModal(x.name); }
+      };
+    });
+  }
+
+  // Passa tudo que está ligado a uma unidade para outro nome (renomear ou juntar)
+  async function moveUnitData(oldName, newName){
+    var r = await sb.from("units").upsert({ name: newName }, { onConflict: "name", ignoreDuplicates: true });
+    if(r.error){ throw r.error; }
+    // agenda: tem chave única (data, unidade) — passa um por um para não dar conflito
+    var du = await sb.from("daily_units").select("*").eq("unit", oldName);
+    if(du.error){ throw du.error; }
+    for(var i = 0; i < (du.data || []).length; i++){
+      var row = du.data[i];
+      var up = await sb.from("daily_units").upsert({ date: row.date, unit: newName, added_by: row.added_by || "admin" }, { onConflict: "date,unit", ignoreDuplicates: true });
+      if(up.error){ throw up.error; }
+    }
+    var dd = await sb.from("daily_units").delete().eq("unit", oldName);
+    if(dd.error){ throw dd.error; }
+    var tables = ["tasks", "routine_tasks", "equipment", "equipment_checks"];
+    if(!state.maintMissing){ tables.push("maint_requests"); }
+    for(var t = 0; t < tables.length; t++){
+      var res = await sb.from(tables[t]).update({ unit: newName }).eq("unit", oldName);
+      if(res.error){ throw res.error; }
+    }
+    var del = await sb.from("units").delete().eq("name", oldName);
+    if(del.error){ throw del.error; }
+  }
+
+  // Apaga a unidade e tudo que está ligado a ela
+  async function deleteUnitData(name){
+    var tables = ["equipment_checks", "equipment", "tasks", "routine_tasks", "daily_units"];
+    if(!state.maintMissing){ tables.push("maint_requests"); }
+    for(var t = 0; t < tables.length; t++){
+      var res = await sb.from(tables[t]).delete().eq("unit", name);
+      if(res.error){ throw res.error; }
+    }
+    var del = await sb.from("units").delete().eq("name", name);
+    if(del.error){ throw del.error; }
+  }
+
+  async function afterUnitChange(oldName, newName){
+    if(state.adminUnit === oldName){ state.adminUnit = newName || ""; }
+    await fetchAll();
+    renderAdmin();
+  }
+
+  function openRenameUnitModal(oldName){
+    $("modal-root").innerHTML =
+      '<div class="modal-overlay modal-small"><div class="modal-sheet">' +
+        '<h2>Renomear unidade</h2>' +
+        '<div class="field"><label for="un-new-name">Novo nome</label>' +
+          '<input type="text" id="un-new-name" value="' + esc(oldName) + '" autocomplete="off">' +
+          '<div class="field-hint">Tudo que está ligado a esta unidade (tarefas, agenda, rotinas, equipamentos e solicitações de conserto) passa a usar o novo nome. Se já existir uma unidade com esse nome, as duas serão juntadas.</div></div>' +
+        '<div class="modal-actions">' +
+          '<button class="btn-secondary" id="un-ren-cancel" style="margin-top:0;">Cancelar</button>' +
+          '<button class="btn-primary" id="un-ren-save">Salvar</button>' +
+        '</div>' +
+      '</div></div>';
+    $("un-ren-cancel").onclick = closeModal;
+    var input = $("un-new-name");
+    input.focus(); input.select();
+    $("un-ren-save").onclick = function(){
+      var neu = cleanUnitName(input.value);
+      if(!neu){ showToast("Escreva o nome da unidade"); return; }
+      if(neu === oldName){ closeModal(); return; }
+      var existing = allUnitNames().filter(function(x){ return x.name === neu; })[0];
+      var run = async function(){
+        try{
+          await moveUnitData(oldName, neu);
+          await afterUnitChange(oldName, neu);
+          showToast(existing ? "Unidades juntadas" : "Unidade renomeada");
+        }catch(e){
+          console.error(e);
+          showToast("Erro ao salvar. Confira e tente de novo.");
+          try{ await afterUnitChange(oldName, oldName); }catch(e2){}
+        }
+      };
+      if(existing){
+        var u = unitUsage(oldName);
+        openConfirm({
+          title: "Juntar as unidades?",
+          message: 'Já existe uma unidade chamada "' + neu + '". Tudo de "' + oldName + '"' + (u.total ? " (" + usageText(u) + ")" : "") + ' vai passar para "' + neu + '" e "' + oldName + '" deixa de existir.',
+          okLabel: "Sim, juntar",
+          onConfirm: run
+        });
+      } else {
+        closeModal();
+        run();
+      }
+    };
+  }
+
+  function openDeleteUnitModal(name){
+    var u = unitUsage(name);
+    if(u.total === 0){
+      openConfirm({
+        title: "Excluir unidade?",
+        message: '"' + name + '" não tem nada vinculado. Ela será removida da lista.',
+        okLabel: "Excluir",
+        danger: true,
+        onConfirm: async function(){
+          try{
+            await deleteUnitData(name);
+            await afterUnitChange(name, "");
+            showToast("Unidade excluída");
+          }catch(e){ console.error(e); showToast("Erro ao excluir"); }
+        }
+      });
+      return;
+    }
+    var others = allUnitNames().filter(function(x){ return x.name !== name; });
+    var opts = others.map(function(x){ return '<option value="' + esc(x.name) + '">' + esc(x.name) + '</option>'; }).join("");
+    $("modal-root").innerHTML =
+      '<div class="modal-overlay"><div class="modal-sheet wide">' +
+        '<h2>Excluir "' + esc(name) + '"</h2>' +
+        '<div class="proto-note" style="margin:0 0 14px;">Esta unidade tem coisas vinculadas: <b>' + esc(usageText(u)) + '</b>.</div>' +
+        '<h3 class="sect" style="margin-top:6px;">Opção 1 — Mover tudo para outra unidade</h3>' +
+        '<p style="font-size:14px; color:var(--ink-secondary); margin-top:0;">Recomendado quando o nome estava errado: nada é perdido.</p>' +
+        '<div class="field"><select id="un-move-target"><option value="">Escolha a unidade de destino...</option>' + opts + '</select></div>' +
+        '<button class="btn-primary" id="un-move-go">Mover tudo e excluir esta unidade</button>' +
+        '<h3 class="sect">Opção 2 — Apagar tudo</h3>' +
+        '<p style="font-size:14px; color:var(--ink-secondary); margin-top:0;">Apaga a unidade <b>e</b> tudo que está vinculado a ela. Não dá para desfazer.</p>' +
+        '<button class="btn-secondary" id="un-del-all" style="margin-top:0; color:var(--critical); border-color:var(--critical);">Apagar a unidade e tudo dela</button>' +
+        '<div style="text-align:center; margin-top:10px;"><button class="link-btn" id="un-del-cancel">Cancelar</button></div>' +
+      '</div></div>';
+    $("un-del-cancel").onclick = closeModal;
+    $("un-move-go").onclick = function(){
+      var target = $("un-move-target").value;
+      if(!target){ showToast("Escolha a unidade de destino"); return; }
+      closeModal();
+      (async function(){
+        try{
+          await moveUnitData(name, target);
+          await afterUnitChange(name, target);
+          showToast("Movido para " + target + " e unidade excluída");
+        }catch(e){
+          console.error(e); showToast("Erro ao mover. Confira e tente de novo.");
+          try{ await afterUnitChange(name, name); }catch(e2){}
+        }
+      })();
+    };
+    $("un-del-all").onclick = function(){
+      openConfirm({
+        title: "Apagar tudo?",
+        message: 'Vai apagar "' + name + '" e ' + usageText(u) + '. Isso não pode ser desfeito.',
+        okLabel: "Sim, apagar tudo",
+        danger: true,
+        onConfirm: async function(){
+          try{
+            await deleteUnitData(name);
+            await afterUnitChange(name, "");
+            showToast("Unidade e dados apagados");
+          }catch(e){ console.error(e); showToast("Erro ao excluir"); try{ await afterUnitChange(name, name); }catch(e2){} }
+        }
+      });
+    };
+  }
+
+  $("un-search").oninput = renderAdminUnidades;
+  $("un-add").onclick = async function(){
+    var name = cleanUnitName($("un-add-name").value);
+    if(!name){ showToast("Escreva o nome da nova unidade"); return; }
+    if(allUnitNames().some(function(x){ return x.name === name; })){ showToast("Essa unidade já existe"); return; }
+    await ensureUnitRemote(name);
+    $("un-add-name").value = "";
+    await fetchAll();
+    renderAdmin();
+    showToast("Unidade adicionada");
+  };
 
   // =========================================================
   // BOOT
